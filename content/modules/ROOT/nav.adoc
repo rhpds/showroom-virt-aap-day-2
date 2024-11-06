@@ -1,7 +1,5 @@
-* xref:module-01.adoc[1. RPM Native Container]
-** xref:module-01.adoc#repositories[Repositories]
-** xref:module-01.adoc#software[Software]
-
-* xref:module-02.adoc[2. GitHub Sourced Container]
-** xref:module-02.adoc#prerequisites[Install Prerequisites]
-** xref:module-02.adoc#container[Enable Container]
+* xref:01-setup.adoc[1. Setup]
+* xref:02-vm-management.adoc[2. VM Management]
+* xref:03-vm-patching.adoc[3. Patching]
+* xref:04-vm-backup.adoc[4. Backup and Restore]
+* xref:05-aap-smart-inventory.adoc[5. AAP Smart Inventory]
