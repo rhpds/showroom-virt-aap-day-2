@@ -1,3 +1,486 @@
-= VM Management
+= VM Management with Ansible Automation Platform and Red Hat OpenShift Virtualization
 
-This is the OpenShift apps domain: {openshift_cluster_ingress_domain}
+== Lab Overview
+In this hands-on lab, you will learn how to manage the lifecycle of your virtual
+machines (VMs) using Ansible and the Red Hat OpenShift Virtualization
+collection. You will focus on essential VM operations, including starting,
+stopping, and restarting virtual machines.
+
+By the end of this lab, you will have the foundational skills to apply these
+techniques in your own environments, setting the stage for broader automation
+initiatives. These include tasks like performing system updates and optimizing
+resource utilization, which will be explored in subsequent exercises.
+
+== Lab Setup
+
+. Pre-Configured Items:
+* The Ansible Automation Platform controller is already set up.
+* The required Execution Environment (`Day2 EE`) has been pre-created with the `redhat.openshift` and `redhat.openshift_virtualization` collections.
+* Necessary credentials to access the Virtual Machines are pre-configured in the AAP controller.
+* All VMs are running at the start of the lab.
+
+. Lab files to be created/updated::
+* `tasks/main.yml`: For calling the appropriate stop, start, and restart tasks.
+* `tasks/stop_vm.yml`: For stopping the VM.
+* `tasks/start_vm.yml`: For starting the VM.
+* `tasks/restart_vm.yml`: For restarting the VM.
+* `vm-management.yml`: A playbook to run the tasks.
+
+== Lab Steps
+
+=== Test Connectivity of the Virtual Machines
+
+In this lab, there will be three virtual machines running within your
+OpenShift environment. To confirm they are running, navigate to the following
+using the OpenShift UI dashboard:
+
+Virtualization -> VirtualMachines within the `vms-aap-day2` project.
+
+//TODO add image created dec 2
+
+With the VMs now confirmed as up and running, ensure that you can ping those VMs
+within the AAP dashboard as follows:
+
+. Login to the AAP Dashboard
++
+. Navigate to Automation Execution -> Infrastructure -> Inventories
+   * Select the `OpenShift Virtual Machines` Inventory
+   * Within the Details page of the `OpenShift Virtual Machines` Inventory, select the *Hosts* tab.
++
+. Select the 3 VMs and click the *Run command* button
+   * Within the Run command Details, select the `ping` module and click *Next*.
+   * Within the Run command Execution Environment, Select the *TODO execution environment* and click *Next*.
+   * Within the Run command Credential, select the *Workshop Credential* and click *Next*.
+   * Within the Run command Review, select *Finish*.
++
+. Verify Results: You should see a list of VMs along with their statuses similar to: TODO
++
+----
+vms-aap-day2-rhel9-vm1 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+vms-aap-day2-rhel9-vm2 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+vms-aap-day2-rhel9-vm3 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+----
+
+=== Update the `tasks/main.yml` file
+
+In this lab, you'll work with a `redhatone.vm_management` collection stored in
+your Gitea `virt-aap-day2` repository. This collection includes a
+`vm_management` role, which you will use to create tasks for starting, stopping,
+and restarting a virtual machine.
+
+Before creating these tasks, you will update the `main.yml` file within the
+`vm_management` role to invoke the appropriate task based on the action value
+defined in the Ansible playbook that you will create later. This setup allows a
+single playbook to handle all three VM management tasks dynamically, depending
+on the specified action.
+
+. Within your VSCode editor or terminal, change the directory to:
++
+----
+$ cd collections/ansible_collections/redhatone/vm_management/roles/vm_management/tasks/
+----
++
+. Open the `main.yml` file and edit as follows:
++
+----
+---
+# tasks file for vm_management
+
+- name: Run the specific vm_management task
+  include_tasks: "{{ task_file }}"
+----
+
+=== Create the Ansible VM Management Playbook
+
+This Ansible playbook dynamically calls the role and executes the appropriate
+task based on the `task_file` variable given.
+
+. Navigate to your `virt-aap-day2` directory
++
+----
+$ cd /home/lab-user/virt-aap-day2
+----
++
+. Create a manage_vm_playbook.yml file
++
+----
+$ touch manage_vm_playbook.yml
+----
++
+. Using your favorite editor, create the following Ansible Playbook:
++
+----
+---
+- name: Manage a Virtual Machine
+  hosts: localhost
+  vars:
+    vm_name: rhel9-vm1
+    vm_namespace: vms-aap-day2
+    task_file: stop_vm.yml # Expected values: stop_vm.yml, start_vm.yml, restart_vm.yml
+  roles:
+    - redhatone.vm_management.vm_management
+----
+
+=== Stop a VM Task
+
+Create a task to wait until a virtual machine (VM) is stopped. This task will be
+included in the `vm_management` role, specifically under the `tasks` directory,
+in a file named `stop_vm.yml`. Later in the lab, you will call this task from an
+Ansible playbook to demonstrate its capability.
+
+. Navigate to the Tasks Directory:
++
+  * Inside your `vm_management` role directory, go to the `tasks` folder:
++
+----
+$ cd collections/ansible_collections/redhatone/vm_management/roles/vm_management/tasks/
+----
++
+. Create the `stop_vm.yml` file
++
+----
+touch stop_vm.yml
+----
++
+. Open the `stop_vm.yml` file with your favorite editor and add the following task
++
+----
+---
+- name: Wait until the VirtualMachine is stopped
+  redhat.openshift_virtualization.kubevirt_vm:
+    name: "{{ vm_name }}"
+    namespace: "{{ vm_namespace }}"
+    running: false
+    wait: true
+----
++
+Explanation of the Task:
++
+  * The `kubevirt_vm` module that is part of the `redhat.openshift_virtualization` collection is used to modify a VM
+  * The `name` parameter uses a user defined variable named `vm_name` to specify  which VM to stop
+  * The `running: false` ensures the VM is not running
+  * The `wait: true` ensures the next Ansible task isn't triggered until the stop is complete
+
+=== Create & Run a Job Template with Ansible Automation Platform
+
+In order to run the `manage_vm_playbook.yml` within Ansible Automation Platform,
+create a Job Template to run the automation as follows:
+
+. Go to **Automation Execution → Templates**, click the **Create template** button, and choose **Create job template**.
++
+. Fill out the following details:
++
+|===
+| Parameter                  | Value
+
+| Name                       | Stop VMs
+| Job Type                   | Run
+| Inventory                  | OpenShift Virtual Machines
+| Project                    | Workshop Project
+| Playbook                   | `manage_vm_playbook.yml`
+| Execution Environment      | Day2 EE
+| Credentials                | OpenShift Credential, Workshop Credential
+|===
++
+. Click **Create job template**.
++
+. Once the Stop VMs Job Template is created, select the `Launch Template` button
+on the top right corner to run the job.
+
+//TODO add image created on dec 3
+
+==== Bonus Section: Extending `stop_vm.yml` to Handle All VMs in a Namespace
+
+While the ability to manage a specific VM is important, the real value of
+automation lies in managing multiple VMs at scale. In this bonus section, you'll
+extend the functionality of the `stop_vm.yml` task file to handle all the
+Virtual Machines that reside within the `vms-aap-day2` namespace and learn how
+to use the debug task to understand the structure of the VM resource `vm_info`
+to identify key fields required to create dynamic Ansible tasks.
+
+. Access the `stop_vm.yml` file using your favorite editor
++
+----
+$ cd collections/ansible_collections/redhatone/vm_management/roles/vm_management/tasks/
+----
++
+. Modify the existing `stop_vm.yml` content with the following:
++
+----
+---
+- name: Get all VirtualMachines in the namespace
+  redhat.openshift_virtualization.kubevirt_vm_info:
+    namespace: "{{ vm_namespace }}"
+  register: vm_info
+
+- name: Debug the vm_info variable
+  ansible.builtin.debug:
+    var: vm_info
+
+- name: Wait until the VirtualMachine is stopped
+  redhat.openshift_virtualization.kubevirt_vm:
+    name: "{{ item.metadata.name }}"
+    namespace: "{{ item.metadata.namespace }}"
+    running: false
+    wait: true
+  loop: "{{ vm_info.resources }}"
+  when: item.status.printableStatus != "Stopped"
+----
++
+Explanation of Key Fields:
++
+* `metadata.name`: The name of the VirtualMachine.
+* `metadata.namespace`: The namespace the VM belongs to.
+* `status.printableStatus`: The current status of the VM (e.g., Stopped).
++
+These key fields originate from the `vm_info` structure output provided by the
+`ansible.builtin.debug` module. The structure looks as follows and is
+abbreviated for easier viewing below.
++
+----
+changed: true
+result:
+  apiVersion: kubevirt.io/v1
+  kind: VirtualMachine
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: >
+        ...
+    ...
+    name: rhel9-vm1
+    namespace: vms-aap-day2
+  spec:
+    ...
+  status:
+    ...
+    printableStatus: Stopped
+  ...
+----
++
+. Access the `manage_vm_playbook.yml` file using your favorite editor
++
+----
+$ cd ~/virt-aap-day2
+----
++
+. Modify the existing `manage_vm_playbook.yml` by commenting the following:
++
+----
+# vm_name: rhel9-vm1
+----
++
+. Head back to the AAP Dashboard UI, go to the **Automation Execution -> Templates**, select the `Stop VMs` Job Template and re-run via the `Launch Template` button.
+
+=== Start VM Task
+
+=== Lab Exercise: Start Multiple VMs
+
+In this lab exercise, you will build on your knowledge of managing multiple VMs
+by creating a task to start your VMs within the `vm_management` role. This task
+will be added to the tasks directory in a file named `start_vm.yml`.
+
+The following steps will guide you in creating the `start_vm.yml` file.
+
+. Inside your `vm_management` role directory, go to the `tasks` folder:
++
+----
+$ cd collections/ansible_collections/redhatone/vm_management/roles/vm_management/tasks/
+----
++
+. Create the `start_vm.yml` file
++
+----
+$ touch start_vm.yml
+----
++
+. Open the `start_vm.yml` file with your favorite editor and add the following task:
++
+----
+---
+- name: Get all VirtualMachines in the namespace
+  redhat.openshift_virtualization.kubevirt_vm_info:
+    namespace: "{{ vm_namespace }}"
+  register: vm_info
+
+- name: Debug the vm_info variable
+  ansible.builtin.debug:
+    var: vm_info
+
+- name: Start the VirtualMachines
+  redhat.openshift_virtualization.kubevirt_vm:
+    name: "{{ item.metadata.name }}"
+    namespace: "{{ item.metadata.namespace }}"
+    running: true
+    wait: true
+  loop: "{{ vm_info.resources }}"
+  when: item.status.printableStatus != "Running"
+----
++
+. Access the `manage_vm_playbook.yml` file using your favorite editor
++
+----
+$ cd ~/virt-aap-day2
+----
++
+. Modify the existing `manage_vm_playbook.yml` by swapping the `stop_vm.yml` for `start_vm.yml`
++
+----
+task_file: start_vm.yml
+----
+
+=== Create & Run Start VM Job Template with Ansible Automation Platform
+
+To execute the `manage_vm_playbook.yml` within Ansible Automation Platform, create a Job Template as follows:
+
+. Navigate to **Automation Execution → Templates**, click the **Create template** button, and choose **Create job template**.
++
+. Fill out the following details:
++
+|===
+| Parameter         | Value
+| **Name**          | Start VMs
+| **Job Type**      | Run
+| **Inventory**     | OpenShift Virtual Machines
+| **Project**       | Workshop Project
+| **Playbook**      | `manage_vm_playbook.yml`
+| **Execution Environment** | Day2 EE
+| **Credentials**   | OpenShift Credential, Workshop Credential
+|===
++
+. Click **Create job template**.
++
+. Once the `Start VMs` Job Template is created, select the **Launch Template** button on the top right corner to run the job.
+
+=== Restart VM Task
+
+In this lab exercise, you will focus on managing multiple VMs by creating a task
+to restart your VMs within the `vm_management` role. This task will be added to
+the `tasks` directory in a file named `restart_vm.yml`.
+
+The following steps will guide you in creating the `restart_vm.yml` file.
+
+. Inside your `vm_management` role directory, go to the `tasks` folder:
++
+----
+$ cd collections/ansible_collections/redhatone/vm_management/roles/vm_management/tasks/
+----
++
+. Create the `restart_vm.yml` file
++
+----
+$ touch restart_vm.yml
+----
++
+. Open the `restart_vm.yml` file with your favorite editor and add the following task:
++
+----
+---
+- name: Get all VirtualMachines in the namespace
+  redhat.openshift_virtualization.kubevirt_vm_info:
+    namespace: "{{ vm_namespace }}"
+  register: vm_info
+
+- name: Debug the vm_info variable
+  ansible.builtin.debug:
+    var: vm_info
+
+- name: Restart the VirtualMachines (Stop Phase)
+  redhat.openshift_virtualization.kubevirt_vm:
+    name: "{{ item.metadata.name }}"
+    namespace: "{{ item.metadata.namespace }}"
+    running: false
+    wait: true
+  loop: "{{ vm_info.resources }}"
+  when: item.status.printableStatus != "Stopped"
+
+- name: Restart the VirtualMachines (Start Phase)
+  redhat.openshift_virtualization.kubevirt_vm:
+    name: "{{ item.metadata.name }}"
+    namespace: "{{ item.metadata.namespace }}"
+    running: true
+    wait: true
+  loop: "{{ vm_info.resources }}"
+  when: item.status.printableStatus != "Running"
+----
++
+. Access the `manage_vm_playbook.yml` file using your favorite editor
++
+----
+$ cd ~/virt-aap-day2
+----
++
+. Modify the existing `manage_vm_playbook.yml` by updating the task file to `restart_vm.yml`
++
+----
+task_file: restart_vm.yml
+----
+
+=== Create & Run Restart VM Job Template with Ansible Automation Platform
+
+To execute the `manage_vm_playbook.yml` within Ansible Automation Platform, create a Job Template as follows:
+
+. Navigate to **Automation Execution → Templates**, click the **Create template** button, and choose **Create job template**.
++
+. Fill out the following details:
++
+|===
+| Parameter         | Value
+| **Name**          | Restart VMs
+| **Job Type**      | Run
+| **Inventory**     | OpenShift Virtual Machines
+| **Project**       | Workshop Project
+| **Playbook**      | `manage_vm_playbook.yml`
+| **Execution Environment** | Day2 EE
+| **Credentials**   | OpenShift Credential, Workshop Credential
+|===
++
+. Click **Create job template**.
++
+. Once the `Restart VMs` Job Template is created, select the **Launch Template** button on the top right corner to run the job.
+
+== Conclusion
+
+Congratulations on completing the lab!
+
+In this lab, you explored how to effectively manage the lifecycle of virtual
+machines using Ansible Automation Platform and the Red Hat OpenShift
+Virtualization collection. By working through tasks to start, stop, and restart
+VMs, you gained practical experience in leveraging automation to manage VMs at
+scale.
+
+By the end of this lab, you should now understand:
+
+* How to dynamically retrieve and process VM information using the `ansible.builtin.debug` module
+* How to modify a collection and role for starting, stopping, and restarting VMs.
+* How to integrate the `redhatone.vm_managemenet` collection into an Ansible playbook and run it using the Ansible Automation Platform.
+
+These foundational skills set the stage for further automation, enabling you to
+automate new tasks  and optimize resource usage in your environment. In
+subsequent labs, you'll build on this knowledge to tackle other re-world
+scenarios, such as system updates and disaster recovery
+planning.
+
+Your ability to automate routine VM management tasks not only saves time but
+also minimizes human error, ensuring consistency and reliability in your
+virtualized infrastructure.
+
+Well done, and keep experimenting with new ways to
+apply automation in your day-to-day operations!
