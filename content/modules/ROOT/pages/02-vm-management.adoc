@@ -369,7 +369,7 @@ To execute the `manage_vm_playbook.yml` within Ansible Automation Platform, crea
 +
 . Once the `Start VMs` Job Template is created, select the **Launch Template** button on the top right corner to run the job.
 
-=== Restart VM Task Using `ansible.builtin.reboot`
+=== Restart VM Task
 
 In this lab exercise, you will focus on managing multiple VMs by creating a task to reboot your VMs at the OS-level using the `ansible.builtin.reboot` module. This task will be added to the `tasks` directory in a file named `restart_vm.yml`.
 
