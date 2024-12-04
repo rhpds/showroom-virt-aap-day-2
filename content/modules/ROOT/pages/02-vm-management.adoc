@@ -131,10 +131,6 @@ $ touch manage_vm_playbook.yml
 ---
 - name: Manage a Virtual Machine
   hosts: localhost
-  vars:
-    vm_name: rhel9-vm1
-    vm_namespace: vms-aap-day2
-    task_file: stop_vm.yml # Expected values: stop_vm.yml, start_vm.yml, restart_vm.yml
   roles:
     - redhatone.vm_management.vm_management
 ----
@@ -192,12 +188,15 @@ create a Job Template to run the automation as follows:
 | Parameter                  | Value
 
 | Name                       | Stop VMs
-| Job Type                   | Run
+| Job type                   | Run
 | Inventory                  | OpenShift Virtual Machines
 | Project                    | Workshop Project
 | Playbook                   | `manage_vm_playbook.yml`
-| Execution Environment      | Day2 EE
-| Credentials                | OpenShift Credential, Workshop Credential
+| Execution environment      | Day2 EE
+| Credentials                | OpenShift Credential
+| Extra variables            | `vm_name: rhel9-vm1` +
+                               `vm_namespace: vms-aap-day2` +
+                               `task_file: stop_vm.yml`
 |===
 +
 . Click **Create job template**.
@@ -207,7 +206,7 @@ on the top right corner to run the job.
 
 //TODO add image created on dec 3
 
-==== Bonus Section: Extending `stop_vm.yml` to Handle All VMs in a Namespace
+==== Extending `stop_vm.yml` to Handle All VMs in a Namespace
 
 While the ability to manage a specific VM is important, the real value of
 automation lies in managing multiple VMs at scale. In this bonus section, you'll
@@ -242,6 +241,8 @@ $ cd collections/ansible_collections/redhatone/vm_management/roles/vm_management
     running: false
     wait: true
   loop: "{{ vm_info.resources }}"
+  loop_control:
+    label: "{{ item.metadata.name }}"
   when: item.status.printableStatus != "Stopped"
 ----
 +
@@ -249,6 +250,7 @@ Explanation of Key Fields:
 +
 * `metadata.name`: The name of the VirtualMachine.
 * `metadata.namespace`: The namespace the VM belongs to.
+* The `loop_control` option sets a label for each task iteration, showing the VM name (item.metadata.name) in the output. This makes the playbook output more readable and easier to debug.
 * `status.printableStatus`: The current status of the VM (e.g., Stopped).
 +
 These key fields originate from the `vm_info` structure output provided by the
@@ -275,23 +277,19 @@ result:
   ...
 ----
 +
-. Access the `manage_vm_playbook.yml` file using your favorite editor
+. Head back to the AAP Dashboard UI, go to the **Automation Execution -> Templates**, select the `Stop VMs` Job Template and select the pencil icon to edit the template.
++
+. Modify the existing `Stop VMs` Job Template by **removing** the following variable from the `Extra variables` section and selecting `Save job template` when finished.
 +
 ----
-$ cd ~/virt-aap-day2
+vm_name: rhel9-vm1
 ----
 +
-. Modify the existing `manage_vm_playbook.yml` by commenting the following:
-+
-----
-# vm_name: rhel9-vm1
-----
-+
-. Head back to the AAP Dashboard UI, go to the **Automation Execution -> Templates**, select the `Stop VMs` Job Template and re-run via the `Launch Template` button.
+. Re-run via the `Launch Template` button.
+
+//TODO put image of completed stop
 
 === Start VM Task
-
-=== Lab Exercise: Start Multiple VMs
 
 In this lab exercise, you will build on your knowledge of managing multiple VMs
 by creating a task to start your VMs within the `vm_management` role. This task
@@ -331,19 +329,9 @@ $ touch start_vm.yml
     running: true
     wait: true
   loop: "{{ vm_info.resources }}"
+  loop_control:
+    label: "{{ item.metadata.name }}"
   when: item.status.printableStatus != "Running"
-----
-+
-. Access the `manage_vm_playbook.yml` file using your favorite editor
-+
-----
-$ cd ~/virt-aap-day2
-----
-+
-. Modify the existing `manage_vm_playbook.yml` by swapping the `stop_vm.yml` for `start_vm.yml`
-+
-----
-task_file: start_vm.yml
 ----
 
 === Create & Run Start VM Job Template with Ansible Automation Platform
@@ -356,13 +344,15 @@ To execute the `manage_vm_playbook.yml` within Ansible Automation Platform, crea
 +
 |===
 | Parameter         | Value
-| **Name**          | Start VMs
-| **Job Type**      | Run
-| **Inventory**     | OpenShift Virtual Machines
-| **Project**       | Workshop Project
-| **Playbook**      | `manage_vm_playbook.yml`
-| **Execution Environment** | Day2 EE
-| **Credentials**   | OpenShift Credential, Workshop Credential
+| Name          | Start VMs
+| Job Type      | Run
+| Inventory     | OpenShift Virtual Machines
+| Project       | Workshop Project
+| Playbook      | `manage_vm_playbook.yml`
+| Execution Environment | Day2 EE
+| Credentials   | OpenShift Credential
+| Extra variables            | `vm_namespace: vms-aap-day2` +
+                               `task_file: start_vm.yml`
 |===
 +
 . Click **Create job template**.
@@ -371,7 +361,7 @@ To execute the `manage_vm_playbook.yml` within Ansible Automation Platform, crea
 
 === Restart VM Task
 
-In this lab exercise, you will focus on managing multiple VMs by creating a task to reboot your VMs at the OS-level using the `ansible.builtin.reboot` module. This task will be added to the `tasks` directory in a file named `restart_vm.yml`.
+In this lab exercise, you will focus on managing multiple VMs by creating a task to reboot your VMs. This task will be added to the `tasks` directory in a file named `restart_vm.yml`.
 
 The following steps will guide you in creating the `restart_vm.yml` file.
 
@@ -391,42 +381,43 @@ $ touch restart_vm.yml
 +
 ----
 ---
-- name: Get all VirtualMachines in the namespace
+- name: Get all Virtual Machines in the namespace
   redhat.openshift_virtualization.kubevirt_vm_info:
     namespace: "{{ vm_namespace }}"
   register: vm_info
 
-- name: Debug the vm_info variable
-  ansible.builtin.debug:
-    var: vm_info
-
-- name: Reboot the VirtualMachines
-  ansible.builtin.reboot:
-    reboot_timeout: 600
+- name: Stop Running Virtual Machines
+  redhat.openshift_virtualization.kubevirt_vm:
+    name: "{{ item.metadata.name }}"
+    namespace: "{{ item.metadata.namespace }}"
+    running: false
+    wait: true
   loop: "{{ vm_info.resources }}"
   loop_control:
     label: "{{ item.metadata.name }}"
   when: item.status.printableStatus == "Running"
+
+- name: Refresh VM info after stopping
+  redhat.openshift_virtualization.kubevirt_vm_info:
+    namespace: "{{ vm_namespace }}"
+  register: updated_vm_info
+
+- name: Start the Virtual Machines
+  redhat.openshift_virtualization.kubevirt_vm:
+    name: "{{ item.metadata.name }}"
+    namespace: "{{ item.metadata.namespace }}"
+    running: true
+    wait: true
+  loop: "{{ updated_vm_info.resources }}"
+  loop_control:
+    label: "{{ item.metadata.name }}"
+  when: item.status.printableStatus != "Running"
 ----
 +
 
 **Explanation of Key Points**
 +
-* The `kubevirt_vm_info` module retrieves all VMs in the namespace and stores the details in `vm_info`.
-* The `debug` module helps examine the structure of `vm_info` for troubleshooting.
-* The `reboot` module ensures each VM is restarted gracefully, using OS-level reboot functionality.
-
-. Access the `manage_vm_playbook.yml` file using your favorite editor
-+
-----
-$ cd ~/virt-aap-day2
-----
-+
-. Modify the existing `manage_vm_playbook.yml` by updating the task file to `restart_vm.yml`
-+
-----
-task_file: restart_vm.yml
-----
+* The `kubevirt_vm_info` module retrieves all VMs in the namespace. The first retrieval stores their initial state in `vm_info`. This is used to identify VMs that need to be stopped. After stopping, the second retrieval updates the VM state in `updated_vm_info`, ensuring accurate information is used for the subsequent start operation.
 
 === Create & Run Restart VM Job Template with Ansible Automation Platform
 
@@ -444,7 +435,9 @@ To execute the `manage_vm_playbook.yml` within Ansible Automation Platform, crea
 | **Project**       | Workshop Project
 | **Playbook**      | `manage_vm_playbook.yml`
 | **Execution Environment** | Day2 EE
-| **Credentials**   | OpenShift Credential, Workshop Credential
+| **Credentials**   | OpenShift Credential
+| Extra variables            | `vm_namespace: vms-aap-day2` +
+                               `task_file: restart_vm.yml`
 |===
 +
 . Click **Create job template**.
