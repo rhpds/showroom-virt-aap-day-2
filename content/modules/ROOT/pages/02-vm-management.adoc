@@ -369,11 +369,9 @@ To execute the `manage_vm_playbook.yml` within Ansible Automation Platform, crea
 +
 . Once the `Start VMs` Job Template is created, select the **Launch Template** button on the top right corner to run the job.
 
-=== Restart VM Task
+=== Restart VM Task Using `ansible.builtin.reboot`
 
-In this lab exercise, you will focus on managing multiple VMs by creating a task
-to restart your VMs within the `vm_management` role. This task will be added to
-the `tasks` directory in a file named `restart_vm.yml`.
+In this lab exercise, you will focus on managing multiple VMs by creating a task to reboot your VMs at the OS-level using the `ansible.builtin.reboot` module. This task will be added to the `tasks` directory in a file named `restart_vm.yml`.
 
 The following steps will guide you in creating the `restart_vm.yml` file.
 
@@ -402,25 +400,22 @@ $ touch restart_vm.yml
   ansible.builtin.debug:
     var: vm_info
 
-- name: Restart the VirtualMachines (Stop Phase)
-  redhat.openshift_virtualization.kubevirt_vm:
-    name: "{{ item.metadata.name }}"
-    namespace: "{{ item.metadata.namespace }}"
-    running: false
-    wait: true
+- name: Reboot the VirtualMachines
+  ansible.builtin.reboot:
+    reboot_timeout: 600
   loop: "{{ vm_info.resources }}"
-  when: item.status.printableStatus != "Stopped"
-
-- name: Restart the VirtualMachines (Start Phase)
-  redhat.openshift_virtualization.kubevirt_vm:
-    name: "{{ item.metadata.name }}"
-    namespace: "{{ item.metadata.namespace }}"
-    running: true
-    wait: true
-  loop: "{{ vm_info.resources }}"
-  when: item.status.printableStatus != "Running"
+  loop_control:
+    label: "{{ item.metadata.name }}"
+  when: item.status.printableStatus == "Running"
 ----
 +
+
+**Explanation of Key Points**
++
+* The `kubevirt_vm_info` module retrieves all VMs in the namespace and stores the details in `vm_info`.
+* The `debug` module helps examine the structure of `vm_info` for troubleshooting.
+* The `reboot` module ensures each VM is restarted gracefully, using OS-level reboot functionality.
+
 . Access the `manage_vm_playbook.yml` file using your favorite editor
 +
 ----
