@@ -1,3 +1,89 @@
-= Setup Environment
+= Lab Overview
 
-This is the OpenShift apps domain: {openshift_cluster_ingress_domain}
+In this hands-on lab, you will learn how to manage the lifecycle of your virtual
+machines (VMs) using Ansible and the Red Hat OpenShift Virtualization
+collection. You will focus on essential VM operations, including starting,
+stopping, and restarting virtual machines.
+
+By the end of this lab, you will have the foundational skills to apply these
+techniques in your own environments, setting the stage for broader automation
+initiatives. These include tasks like performing system updates and optimizing
+resource utilization, which will be explored in subsequent exercises.
+
+== Lab Setup
+
+. Pre-Configured Items:
+* The Ansible Automation Platform controller is already set up.
+* The required Execution Environment (`Day2 EE`) has been pre-created with the `redhat.openshift` and `redhat.openshift_virtualization` collections.
+* Necessary credentials to access the Virtual Machines are pre-configured in the AAP controller.
+* All VMs are running at the start of the lab.
+
+. OpenShift Details:
+* Console URL: {openshift_cluster_console_url}
+* Username: {openshift_cluster_admin_username}
+* Password: {openshift_cluster_admin_password}
+
+. Ansible Automation Platform Details:
+* AAP Dashboard: {aap_controller_web_url}
+* Username: {aap_controller_admin_user}
+* Password: {aap_controller_admin_password}
+
+. Lab files to be created/updated throughout the labs:
+* `tasks/main.yml`: For calling the appropriate stop, start, and restart tasks.
+* `tasks/stop_vm.yml`: For stopping the VM.
+* `tasks/start_vm.yml`: For starting the VM.
+* `tasks/restart_vm.yml`: For restarting the VM.
+* `manage_vm_playbook`: A playbook to run the stop/start/restart tasks.
+* `patch_vm_playbook.yml`: A playbook to run the security updates of the RHEL VMs.
+
+== Test Connectivity of the Virtual Machines
+
+In this lab, there will be three virtual machines running within your
+OpenShift environment. To confirm they are running, navigate to the following
+using the OpenShift UI dashboard:
+
+Virtualization -> VirtualMachines within the `vms-aap-day2` project.
+
+//TODO add image created dec 2
+image::assets/images/vms-ocp-dashboard.png[Virtual Machines Running on OpenShift]
+
+With the VMs now confirmed as up and running, ensure that you can ping those VMs
+within the AAP dashboard as follows:
+
+. Login to the AAP Dashboard using the credentials above.
++
+. Navigate to Automation Execution -> Infrastructure -> Inventories
+   * Select the `OpenShift Virtual Machines` Inventory
+   * Within the Details page of the `OpenShift Virtual Machines` Inventory, select the *Hosts* tab.
++
+. Select the 3 VMs and click the *Run command* button
+   * Within the Run command Details, select the `ping` module and click *Next*.
+   * Within the Run command Execution Environment, Select the *Day2 EE execution environment* and click *Next*.
+   * Within the Run command Credential, select the *Workshop Credential* and click *Next*.
+   * Within the Run command Review, select *Finish*.
++
+. Verify Results: You should see a list of VMs along with their statuses similar to:
++
+----
+vms-aap-day2-rhel9-vm1 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+vms-aap-day2-rhel9-vm2 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+vms-aap-day2-rhel9-vm3 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+----
