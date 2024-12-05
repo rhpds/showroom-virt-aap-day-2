@@ -49,11 +49,11 @@ within the AAP dashboard as follows:
 +
 . Select the 3 VMs and click the *Run command* button
    * Within the Run command Details, select the `ping` module and click *Next*.
-   * Within the Run command Execution Environment, Select the *TODO execution environment* and click *Next*.
+   * Within the Run command Execution Environment, Select the *Day2 EE execution environment* and click *Next*.
    * Within the Run command Credential, select the *Workshop Credential* and click *Next*.
    * Within the Run command Review, select *Finish*.
 +
-. Verify Results: You should see a list of VMs along with their statuses similar to: TODO
+. Verify Results: You should see a list of VMs along with their statuses similar to:
 +
 ----
 vms-aap-day2-rhel9-vm1 | SUCCESS => {
