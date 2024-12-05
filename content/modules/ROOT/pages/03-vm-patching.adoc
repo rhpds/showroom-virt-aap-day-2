@@ -1,3 +1,85 @@
-= Patching
+= VM Patching using Ansible Automation Platform
 
-This is the OpenShift apps domain: {openshift_cluster_ingress_domain}
+== Lab Overview
+
+In this lab exercise, you will focus on updating only the security-related
+packages of the provided RHEL systems using the `ansible.builtin.dnf` module.
+This exercise will target all the VMs listed in your existing `OpenShift Virtual
+Machines` dynamic inventory and will be added to the `tasks` directory in a file
+named `update_security_packages.yml` within your `redhatone.vm_management.vm_management`
+role.
+
+The following steps will guide you in creating the `update_security_packages.yml` file
+and the corresponding Ansible Playbook that will be called within your `Patch
+VMs` Job Template.
+
+=== Create the `update_security_packages.yml` file.
+
+. Navigate to the `tasks` Folder:
++
+----
+$ cd collections/ansible_collections/redhatone/vm_management/roles/vm_management/tasks/
+----
+
+. Create the `update_security_packages.yml` File:
++
+----
+$ touch update_security_packages.yml
+----
++
+. Open the `update_security_packages.yml` file with your favorite editor and add the following task:
++
+----
+---
+- name: Update security-related packages on all hosts
+  ansible.builtin.dnf:
+    name: "*"
+    security: true
+    state: latest
+----
++
+. Within your `virt-aap-day2` directory, create an Ansible Playbook labeled `vm_patch_playbook.yml` as follows:
++
+----
+---
+- name: Patch Virtual Machines
+  hosts: all
+  roles:
+    - redhatone.vm_management.vm_management
+----
++
+. Re-sync the `Workshop Project` with your latest updates within the Ansible Automation Platform UI
++
+** Navigate to Automation Execution → Projects and select `Workshop Project`
++
+** On the top right, select the `Sync Project` button and wait for `Last job status` to provide the status of `Success`.
+
+=== Create & Run Update Security Packages Job Template with Ansible Automation Platform
+
+To execute the `vm_patch_playbook.yml` within Ansible Automation Platform, create a Job Template as follows:
+
+. Navigate to Automation Execution → Templates, click the **Create template** button, and choose **Create job template**.
+
+. Fill out the following details:
+
+|===
+| Parameter               | Value
+
+| Name                    | Patch VMs
+| Job Type                | Run
+| Inventory               | OpenShift Virtual Machines
+| Project                 | Workshop Project
+| Playbook                | `patch_vm_playbook.yml`
+| Execution Environment   | Day2 EE
+| Credentials             | Workshop Credential
+| Extra variables         | `task_file: update_security_packages.yml`
+| Enabled Options         | Privilege Escalation
+
+|===
+
+. Click **Create job template**.
+
+. Once the **Patch VMs** Job Template is created, select the **Launch Template** button on the top right corner to run the job.
+
+//TODO add pic
+
