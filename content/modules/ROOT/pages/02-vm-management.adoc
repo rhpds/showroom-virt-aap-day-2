@@ -228,7 +228,7 @@ vm_name: rhel9-vm1
 +
 . Re-run via the `Launch Template` button.
 
-//TODO put image of completed stop
+image::../assets/images/stop_vms_multiple.png[Stopping the VMs]
 
 === Start VM Task
 
