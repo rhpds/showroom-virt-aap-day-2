@@ -45,7 +45,7 @@ using the OpenShift UI dashboard:
 Virtualization -> VirtualMachines within the `vms-aap-day2` project.
 
 //TODO add image created dec 2
-image::assets/images/vms-ocp-dashboard.png[Virtual Machines Running on OpenShift]
+image::../assets/images/vms-ocp-dashboard.png[Virtual Machines Running on OpenShift]
 
 With the VMs now confirmed as up and running, ensure that you can ping those VMs
 within the AAP dashboard as follows:
