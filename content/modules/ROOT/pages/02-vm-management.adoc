@@ -112,7 +112,15 @@ Explanation of the Task:
 In order to run the `manage_vm_playbook.yml` within Ansible Automation Platform,
 create a Job Template to run the automation as follows:
 
-. Go to **Automation Execution → Templates**, click the **Create template** button, and choose **Create job template**.
+. Login to your AAP Dashboard UI using your credentials.
+
+. Re-sync the `Workshop Project` with your latest updates within the Ansible Automation Platform UI
++
+** Navigate to **Automation Execution → Projects** and select `Workshop Project`
++
+** On the top right, select the `Sync Project` button and wait for `Last job status` to provide the status of `Success`.
+
+. Next, go to **Automation Execution → Templates**, click the **Create template** button, and choose **Create job template**.
 +
 . Fill out the following details:
 +
@@ -136,12 +144,12 @@ create a Job Template to run the automation as follows:
 . Once the Stop VMs Job Template is created, select the `Launch Template` button
 on the top right corner to run the job.
 
-//TODO add image created on dec 3
+image::../assets/images/stop_vms.png[Stopping a VM]
 
 ==== Extending `stop_vm.yml` to Handle All VMs in a Namespace
 
 While the ability to manage a specific VM is important, the real value of
-automation lies in managing multiple VMs at scale. In this bonus section, you'll
+automation lies in managing multiple VMs at scale. In this section, you'll
 extend the functionality of the `stop_vm.yml` task file to handle all the
 Virtual Machines that reside within the `vms-aap-day2` namespace and learn how
 to use the debug task to understand the structure of the VM resource `vm_info`
@@ -180,6 +188,7 @@ $ cd collections/ansible_collections/redhatone/vm_management/roles/vm_management
 +
 Explanation of Key Fields:
 +
+* The `kubevirt_vm_info` module retrieves all VMs in the namespace.
 * `metadata.name`: The name of the VirtualMachine.
 * `metadata.namespace`: The namespace the VM belongs to.
 * The `loop_control` option sets a label for each task iteration, showing the VM name (item.metadata.name) in the output. This makes the playbook output more readable and easier to debug.
