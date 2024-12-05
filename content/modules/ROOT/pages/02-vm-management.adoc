@@ -218,7 +218,7 @@ result:
   ...
 ----
 +
-. Head back to the AAP Dashboard UI, go to the **Automation Execution -> Templates**, select the `Stop VMs` Job Template and select the pencil icon image:../assets/images/pencil.png[] to edit the template.
+. Head back to the AAP Dashboard UI, go to the **Automation Execution -> Templates**, select the `Stop VMs` Job Template and select the pencil icon image:../assets/images/pencil.png[fit=line] to edit the template.
 +
 . Modify the existing `Stop VMs` Job Template by **removing** the following variable from the `Extra variables` section and selecting `Save job template` when finished.
 +
