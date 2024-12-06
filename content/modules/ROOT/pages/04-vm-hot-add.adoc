@@ -56,7 +56,7 @@ Below is an example image illustrating both scenarios:
 
 * One VM shows an assigned instance type.
 +
-* Another VM indicates `None` under the template field, meaning no instance type is applied.
+* Another VM indicates `rhel9-server-small` under the template field, indicating that the `rhel9-server-small` template was used.
 +
 image::../assets/images/example_instance_type_and_template.png[title="Instance Type vs. Template"]
 
