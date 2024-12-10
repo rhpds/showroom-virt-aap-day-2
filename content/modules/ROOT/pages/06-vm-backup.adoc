@@ -369,7 +369,7 @@ Once the Job completes successfully, confirm the restoration of the Snapshot was
 
 Select the `rhel9-vm1` instance and then select the *Snapshots* tab. Locate the Snapshot created previously and notice the date and time within the _Last restored_ column indicating that the Snapshot was successfully restored against the Virtual Machine instance.
 
-//TODO add pic
+image::../assets/images/restore_snapshot.png[title="Restore from Snapshot"]
 
 == Conclusion
 
