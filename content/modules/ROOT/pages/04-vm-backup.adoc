@@ -1,3 +1,384 @@
 = Backup and Restore
 
-This is the OpenShift apps domain: {openshift_cluster_ingress_domain}
+== Lab Overview
+
+In this lab, you will learn how to perform one of the key day 2 activities for ensuring business continuity in the event of disaster, or unintended operations -- backing up and restoring a Virtual Machine by creating a Virtual Machine Snapshot.
+
+=== Virtual Machine Snapshots
+
+Virtual Machine Snapshots represent the state and data of a Virtual Machine at a given point in time. They can be created either when the VM is powered off or running and the resulting snapshot stores a copy of each Container Storage Interface (CSI) volume attached to the VM and a copy of the VM specification and metadata. Once a snapshot is created, they cannot be modified.
+
+For VM's that are running, it is highly recommended that the QEMU guest agent be installed as it aids in the coordination of I/O activities before, during and after a snapshot is taken. When the QEMU guest agent is installed and the creation of a snapshot targets a running VM instance, the agent will _freeze_ the VM file system including ensuring that all I/O is written to disk first, take a snapshot, and finally _thaw_ the filesystem afterwards. Application specific hooks can be scripted to perform more advanced activities throughout the lifecycle of the freezing and thawing process. Hooks are also supported on Windows Virtual Machines using the Volume Shadow Copy Service (VSS).
+
+=== A Closer Look at Virtual Machine Snapshots
+
+Snapshots are supported by the following storage providers:
+
+. OpenShift Data Foundation
+. Any other cloud storage provider with the Container Storage Interface (CSI) driver that supports the Kubernetes Volume Snapshot API.
+
+Since storage within the lab environment supported by OpenShift Data Foundation, we can leverage the Snapshot capabilities within OpenShift Virtualization.
+
+Three (3) OpenShift API's are available to manage Virtual Machine Snapshots
+
+. *VirtualMachineSnapshot*: Represents a user request to create a snapshot. It contains information about the current state of the VM.
+. *VirtualMachineSnapshotContent*: Represents a provisioned resource on the cluster (a snapshot). It is created by the VM snapshot controller and contains references to all resources required to restore the VM.
+. *VirtualMachineRestore*: Represents a user request to restore a VM from a snapshot.
+
+The VM snapshot controller binds a VirtualMachineSnapshotContent object with the VirtualMachineSnapshot object for which it was created, with a one-to-one mapping.
+
+We can use Ansible and Ansible Automation Platform to manage the creation of these OpenShift API's at scale so that we can snapshot a single VM or a fleet of VM's.
+
+== Automating taking Snapshots of Virtual Machines
+
+Thus far, we have been primarily developing automation to target either an individual Virtual Machine or all of the Virtual Machines that we have created in the `vms-aap-day2` namespace. Since backing up and restoring Virtual Machines is more targeted in nature, we want to develop automation that either enables the creation of a Snapshot against a single Virtual Machine, or a specific set of Virtual Machines. The process of taking a snapshot is the same, regardless of the number of Virtual Machines that are specified.
+
+When using Ansible, the *loop* directive can be used to execute a task or a series of tasks multiple times given a set of resources. For simplicity sakes, we can specify the names of the VM's (for example, `vms_to_snapshot`) for which a snapshot should be taken using a comma-delimited string which is defined within a variable when automation is triggered.
+
+=== Create the `snapshot_vms.yml` File
+
+. Navigate to the Tasks Folder:
++
+----
+cd collections/ansible_collections/redhatone/vm_management/roles/vm_management/tasks/
+----
++
+. Create the `snapshot_vms.yml` File:
++
+----
+touch snapshot_vms.yml
+----
++
+. Open the `snapshot_vms.yml` File in Your Favorite Editor and Add the Following Task:
++
+----
+---
+- name: Snapshot individual VM
+  ansible.builtin.include_tasks:
+    file: _snapshot_vm.yml
+  loop_control:
+    loop_var: vm_to_snapshot
+  loop: "{{ vms_to_snapshot.replace(' ','').split(',') }}"
+  when: vms_to_snapshot | default('', True) | length > 0
+----
+
+This is a fairly complex task, so let's break it down:
+
+**Explanation of the Task:**
+
+- *when*: Condition that validates the content specified within the `vms_to_snapshot` variable. A series of _filters_ are used to manipulate the data so that is presented in a manner where the state of the variable can be assessed. The `default('', True)` filter determines whether the `vms_to_snapshot` variable has been defined. If not, the value will be set as an empty string (`''`). `True` in the second parameter of the filter evaluates the condition as _false_ so that the next filter will still be invoked. Finally, the `length` filter is used to count the number of characters contained within the `vms_to_snapshot` variable. Finally, if the number of characters contained within the `vms_to_snapshot` variable is greater than 0, tasks (only 1 in this case) are executed.
+- *loop*: Defines the content that should be executed in a repetitive fashion. The `vms_to_snapshot` variable should contain a comma-delimited set of Virtual Machine names. Loops can operate upon different content types, with the most basic being a simple list. The content within the loop directive invokes Jinja2 functions to first remove any whitespace that may be found within the variable using the `replace` function, then create a list adding a new item to the list whenever a comma is encountered using the `split`.
+- *loop_control*: Provides methods for managing loops.
+- *loop_var*: Sets the name of the variable that will be set with the item (server name) within each iteration of the loop
+- *ansible.builtin.include_tasks*: Includes a series of tasks that will be executed as part of the automation. Since the process of creating a snapshot against a Virtual Machine requires multiple steps (tasks), they must be added to a separate task file. In this case, this file is called `_snapshot_vm.yml` and instructions for populating its content is found below.
+
+=== Create the `_snapshot_vm.yml` File
+
+A task file beginning with an underscore (`_`) indicates that it is included within another task file. While still within the _tasks_ folder, perform the following steps:
+
+. Create the `snapshot_vms.yml` File:
++
+----
+touch _snapshot_vm.yml
+----
++
+. Open the `_snapshot_vm.yml` File in Your Favorite Editor and Add the Following Tasks:
++
+----
+---
+- name: Verify VM to Snapshot Provided
+  ansible.builtin.assert:
+    that:
+      - vm_to_snapshot | default('', True) | length > 0
+    quiet: True
+    fail_msg: VM to Snapshot not specified
+
+- name: Get VirtualMachine to snapshot
+  redhat.openshift_virtualization.kubevirt_vm_info:
+    namespace: "{{ vm_namespace }}"
+    name: "{{ vm_to_snapshot }}"
+  register: vm_info
+
+- name: Create Snapshot
+  redhat.openshift.k8s:
+    state: present
+    definition:
+      apiVersion: snapshot.kubevirt.io/v1alpha1
+      kind: VirtualMachineSnapshot
+      metadata:
+        generateName: "{{ vm_info.resources[0].metadata.name }}-"
+        namespace: "{{ vm_info.resources[0].metadata.namespace }}"
+        ownerReferences:
+          - apiVersion: kubevirt.io/v1
+            blockOwnerDeletion: false
+            kind: VirtualMachine
+            name: "{{ vm_info.resources[0].metadata.name }}"
+            uid: "{{ vm_info.resources[0].metadata.uid }}"
+      spec:
+        source:
+          apiGroup: kubevirt.io
+          kind: VirtualMachine
+          name: "{{ vm_info.resources[0].metadata.name }}"
+    wait: true
+    wait_condition:
+      type: Ready
+  when: "'resources' in vm_info and vm_info.resources | length == 1"
+----
+
+Lets break down the automation that is being executed within this task file.
+
+**Explanation of the Tasks:**
+
+There are three tasks found within this task file
+
+. Verifies that a variable called `vm_to_snapshot` has been provided.
+. Retrieves the definition of the `VirtualMachine` resource
+. Creates a new `VirtualMachineSnapshot` resource initiating a Snapshot of the targeted Virtual Machine
+
+The `ansible.builtin.assert` module is used to confirm conditions based on a set of expectations. In the task file, the task is confirming that a variable called  `vm_to_snapshot` has been defined and is not empty within the `that`` property. The `quiet` property limits the amount of output that is returned. Finally, the `fail_msg` property provides a user friendly message in the event the expected condition fails.
+
+The individual Virtual Machine is retrieved using the `redhat.openshift_virtualization.kubevirt_vm_info` module and stored in the `vm_info` variable. This should look familiar as it once again follows the same pattern that was used previously when we were managing the Virtual Machine instances.
+
+Finally, the `redhat.openshift.k8s` module is used to perform operations against OpenShift resources.
+
+Lets break down this task in further detail:
+
+- *redhat.openshift.k8*: Ansible module for managing OpenShift API resources
+- *state*: Determines the operation that will be performed on the object. Since the the value of *present* is specified, the object will be created if it does not exist
+- *definition* Inline representation of the desired OpenShift resource. In this case, it is the `VirtualMachineSnapshot`. Not every property included within the _definition_ will be described as many of them were described previously.
+- *generateName*: Capability within OpenShift to generate a unique name if the `name` provided is not provided
+- *ownerReferences*: List of OpenShift API objects that are dependant upon this resource. By specifying this field, a relationship is made between the `VirtualMachineSnapshot` and the `VirtualMachine`. If the `VirtualMachine` is deleted, the OpenShift garbage collector will automatically delete the `VirtualMachineSnapshot`. The properties are retrieved from the `VirtualMachine` instance found previously.
+- *source*: The `VirtualMachine` for which a Snapshot will be created against
+- *wait_condition*: The execution of subsequent tasks is held until values within the `.status.conditions` field matches the `type` provided. When a Snapshot against a Virtual Machine completes successfully, a condition with the `type` equal to `Ready` is set to `true`.
+- *wait*: Pauses execution until an expected state is reached. This field must be set for the `wait_condition` property to take effect.
+- *when*: Gating condition when a `VirtualMachineSnapshot` resource is created only if exactly 1 resource is found within the `vm_info` property. This confirms that indeed, the the `VirtualMachine` associated with the name provided by the user was found.
+
+== Create and Run the Snapshot VMs Job Template
+
+. Navigate to *Automation Execution → Templates*.
+. Click *Create Template* and select *Create job template*.
+. Fill in the following details:
+
+[cols="2,3",options="header"]
+|===
+| Parameter | Value
+| *Name* | Snapshot VMs
+| *Job Type* | Run
+| *Inventory* | OpenShift Virtual Machines
+| *Project* | Workshop Project
+| *Playbook* | manage_vm_playbook.yml
+| *Execution Environment* | Day2 EE
+| *Credentials* | OpenShift Credential
+| *Extra variables* | `vm_namespace: vms-aap-day2` +
+                      `task_file: snapshot_vms.yml` +
+                      `vms_to_snapshot: rhel9-vm1`
+|===
+
+. Click *Create Job Template*.
+. Launch the job by selecting *Launch Template* from the top-right corner.
+
+Once the Job completes successfully, confirm the new Snapshot has been created by navigating to the OpenShift UI, Virtualization -> VirtualMachines within the `vms-aap-day2` project.
+
+Select the `rhel9-vm1` instance and then select the *Snapshots* tab and you will see the Snapshot created previously by the Job Template.
+
+//TODO add pic
+
+== Automating taking Restoration of a Snapshot
+
+Once a Virtual Machine Snapshot is created, the resulting snapshot can be used to restore the current state of a Virtual Machine to that point in time to facilitate a remediation in the event of error or failures. Unlike when Snapshots are created, a Virtual Machine must be powered off prior to initiating a restoration from a Snapshot.
+
+The rapid restoration of multiple Virtual Machine instances becomes paramount in the event of a disaster and doing so in an automated fashion becomes necessary when having to remediate and coordinate at scale.
+
+The process for restoring a snapshot against a Virtual Machine involves the following steps:
+
+. Shut down a Virtual Machine (if running)
+. Restore the snapshot against a Virtual Machine
+. Start up the Virtual Machine
+
+The *VirtualMachineRestore* OpenShift resource represents a request to initiate a restoration of a snapshot against a Virtual Machine. It contains the following structure:
+
+[source, shell]
+----
+  apiVersion    <string>
+  kind  <string>
+  metadata      <ObjectMeta>
+    name        <string>
+    namespace   <string>
+  spec  <Object> -required-
+    target      <Object> -required-
+      apiGroup  <string>
+      kind      <string> -required-
+      name      <string> -required-
+    virtualMachineSnapshotName  <string> -required-
+----
+
+While the above does not represent the entire data structure of a `VirtualMachineRestore` resource the following are the most important properties:
+
+- *target*: Represents the `VirtualMachine` the restoration applies to
+- *virtualMachineSnapshotName*: The name of the snapshot to restore
+
+Recall that when the `VirtualMachineSnapshot` OpenShift resource was created, it included a reference to the `VirtualMachine` that a Snapshot should be performed against. As a result, for the purpose of developing automation to perform the snapshot restoration, all that is needed is the name of the `VirtualMachineSnapshot` and once retrieved, all of the other required properties that needs to be specified within the `VirtualMachineRestore` can be obtained.
+
+Follow a similar approach that was used for taking a snapshot where a single playbook file takes in a variable and loops over the content to restore the snapshot of a Virtual Machine. However, instead of the name of the virtual machines as the content that is provided as an input, the names of the Virtual Machine snapshots are specified instead.
+
+=== Create the `restore_vm_snapshots.yml` File
+
+. Navigate to the Tasks Folder:
++
+----
+cd collections/ansible_collections/redhatone/vm_management/roles/vm_management/tasks/
+----
++
+. Create the `restore_vm_snapshots.yml` File:
++
+----
+touch restore_vm_snapshots.yml
+----
++
+. Open the `restore_vm_snapshots.yml` File in Your Favorite Editor and Add the Following Task:
++
+----
+---
+- name: Restore VM Snapshot
+  ansible.builtin.include_tasks:
+    file: _restore_vm_snapshot.yml
+  loop_control:
+    loop_var: vm_snapshot
+  loop: "{{ vm_snapshots.replace(' ','').split(',') }}"
+  when: vm_snapshots | default('', True) | length > 0
+----
+
+This play is almost identical to the play from the `snapshot_vms.yml` task file. The primary difference is that the play references a variable called `vm_snapshots` that will container a comma delimitated string containing the names of `VirtualMachineSnapshot` resources to restore. Once split into a list, tasks defined within a task file called `_restore_vm_snapshot.yml` is invoked.
+
+=== Create the `_restore_vm_snapshot.yml` File
+
+Consistency is the name of the game and once again, the first play that should be included within this task file (as was implemented in the `_snapshot_vm.yml` task file previously) is to verify the name of the snapshot is provided. When looking at the play in the `restore_vm_snapshots.yml` file, the variable as defined within the `loop_control` property is called `vm_snapshot`.
+
+Once the variable has been verified, the following are the steps that will be used to perform the restoration of the Snapshot:
+
+. Retrieve the `VirtualMachineSnapshot` based on the snapshot name provided
+. Stop the Virtual Machine
+. Create the `VirtualMachineRestore` resource and wait until the restoration completes successfully
+. Start the Virtual Machine
+
+. Create the `_restore_vm_snapshot.yml` File:
++
+----
+touch _restore_vm_snapshot.yml
+----
++
+. Open the `_restore_vm_snapshot.yml` File in Your Favorite Editor and Add the Following Tasks:
++
+----
+---
+- name: Verify VM Snapshot Provided
+  ansible.builtin.assert:
+    that:
+      - vm_snapshot | default('', True) | length > 0
+    quiet: True
+    fail_msg: VM Snapshot not specified
+
+- name: Get VirtualMachine Snapshot
+  kubernetes.core.k8s_info:
+    api_version: snapshot.kubevirt.io/v1alpha1
+    kind: VirtualMachineSnapshot
+    namespace: "{{ vm_namespace }}"
+    name: "{{ vm_snapshot }}"
+  register: vm_snapshot_instance
+
+- name: Create Restore
+  block:
+    - name: Stop Virtual Machine
+      redhat.openshift_virtualization.kubevirt_vm:
+        name: "{{ vm_snapshot_instance.resources[0].metadata.ownerReferences[0].name }}"
+        namespace: "{{ vm_snapshot_instance.resources[0].metadata.namespace }}"
+        running: false
+        wait: true
+
+    - name: Create Restore
+      redhat.openshift.k8s:
+        state: present
+        definition:
+          apiVersion: snapshot.kubevirt.io/v1alpha1
+          kind: VirtualMachineRestore
+          metadata:
+            generateName: "{{ vm_snapshot_instance.resources[0].metadata.ownerReferences[0].name }}-"
+            namespace: "{{ vm_snapshot_instance.resources[0].metadata.namespace }}"
+            ownerReferences:
+              - apiVersion: kubevirt.io/v1
+                blockOwnerDeletion: false
+                kind: VirtualMachine
+                name: "{{ vm_snapshot_instance.resources[0].metadata.ownerReferences[0].name }}"
+                uid: "{{ vm_snapshot_instance.resources[0].metadata.ownerReferences[0].uid }}"
+          spec:
+            target:
+              apiGroup: kubevirt.io
+              kind: VirtualMachine
+              name: "{{ vm_snapshot_instance.resources[0].metadata.ownerReferences[0].name }}"
+            virtualMachineSnapshotName: "{{ vm_snapshot_instance.resources[0].metadata  .name }}"
+        wait: true
+        wait_timeout: 600
+        wait_condition:
+          type: Ready
+
+    - name: Start Virtual Machine
+      redhat.openshift_virtualization.kubevirt_vm:
+        name: "{{ vm_snapshot_instance.resources[0].metadata.ownerReferences[0].name }}"
+        namespace: "{{ vm_snapshot_instance.resources[0].metadata.namespace }}"
+        running: true
+        wait: true
+  when: "'resources' in vm_snapshot_instance and vm_snapshot_instance.resources | length == 1"
+----
+
+Let's break down the contents
+
+**Explanation of the Tasks:**
+
+Five (5) plays in total are included within this task file.
+
+The `ansible.builtin.assert` module first confirms that a variable called  `vm_to_snapshot` has been defined before passing control to the `kubernetes.core.k8s_info` which obtains the state of the specified `VirtualMachineSnapshot` resource. Instead of using the `redhat.openshift_virtualization.kubevirt_vm_info` module which obtains details specific to Virtual machines, the `kubernetes.core.k8s_info` allows for the retrieval of any OpenShift resource. The results from the `kubernetes.core.k8s_info` invocation is stored in the variable called `vm_snapshot_instance`.
+
+Next, a `block` statement is used to group a set of related tasks together. Notice at the at the bottom of file. Entry into the block is gated by the condition that an individual `VirtualMachineSnapshot` resource was located and stored within the `vm_snapshot_instance` variable. If a single instance is not found, the set of tasks within the _block_ are skipped.
+
+Each of the tasks that are included within the block uses concepts that have been seen previously within this lab. Stopping and starting a Virtual Machine using the `redhat.openshift_virtualization.kubevirt_vm` module was use used in _Module 2 - VM Management_, and the creation of the `VirtualMachineRestore` resource parallels how the `VirtualMachineSnapshot` resource was created.
+
+One key difference during the creation of the `VirtualMachineRestore` using the `redhat.openshift.k8s` module is the inclusion of the *wait_timeout* property. Since the restoration of the snapshot may take longer to complete, a value of 600, or 10 minutes is specified. Otherwise, the default timeout is 120 seconds, or two minutes, and there is a potential for the restoration process to be incomplete when that threshold is reached, raising an error.
+
+== Create and Run the Restore VM Snapshots Job Template
+
+. Navigate to *Automation Execution → Templates*.
+. Click *Create Template* and select *Create job template*.
+. Fill in the following details making sure to include the name of the snapshot created previously for the `rhel9-vm1` Virtual Machine:
+
+[cols="2,3",options="header"]
+|===
+| Parameter | Value
+| *Name* | Restore VM Snapshots
+| *Job Type* | Run
+| *Inventory* | OpenShift Virtual Machines
+| *Project* | Workshop Project
+| *Playbook* | manage_vm_playbook.yml
+| *Execution Environment* | Day2 EE
+| *Credentials* | OpenShift Credential
+| *Extra variables* | `vm_namespace: vms-aap-day2` +
+                      `task_file: restore_vm_snapshots.yml` +
+                      `vm_snapshots: <snapshot_name>`
+|===
+
+Once the Job completes successfully, confirm the restoration of the Snapshot was applied to the `rhel9-vm1`  by navigating to the OpenShift UI, Virtualization -> VirtualMachines within the `vms-aap-day2` project.
+
+Select the `rhel9-vm1` instance and then select the *Snapshots* tab. Locate the Snapshot created previously and notice the date and time within the _Last restored_ column indicating that the Snapshot was successfully restored against the Virtual Machine instance.
+
+//TODO add pic
+
+== Conclusion
+
+In this lab, you explored how to utilize Virtual Machine Snapshots as a method of backing up and restoring Virtual Machines to reduce the potential of loss during a disaster and how Ansible Automation Platform becomes a key asset for managing these considerations at scale. In particular, we covered the following concepts:
+
+* How to perform a Virtual Machine Snapshot by creating a *VirtualMachineSnapshot* resource
+* How to perform the restoration of a Virtual Machine using a Virtual Machine Snapshot by creating a *VirtualMachineRestore* resource
+* Managing the snapshot and restoration process across a fleet of Virtual Machines
+
+Virtual Machine Snapshots is just one of the different approaches that can be used to maintain business continuity using OpenShift Virtualization. Other strategies for managing the backup and restoration of Virtual Machines include leveraging OpenShift API for Data Protection (OADP) or a solution from a third-party vendor.
+
+Regardless of the approach, Ansible Automation Platform can be used to streamline the backup and restoration process.
