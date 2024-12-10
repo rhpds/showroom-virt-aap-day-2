@@ -73,7 +73,8 @@ git push
 +
 . **Use the Terminal for Advanced Git Commands**:
 ** You can perform advanced Git operations like rebasing, stash management, or inspecting the commit history:
-----h
++
+----
 git log --oneline
 git rebase origin/main
 git stash
