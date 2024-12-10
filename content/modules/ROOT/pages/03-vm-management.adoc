@@ -39,6 +39,9 @@ $ cd collections/ansible_collections/redhatone/vm_management/roles/vm_management
 - name: Run the specific vm_management task
   include_tasks: "{{ task_file }}"
 ----
++
+. After making and saving the changes, ensure you commit and push them to your Gitea repository. For detailed instructions, refer to the Appendix: <<appendix-vscode-commit-push>>.
+
 
 === Create the Ansible VM Management Playbook
 
@@ -66,6 +69,8 @@ $ touch manage_vm_playbook.yml
   roles:
     - redhatone.vm_management.vm_management
 ----
++
+. After making and saving the changes, ensure you commit and push them to your Gitea repository.
 
 === Stop a VM Task
 
@@ -106,6 +111,8 @@ Explanation of the Task:
   * The `name` parameter uses a user defined variable named `vm_name` to specify  which VM to stop
   * The `running: false` ensures the VM is not running
   * The `wait: true` ensures the next Ansible task isn't triggered until the stop is complete
++
+. After making and saving the changes, ensure you commit and push them to your Gitea repository.
 
 === Create & Run a Job Template with Ansible Automation Platform
 
@@ -218,6 +225,8 @@ result:
   ...
 ----
 +
+. After making and saving the changes, ensure you commit and push them to your Gitea repository.
++
 . Head back to the AAP Dashboard UI, go to the **Automation Execution -> Templates**, select the `Stop VMs` Job Template and select the pencil icon image:../assets/images/pencil.png[width=20px] to edit the template.
 +
 . Modify the existing `Stop VMs` Job Template by **removing** the following variable from the `Extra variables` section and selecting `Save job template` when finished.
@@ -274,6 +283,8 @@ $ touch start_vm.yml
     label: "{{ item.metadata.name }}"
   when: item.status.printableStatus != "Running"
 ----
++
+. After making and saving the changes, ensure you commit and push them to your Gitea repository.
 
 === Create & Run Start VM Job Template with Ansible Automation Platform
 
@@ -359,6 +370,8 @@ $ touch restart_vm.yml
 **Explanation of Key Points**
 +
 * The `kubevirt_vm_info` module retrieves all VMs in the namespace. The first retrieval stores their initial state in `vm_info`. This is used to identify VMs that need to be stopped. After stopping, the second retrieval updates the VM state in `updated_vm_info`, ensuring accurate information is used for the subsequent start operation.
++
+. After making and saving the changes, ensure you commit and push them to your Gitea repository.
 
 === Create & Run Restart VM Job Template with Ansible Automation Platform
 
