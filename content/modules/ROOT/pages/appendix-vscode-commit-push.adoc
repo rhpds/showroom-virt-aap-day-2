@@ -44,7 +44,9 @@ Add manage_vm_playbook.yml for VM management
 ----
 git add .
 ----
+
 +
+
 . **Commit Your Changes**:
 ** Commit the staged files with a descriptive message:
 +     
