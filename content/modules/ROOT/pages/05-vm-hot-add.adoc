@@ -107,7 +107,7 @@ Virtualization.
 
 WARNING: VMs must be created using Instance Types for this task method to work. Otherwise use Legacy method.
 
-After making and saving the changes, ensure you commit and push them to your Gitea repository. For detailed instructions, refer to the Appendix: <<appendix-vscode-commit-push>>.
+After making and saving the changes, ensure you commit and push them to your Gitea repository. For detailed instructions, refer to the Appendix: link:appendix-vscode-commit-push.adoc[]
 
 === Legacy Method: Modifying the Resources via Spec
 
