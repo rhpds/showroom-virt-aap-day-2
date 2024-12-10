@@ -59,6 +59,8 @@ the exercises:
 * `tasks/stop_vm.yml`: For stopping the VM.
 * `tasks/start_vm.yml`: For starting the VM.
 * `tasks/restart_vm.yml`: For restarting the VM.
+* `tasks/snapshot_vms.yml`: Creating Snapshot of the VM.
+* `tasks/restore_vm_snapshots.yml`: Restore VM from Snapshot.
 * `manage_vm_playbook`: A playbook to run the stop/start/restart tasks.
 * `patch_vm_playbook.yml`: A playbook to run the security updates of the RHEL VMs.
 
