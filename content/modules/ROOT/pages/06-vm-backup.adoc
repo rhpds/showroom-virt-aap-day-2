@@ -181,7 +181,7 @@ Once the Job completes successfully, confirm the new Snapshot has been created b
 
 Select the `rhel9-vm1` instance and then select the *Snapshots* tab and you will see the Snapshot created previously by the Job Template.
 
-//TODO add pic
+image::../assets/images/snapshot.png[title="Snapshot"]
 
 == Automating taking Restoration of a Snapshot
 
