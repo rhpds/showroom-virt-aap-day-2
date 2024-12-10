@@ -18,7 +18,7 @@ Choose the method that suits you best.
 +
 . **Stage Your Changes**:
 ** Locate the files listed under **Changes**.
-**Click the `\+` icon next to each file to stage them, or click the `\+` icon next to **Changes** to stage all files.
+** Click the `\+` icon next to each file to stage them, or click the `\+` icon next to **Changes** to stage all files.
 +   
 . **Enter a Commit Message**:
 ** In the input box at the top of the Source Control panel, type a descriptive commit message, e.g.:
