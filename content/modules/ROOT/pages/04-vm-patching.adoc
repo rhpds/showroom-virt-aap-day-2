@@ -48,6 +48,8 @@ $ touch update_security_packages.yml
     - redhatone.vm_management.vm_management
 ----
 +
+. After making and saving the changes, ensure you commit and push them to your Gitea repository. For detailed instructions, refer to the Appendix: <<appendix-vscode-commit-push>>.
++
 . Re-sync the `Workshop Project` with your latest updates within the Ansible Automation Platform UI
 +
 ** Navigate to Automation Execution → Projects and select `Workshop Project`
@@ -80,6 +82,4 @@ To execute the `vm_patch_playbook.yml` within Ansible Automation Platform, creat
 . Click **Create job template**.
 
 . Once the **Patch VMs** Job Template is created, select the **Launch Template** button on the top right corner to run the job.
-
-//TODO add pic
 
