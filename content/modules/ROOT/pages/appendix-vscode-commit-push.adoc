@@ -41,6 +41,7 @@ Add manage_vm_playbook.yml for VM management
 
 . **Stage Your Changes**:
 ** Run the following command to stage all modified files:
++
 ----
 git add .
 ----
