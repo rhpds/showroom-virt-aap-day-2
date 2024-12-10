@@ -18,7 +18,7 @@ Choose the method that suits you best.
 +
 . **Stage Your Changes**:
 ** Locate the files listed under **Changes**.
-** Click the `\+` icon next to each file to stage them, or click the `\+` icon next to **Changes** to stage all files.
+** Click the `\+` icon next to each file to stage them, or click the `+` icon next to **Changes** to stage all files.
 +   
 . **Enter a Commit Message**:
 ** In the input box at the top of the Source Control panel, type a descriptive commit message, e.g.:
@@ -28,10 +28,10 @@ Add manage_vm_playbook.yml for VM management
 ----
 +
 . **Commit the Changes**:
-**Click the **✔** (checkmark) icon to commit the staged files.
+** Click the **✔** (checkmark) icon to commit the staged files.
 +
 . **Push the Changes**:
-**Click the **…** (ellipsis menu) in the Source Control panel and select **Push**.
+** Click the **…** (ellipsis menu) in the Source Control panel and select **Push**.
 ** *Alternative:* Use the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`) → Type `Git: Push` → Press Enter.
 +
 . **Verify in Gitea**:
