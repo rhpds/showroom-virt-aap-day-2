@@ -18,13 +18,14 @@ Choose the method that suits you best.
 
 2. **Stage Your Changes**:
    - Locate the files listed under **Changes**.
-   - Click the **+** icon next to each file to stage them, or click the **+** icon next to **Changes** to stage all files.
+   - Click the `+` icon next to each file to stage them, or click the `+` icon next to **Changes** to stage all files.
    
 3. **Enter a Commit Message**:
    - In the input box at the top of the Source Control panel, type a descriptive commit message, e.g.:
-     ```
+
+     ----
      Add manage_vm_playbook.yml for VM management
-     ```
+     ----
 
 4. **Commit the Changes**:
    - Click the **✔** (checkmark) icon to commit the staged files.
@@ -46,15 +47,17 @@ Choose the method that suits you best.
 
 2. **Commit Your Changes**:
    - Commit the staged files with a descriptive message:
-     ```bash
+     
+     ----
      git commit -m "Add manage_vm_playbook.yml for VM management"
-     ```
+     ----
 
 3. **Push Your Changes**:
    - Push the committed changes to the remote repository:
-     ```bash
+     
+    ----
      git push
-     ```
+    ----
 
 4. **Verify in Gitea**:
    - Open your Gitea repository in a web browser and confirm that the changes appear.
@@ -69,11 +72,11 @@ Choose the method that suits you best.
 
 3. **Use the Terminal for Advanced Git Commands**:
    - You can perform advanced Git operations like rebasing, stash management, or inspecting the commit history:
-     ```bash
+    ----h
      git log --oneline
      git rebase origin/main
      git stash
-     ```
+    ----
 
 == Conclusion
 
