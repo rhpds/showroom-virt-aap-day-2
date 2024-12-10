@@ -12,71 +12,71 @@ Choose the method that suits you best.
 
 === Using Visual Studio Code
 
-1. **Open the Source Control Panel**:
-   - Click the **Source Control** icon in the Activity Bar.
-     *Shortcut:* `Ctrl+Shift+G` (Windows/Linux) or `Cmd+Shift+G` (Mac).
-
-2. **Stage Your Changes**:
-   - Locate the files listed under **Changes**.
-   - Click the `+` icon next to each file to stage them, or click the `+` icon next to **Changes** to stage all files.
-   
-3. **Enter a Commit Message**:
-   - In the input box at the top of the Source Control panel, type a descriptive commit message, e.g.:
-
-     ----
-     Add manage_vm_playbook.yml for VM management
-     ----
-
-4. **Commit the Changes**:
-   - Click the **✔** (checkmark) icon to commit the staged files.
-
-5. **Push the Changes**:
-   - Click the **…** (ellipsis menu) in the Source Control panel and select **Push**.
-     *Alternative:* Use the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`) → Type `Git: Push` → Press Enter.
-
-6. **Verify in Gitea**:
-   - Open your Gitea repository in a web browser and confirm that the changes appear.
+. **Open the Source Control Panel**:
++
+** Click the **Source Control** icon in the Activity Bar. *Shortcut:* `Ctrl+Shift+G` (Windows/Linux) or `Cmd+Shift+G` (Mac).
++
+. **Stage Your Changes**:
+** Locate the files listed under **Changes**.
+**Click the `+` icon next to each file to stage them, or click the `+` icon next to **Changes** to stage all files.
++   
+. **Enter a Commit Message**:
+**In the input box at the top of the Source Control panel, type a descriptive commit message, e.g.:
++
+----
+Add manage_vm_playbook.yml for VM management
+----
++
+. **Commit the Changes**:
+**Click the **✔** (checkmark) icon to commit the staged files.
++
+. **Push the Changes**:
+**Click the **…** (ellipsis menu) in the Source Control panel and select **Push**.
+** *Alternative:* Use the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`) → Type `Git: Push` → Press Enter.
++
+. **Verify in Gitea**:
+** Open your Gitea repository in a web browser and confirm that the changes appear.
 
 === Using the Terminal
 
-1. **Stage Your Changes**:
-   - Run the following command to stage all modified files:
-     ```bash
-     git add .
-     ```
-
-2. **Commit Your Changes**:
-   - Commit the staged files with a descriptive message:
-     
-     ----
-     git commit -m "Add manage_vm_playbook.yml for VM management"
-     ----
-
-3. **Push Your Changes**:
-   - Push the committed changes to the remote repository:
-     
-    ----
-     git push
-    ----
-
-4. **Verify in Gitea**:
-   - Open your Gitea repository in a web browser and confirm that the changes appear.
+. **Stage Your Changes**:
+** Run the following command to stage all modified files:
+----
+git add .
+----
++
+. **Commit Your Changes**:
+** Commit the staged files with a descriptive message:
++     
+----
+git commit -m "Add manage_vm_playbook.yml for VM management"
+----
++
+. **Push Your Changes**:
+** Push the committed changes to the remote repository:
++     
+----
+git push
+----
++
+. **Verify in Gitea**:
+** Open your Gitea repository in a web browser and confirm that the changes appear.
 
 == Tips for Working with Git
 
-1. **View Git Output in VS Code**:
-   - Open the output log for Git by selecting **View → Output**, then choose "Git" in the dropdown to debug issues.
-
-2. **Resolve Merge Conflicts in VS Code**:
-   - If there are conflicts during a pull or push, VS Code will highlight them in the editor. Use the conflict resolution options (e.g., **Accept Current Change**, **Accept Incoming Change**) to resolve them.
-
-3. **Use the Terminal for Advanced Git Commands**:
-   - You can perform advanced Git operations like rebasing, stash management, or inspecting the commit history:
-    ----h
-     git log --oneline
-     git rebase origin/main
-     git stash
-    ----
+. **View Git Output in VS Code**:
+** Open the output log for Git by selecting **View → Output**, then choose "Git" in the dropdown to debug issues.
++
+. **Resolve Merge Conflicts in VS Code**:
+** If there are conflicts during a pull or push, VS Code will highlight them in the editor. Use the conflict resolution options (e.g., **Accept Current Change**, **Accept Incoming Change**) to resolve them.
++
+. **Use the Terminal for Advanced Git Commands**:
+** You can perform advanced Git operations like rebasing, stash management, or inspecting the commit history:
+----h
+git log --oneline
+git rebase origin/main
+git stash
+----
 
 == Conclusion
 
