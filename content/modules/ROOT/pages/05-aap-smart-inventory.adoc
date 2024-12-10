@@ -20,10 +20,14 @@ Virtualization. This will enable AAP to manage OpenShift VMs residing in the
    * Select `Default` as the Organization.
 +
 . Click the **Create inventory** button.
++
+image::../assets/images/create_inventory.png[title="Create Inventory"]
 
 == Add a Source to the Inventory
 
 . After creating the inventory, switch to the **Sources** tab.
++
+image::../assets/images/sources.png[title="Sources"]
 +
 . Select the **Create source** button.
 +
@@ -34,11 +38,15 @@ Virtualization. This will enable AAP to manage OpenShift VMs residing in the
    * Add your OpenShift Credential (Bearer Token) that you previously created in AAP.
 +
 . Click the **Create source** button to save the configuration.
++
+image::../assets/images/create_inventory_source.png[title="Create Inventory Source"]
 
 ==  Update the Inventory
 . Launch the inventory update:
    * Navigate to the **Details** window for the newly created source.
    * Click the **Launch Inventory Update** button in the top-right corner.
++
+image::../assets/images/update_inventory.png[title="Update Inventory"]
 +
 . Wait for the **Last Job Status** to show `Success`.
 
@@ -48,6 +56,8 @@ Virtualization. This will enable AAP to manage OpenShift VMs residing in the
    * Switch to the **Hosts** tab.
 +
 . Confirm that the Virtual Machines from the `vms-app-day2` namespace of your OpenShift cluster are listed as inventory hosts.
++
+image::../assets/images/verify_hosts.png[title="Verify Hosts"]
 
 == Conclusion
 You have successfully created a dynamic inventory in Ansible Automation Platform
