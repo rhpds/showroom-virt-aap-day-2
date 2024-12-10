@@ -35,7 +35,7 @@ image::../assets/images/sources.png[title="Sources"]
    * Provide a name: `OpenShift Virtual Machines Source`.
    * Select `OpenShift Virtualization` as the Source type.
    * Choose `Default Execution Environment` as the execution environment.
-   * Add your OpenShift Credential (Bearer Token) that you previously created in AAP.
+   * Add your OpenShift Credential (Bearer Token)
 +
 . Click the **Create source** button to save the configuration.
 +
