@@ -76,14 +76,14 @@ touch hot_plug.yml
 ----
 +
 . Open the `hot_plug.yml` File in Your Favorite Editor and Add the Following Tasks:
-
++
 === Using the `instance_type` (Recommended)
 
 The `instance_type` method is the recommended approach for hot-plugging
 resources into a VM. It ensures consistent and reusable resource configurations
 across multiple VMs while leveraging the powerful features of OpenShift
 Virtualization.
-
++
 ----
 - name: Swap Instance Type to add more Resources
   redhat.openshift_virtualization.kubevirt_vm:
@@ -94,10 +94,9 @@ Virtualization.
       name: "{{ instance_type }}"
       revisionName: ""
 ----
-
-
++
 **Explanation of the Task:**
-
++
 - *redhat.openshift_virtualization.kubevirt_vm*: Specifies the module used to manage VMs in OpenShift Virtualization.
 - *name*: The name of the VM to which the new resources will be applied.
 - *namespace*: The namespace in which the VM resides.
@@ -105,8 +104,10 @@ Virtualization.
 - *instancetype*: Defines the instance type for the VM, allowing you to use pre-configured or custom resource settings.
   - *name*: The name of the instance type to be applied.
   - *revisionName*: Optionally specifies the exact revision of the instance type, ensuring compatibility with the VM. Typically auto-generated, thus left empty.
-
++
 WARNING: VMs must be created using Instance Types for this task method to work. Otherwise use Legacy method.
++
+. After making and saving the changes, ensure you commit and push them to your Gitea repository. For detailed instructions, refer to the Appendix: <<appendix-vscode-commit-push>>.
 
 === Legacy Method: Modifying the Resources via Spec
 
