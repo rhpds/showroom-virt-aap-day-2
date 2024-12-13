@@ -48,7 +48,7 @@ $ touch update_security_packages.yml
     - redhatone.vm_management.vm_management
 ----
 +
-. After making and saving the changes, ensure you commit and push them to your Gitea repository. For detailed instructions, refer to the Appendix: link:appendix-vscode-commit-push.adoc[]
+. After making and saving the changes, ensure you commit and push them to your Gitea repository. For detailed instructions, refer to xref:appendix-vscode-commit-push.adoc[].
 +
 . Re-sync the `Workshop Project` with your latest updates within the Ansible Automation Platform UI
 +

@@ -40,7 +40,7 @@ $ cd collections/ansible_collections/redhatone/vm_management/roles/vm_management
   include_tasks: "{{ task_file }}"
 ----
 +
-. After making and saving the changes, ensure you commit and push them to your Gitea repository. For detailed instructions, refer to the Appendix: link:appendix-vscode-commit-push.adoc[]
+. After making and saving the changes, ensure you commit and push them to your Gitea repository. For detailed instructions, refer to xref:appendix-vscode-commit-push.adoc[].
 
 
 === Create the Ansible VM Management Playbook
