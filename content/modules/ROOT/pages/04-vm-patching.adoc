@@ -38,7 +38,7 @@ $ touch update_security_packages.yml
     state: latest
 ----
 +
-. Within your `virt-aap-day2` directory, create an Ansible Playbook labeled `vm_patch_playbook.yml` as follows:
+. Within your `virt-aap-day2` directory, create an Ansible Playbook labeled `patch_vm_playbook.yml` as follows:
 +
 ----
 ---
@@ -58,7 +58,7 @@ $ touch update_security_packages.yml
 
 === Create & Run Update Security Packages Job Template with Ansible Automation Platform
 
-To execute the `vm_patch_playbook.yml` within Ansible Automation Platform, create a Job Template as follows:
+To execute the `patch_vm_playbook.yml` within Ansible Automation Platform, create a Job Template as follows:
 
 . Navigate to Automation Execution → Templates, click the **Create template** button, and choose **Create job template**.
 +

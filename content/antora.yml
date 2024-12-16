@@ -14,3 +14,5 @@ asciidoc:
     aap_controller_web_url: https://aap-aap.apps.cluster-guid.dynamic.redhatworkshops.io
     aap_controller_admin_user: username
     aap_controller_admin_password: password
+    codeserver_url: https://codeserver-codeserver.apps.cluster-guid.dynamic.redhatworkshops.io
+    codeserver_password: password

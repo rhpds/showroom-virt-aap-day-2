@@ -24,7 +24,7 @@ defined in the Ansible playbook that you will create later. This setup allows a
 single playbook to handle all three VM management tasks dynamically, depending
 on the specified action.
 
-. Within your VSCode editor or terminal, change the directory to:
+. Within your link:{codeserver_url}[VSCode^] editor, change the directory to:
 +
 ----
 $ cd collections/ansible_collections/redhatone/vm_management/roles/vm_management/tasks/
@@ -153,7 +153,7 @@ on the top right corner to run the job.
 
 image::stop_vms.png[Stopping a VM]
 
-==== Extending `stop_vm.yml` to Handle All VMs in a Namespace
+=== Extending stop_vm.yml to Handle All VMs in a Namespace
 
 While the ability to manage a specific VM is important, the real value of
 automation lies in managing multiple VMs at scale. In this section, you'll
@@ -227,7 +227,7 @@ result:
 +
 . After making and saving the changes, ensure you commit and push them to your Gitea repository.
 +
-. Head back to the AAP Dashboard UI, go to the **Automation Execution -> Templates**, select the `Stop VMs` Job Template and select the pencil icon image:../assets/images/pencil.png[width=20px] to edit the template.
+. Head back to the AAP Dashboard UI, go to the **Automation Execution -> Templates**, select the `Stop VMs` Job Template and select the pencil icon `Edit template` to edit the template.
 +
 . Modify the existing `Stop VMs` Job Template by **removing** the following variable from the `Extra variables` section and selecting `Save job template` when finished.
 +

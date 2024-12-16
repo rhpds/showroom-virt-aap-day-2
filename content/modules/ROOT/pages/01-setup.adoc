@@ -22,7 +22,7 @@ details of the setup and resources provided.
 * Username: {aap_controller_admin_user}
 * Password: {aap_controller_admin_password}
 
-== Lab Files Overview
+== VSCode and Lab Files Overview
 
 Throughout the lab, you will create or update the following files to complete
 the exercises:
@@ -35,6 +35,11 @@ the exercises:
 * `tasks/restore_vm_snapshots.yml`: Restore VM from Snapshot.
 * `manage_vm_playbook`: A playbook to run the stop/start/restart tasks.
 * `patch_vm_playbook.yml`: A playbook to run the security updates of the RHEL VMs.
+
+To create these files, you will use the Visual Studio Code editor.
+
+* VSCode URL: {codeserver_url}
+* Password: {codeserver_password}
 
 With this setup, you’re ready to dive into the lab and focus on automating Day 2
 operations for VMs on OpenShift Virtualization.
