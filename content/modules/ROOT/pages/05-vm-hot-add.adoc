@@ -75,7 +75,7 @@ cd collections/ansible_collections/redhatone/vm_management/roles/vm_management/t
 touch hot_plug.yml
 ----
 +
-. Open the `hot_plug.yml` File in Your Favorite Editor and Add the Following Tasks:
+. Open the `hot_plug.yml` File in VSCode and add the either of the following tasks based on the VM configuration:
 
 === Using the `instance_type` (Recommended)
 
@@ -183,6 +183,7 @@ reusability and standardization. Understanding both methods equips you with the
 knowledge to handle scenarios where instance types may not be available.
 
 Through this lab, you have learned how to:
+
 - Identify whether a VM uses an instance type or a template.
 - Use the *instance type* method to dynamically add resources to VMs.
 - Understand the limitations and applications of the legacy method.

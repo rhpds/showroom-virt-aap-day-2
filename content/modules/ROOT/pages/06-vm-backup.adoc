@@ -78,7 +78,7 @@ This is a fairly complex task, so let's break it down:
 
 A task file beginning with an underscore (`_`) indicates that it is included within another task file. While still within the _tasks_ folder, perform the following steps:
 
-. Create the `snapshot_vms.yml` File:
+. Create the `_snapshot_vm.yml` File:
 +
 ----
 touch _snapshot_vm.yml
@@ -372,6 +372,8 @@ One key difference during the creation of the `VirtualMachineRestore` using the 
                       `task_file: restore_vm_snapshots.yml` +
                       `vm_snapshots: <snapshot_name>`
 |===
+
+WARNING: Replace <snapshot_name> with the name of your snapthot created previously.
 
 Once the Job completes successfully, confirm the restoration of the Snapshot was applied to the `rhel9-vm1`  by navigating to the OpenShift UI, Virtualization -> VirtualMachines within the `vms-aap-day2` project.
 
