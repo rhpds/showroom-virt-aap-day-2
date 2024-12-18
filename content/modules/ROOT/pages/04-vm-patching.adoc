@@ -83,3 +83,24 @@ To execute the `patch_vm_playbook.yml` within Ansible Automation Platform, creat
 +
 . Once the **Patch VMs** Job Template is created, select the **Launch Template** button on the top right corner to run the job.
 
+== Conclusion
+
+Well done completing the lab!
+
+You've now learned how to automate the patching of security-related packages on
+RHEL systems using Ansible Automation Platform. By creating and integrating the
+`update_security_packages.yml` task file and `patch_vm_playbook.yml`, you gained
+practical experience in targeting OpenShift virtual machines for security
+updates.
+
+You should now have a clear understanding of:
+
+* Creating and managing Ansible roles to automate security updates.
+* Developing a playbook to execute tasks using a modular role structure.
+* Synchronizing updates with Gitea and integrating them into Ansible Automation Platform.
+* Automating the patching process through a Job Template.
+
+These skills provide a foundation for maintaining secure and consistent
+infrastructure at scale. Great job, and continue exploring automation to enhance
+operational efficiency!
+

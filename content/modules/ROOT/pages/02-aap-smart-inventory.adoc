@@ -36,6 +36,7 @@ image::sources.png[title="Sources"]
    * Select `OpenShift Virtualization` as the Source type.
    * Choose `Default Execution Environment` as the execution environment.
    * Add your OpenShift Credential (Bearer Token)
+   * Select `Update on Launch` checkbox within Options.
 +
 . Click the **Create source** button to save the configuration.
 +
