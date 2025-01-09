@@ -13,12 +13,12 @@ details of the setup and resources provided.
 * All VMs are running at the start of the lab.
 
 == OpenShift Environment Details:
-* Console URL: {openshift_cluster_console_url}
+* Console URL: link:{openshift_cluster_console_url}[{openshift_cluster_console_url}, window="_blank"]
 * Username: {openshift_cluster_admin_username}
 * Password: {openshift_cluster_admin_password}
 
 == Ansible Automation Platform Environment Details:
-* AAP Dashboard: {aap_controller_web_url}
+* AAP Dashboard: link:{aap_controller_web_url}[{aap_controller_web_url}, window="_blank"]
 * Username: {aap_controller_admin_user}
 * Password: {aap_controller_admin_password}
 
@@ -38,7 +38,7 @@ the exercises:
 
 To create these files, you will use the Visual Studio Code editor.
 
-* VSCode URL: {codeserver_url}
+* VSCode URL: link:{codeserver_url}[{codeserver_url}, window="_blank"]
 * Password: {codeserver_password}
 
 With this setup, you’re ready to dive into the lab and focus on automating Day 2
