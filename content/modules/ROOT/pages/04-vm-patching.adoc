@@ -45,6 +45,7 @@ $ touch update_security_packages.yml
 - name: Patch Virtual Machines
   hosts: all
   roles:
+    - redhatone.vm_management.rhsm_subscription
     - redhatone.vm_management.vm_management
 ----
 +
@@ -73,7 +74,7 @@ To execute the `patch_vm_playbook.yml` within Ansible Automation Platform, creat
 | Project                 | Workshop Project
 | Playbook                | `patch_vm_playbook.yml`
 | Execution Environment   | Day2 EE
-| Credentials             | Workshop Credential
+| Credentials             | Workshop Credential, Vault Credential
 | Extra variables         | `task_file: update_security_packages.yml`
 | Enabled Options         | Privilege Escalation
 
