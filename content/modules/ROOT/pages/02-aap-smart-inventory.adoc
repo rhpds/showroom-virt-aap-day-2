@@ -11,7 +11,7 @@ Virtualization. This will enable AAP to manage OpenShift VMs residing in the
 
 == Create an Inventory
 
-. Navigate to **Automation Execution → Inventories**.
+. Navigate to **Automation Execution → Infrastructure → Inventories**.
 +
 . Select the **Create inventory** button.
 +
