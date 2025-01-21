@@ -16,3 +16,6 @@ asciidoc:
     aap_controller_admin_password: password
     codeserver_url: https://codeserver-codeserver.apps.cluster-guid.dynamic.redhatworkshops.io
     codeserver_password: password
+    gitea_console_url: https://gitea.apps.cluster-guid.dynamic.redhatworkshops.io
+    gitea_user: user1
+    gitea_password: password
