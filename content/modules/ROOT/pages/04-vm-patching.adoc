@@ -107,3 +107,4 @@ These skills provide a foundation for maintaining secure and consistent
 infrastructure at scale. Great job, and continue exploring automation to enhance
 operational efficiency!
 
+xref:03-vm-management.adoc[← Previous Exercise] | xref:05-vm-hot-add.adoc[Next Exercise →]
