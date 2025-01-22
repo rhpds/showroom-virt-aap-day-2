@@ -1,5 +1,7 @@
 = Creating a Dynamic Inventory for OpenShift Virtual Machines
 
+xref:01-setup.adoc[← Previous Exercise] | xref:03-vm-management.adoc[Next Exercise →]
+
 == Lab Overview
 Dynamic inventories allow Ansible Automation Platform (AAP) to automatically
 fetch and update the inventory of systems from external sources, eliminating

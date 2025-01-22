@@ -1,5 +1,7 @@
 = VM Patching using Ansible Automation Platform
 
+xref:03-vm-management.adoc[← Previous Exercise] | xref:05-vm-hot-add.adoc[Next Exercise →]
+
 == Lab Overview
 
 In this lab exercise, you will focus on updating only the security-related

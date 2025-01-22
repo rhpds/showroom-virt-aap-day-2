@@ -1,5 +1,7 @@
 = Hot-Plugging CPU and Memory Resources Using Ansible Automation Platform
 
+xref:04-vm-patching.adoc[← Previous Exercise] | xref:06-vm-backup.adoc[Next Exercise →]
+
 == Lab Overview
 
 In this lab, you will learn how to hot-plug CPU and memory resources into a

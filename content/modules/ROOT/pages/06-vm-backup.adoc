@@ -1,5 +1,7 @@
 = Backup and Restore
 
+xref:05-vm-hot-add.adoc[← Previous Exercise]
+
 == Lab Overview
 
 In this lab, you will learn how to perform one of the key day 2 activities for ensuring business continuity in the event of disaster, or unintended operations -- backing up and restoring a Virtual Machine by creating a Virtual Machine Snapshot.
