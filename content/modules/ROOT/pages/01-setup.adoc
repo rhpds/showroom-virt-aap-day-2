@@ -6,6 +6,8 @@ This lab environment is pre-configured to ensure you can focus on learning and
 performing the key tasks without worrying about initial setup. Below are the
 details of the setup and resources provided.
 
+NOTE: It is recommended to open each of the environment's within separate tabs using your favorite browser.
+
 
 == Pre-Configured Items:
 
@@ -18,6 +20,8 @@ details of the setup and resources provided.
 * Console URL: link:{openshift_cluster_console_url}[{openshift_cluster_console_url}, window="_blank"]
 * Username: {openshift_cluster_admin_username}
 * Password: {openshift_cluster_admin_password}
+
+NOTE: Select the `htpasswd_provider` as the `Log in with` 
 
 == Ansible Automation Platform Environment Details:
 * AAP Dashboard: link:{aap_controller_web_url}[{aap_controller_web_url}, window="_blank"]
