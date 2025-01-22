@@ -35,10 +35,11 @@ image::sources.png[title="Sources"]
 +
 . In the **Create Source** form:
    * Provide a name: `OpenShift Virtual Machines Source`.
-   * Select `OpenShift Virtualization` as the Source type.
+   * Select `OpenShift Virtualization` as the **Source** type.
    * Choose `Default Execution Environment` as the execution environment.
-   * Add your OpenShift Credential (Bearer Token)
+   * Add the OpenShift Credential (Bearer Token was pre-created)
    * Select `Update on Launch` checkbox within Options.
+   * Set `Cache timeout` to `0` seconds
 +
 . Click the **Create source** button to save the configuration.
 +
@@ -46,7 +47,6 @@ image::create_inventory_source.png[title="Create Inventory Source"]
 
 ==  Update the Inventory
 . Launch the inventory update:
-   * Navigate to the **Details** window for the newly created source.
    * Click the **Launch Inventory Update** button in the top-right corner.
 +
 image::update_inventory.png[title="Update Inventory"]
@@ -65,15 +65,10 @@ image::verify_hosts.png[title="Verify Hosts"]
 == Test Connectivity of the Virtual Machines
 
 In this lab, there will be three virtual machines running within your
-OpenShift environment. To confirm they are running, navigate to the following
-using the OpenShift UI dashboard:
+OpenShift environment. 
 
-Virtualization -> VirtualMachines within the `vms-aap-day2` project.
-
-image::vms-ocp-dashboard.png[Virtual Machines Running on OpenShift]
-
-With the VMs now confirmed as up and running, ensure that you can ping those VMs
-within the AAP dashboard as follows:
+Ensure that you can ping those VMs
+within the **AAP** dashboard {aap_controller_web_url} as follows:
 
 . Login to the AAP Dashboard using the credentials above.
 +
@@ -83,8 +78,8 @@ within the AAP dashboard as follows:
 +
 . Select the 3 VMs and click the *Run command* button
    * Within the Run command Details, select the `ping` module and click *Next*.
-   * Within the Run command Execution Environment, Select the *Day2 EE execution environment* and click *Next*.
-   * Within the Run command Credential, select the *Workshop Credential* and click *Next*.
+   * Within the Run command Execution Environment, Select the *Day2 EE* execution environment and click *Next*.
+   * Within the Run command Credential, select the pre-created *Workshop Credential* and click *Next*.
    * Within the Run command Review, select *Finish*.
 +
 . Verify Results: You should see a list of VMs along with their statuses similar to:
@@ -112,6 +107,12 @@ vms-aap-day2-rhel9-vm3 | SUCCESS => {
     "ping": "pong"
 }
 ----
+
+You may also confirm the VMs are running using the **OpenShift UI** dashboard {openshift_cluster_console_url}:
+
+Virtualization -> VirtualMachines within the `vms-aap-day2` project.
+
+image::vms-ocp-dashboard.png[Virtual Machines Running on OpenShift]
 
 == Conclusion
 You have successfully created a dynamic inventory in Ansible Automation Platform
