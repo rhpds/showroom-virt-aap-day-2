@@ -43,3 +43,6 @@ To create these files, you will use the Visual Studio Code editor.
 
 With this setup, you’re ready to dive into the lab and focus on automating Day 2
 operations for VMs on OpenShift Virtualization.
+
+xref:index.adoc[← Previous Exercise] | xref:02-aap-smart-inventory.adoc[Next Exercise →]
+
