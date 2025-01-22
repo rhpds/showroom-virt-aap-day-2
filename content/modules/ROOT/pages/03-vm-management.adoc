@@ -429,3 +429,4 @@ virtualized infrastructure.
 Well done, and keep experimenting with new ways to
 apply automation in your day-to-day operations!
 
+xref:02-aap-smart-inventory.adoc[← Previous Exercise] | xref:04-vm-patching.adoc[Next Exercise →]
