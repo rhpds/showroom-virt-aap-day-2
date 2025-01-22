@@ -29,5 +29,4 @@ operations and focus on what matters most to your organization.
 ---
 **Navigation**
 
-<br>
-[Next Exercise](./01-setup.adoc)
+xref:01-setup.adoc[Next Exercise]
