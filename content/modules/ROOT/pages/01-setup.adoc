@@ -24,10 +24,15 @@ details of the setup and resources provided.
 * Username: {aap_controller_admin_user}
 * Password: {aap_controller_admin_password}
 
+== Gitea Repository Details: 
+* Gitea Console URL: {gitea_console_url}
+* Gitea User: {gitea_user}
+* Gitea Password: {gitea_password}
+
 == VSCode and Lab Files Overview
 
 Throughout the lab, you will create or update the following files to complete
-the exercises:
+the exercises that are to be pushed to your Gitea repository:
 
 * `tasks/main.yml`: For calling the appropriate stop, start, and restart tasks.
 * `tasks/stop_vm.yml`: For stopping the VM.
