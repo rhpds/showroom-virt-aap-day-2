@@ -296,6 +296,7 @@ To execute the `manage_vm_playbook.yml` within Ansible Automation Platform, crea
 +
 |===
 | Parameter         | Value
+
 | Name          | Start VMs
 | Job Type      | Run
 | Inventory     | OpenShift Virtual Machines
@@ -383,6 +384,7 @@ To execute the `manage_vm_playbook.yml` within Ansible Automation Platform, crea
 +
 |===
 | Parameter         | Value
+
 | **Name**          | Restart VMs
 | **Job Type**      | Run
 | **Inventory**     | OpenShift Virtual Machines
