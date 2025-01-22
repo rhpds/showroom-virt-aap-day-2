@@ -1,6 +1,6 @@
 = Lab Setup
 
-xref:02-aap-smart-inventory.adoc[← Previous Exercise] | xref:03-vm-management.adoc[Next Exercise →]
+xref:index.adoc[← Previous Exercise] | xref:02-aap-smart-inventory.adoc[Next Exercise →]
 
 This lab environment is pre-configured to ensure you can focus on learning and
 performing the key tasks without worrying about initial setup. Below are the
