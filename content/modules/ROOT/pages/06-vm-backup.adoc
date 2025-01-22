@@ -392,3 +392,5 @@ In this lab, you explored how to utilize Virtual Machine Snapshots as a method o
 Virtual Machine Snapshots is just one of the different approaches that can be used to maintain business continuity using OpenShift Virtualization. Other strategies for managing the backup and restoration of Virtual Machines include leveraging OpenShift API for Data Protection (OADP) or a solution from a third-party vendor.
 
 Regardless of the approach, Ansible Automation Platform can be used to streamline the backup and restoration process.
+
+xref:05-vm-hot-add.adoc[← Previous Exercise]
