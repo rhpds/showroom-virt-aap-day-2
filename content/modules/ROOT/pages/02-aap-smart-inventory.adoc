@@ -116,4 +116,4 @@ You have successfully created a dynamic inventory in Ansible Automation Platform
 that reflects your OpenShift Virtual Machines. This inventory is now ready for
 use in automation tasks.
 
-xref:02-aap-smart-inventory.adoc[← Previous Exercise] | xref:03-vm-management.adoc[Next Exercise →]
+xref:01-setup.adoc[← Previous Exercise] | xref:03-vm-management.adoc[Next Exercise →]
