@@ -25,3 +25,9 @@ activities, reducing operational overhead and ensuring consistency.
 By the end of this lab, you'll be proficient in automating common VM management
 tasks on OpenShift Virtualization using AAP, empowering you to streamline
 operations and focus on what matters most to your organization.
+
+---
+**Navigation**
+
+<br>
+[Next Exercise](./01-setup.adoc)
