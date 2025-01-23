@@ -20,7 +20,7 @@ image::source_control.png[title='Source Control', link=self, window=blank]
 +
 . **Stage Your Changes**:
 ** Locate the files listed under **Changes**.
-** Click the ``+`` icon next to each file to stage them, or click the ``+`` icon next to **Changes** to stage all files.
+** Click the \`+\` icon next to each file to stage them, or click the \`+\` icon next to **Changes** to stage all files.
 +   
 image::source_changes.png[title='File Changes', link=self, window=blank]
 +
@@ -80,7 +80,8 @@ git push
 . **Verify in Gitea**:
 ** Open your Gitea repository {{gitea_console_url}} in a web browser and confirm that the changes appear.
 
-\\\\
+////
+
 == Tips for Working with Git
 
 . **View Git Output in VS Code**:
@@ -97,7 +98,8 @@ git log --oneline
 git rebase origin/main
 git stash
 ----
-\\\\
+
+////
 
 == Conclusion
 
