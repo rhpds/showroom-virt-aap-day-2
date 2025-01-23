@@ -14,43 +14,60 @@ Choose the method that suits you best.
 
 . **Open the Source Control Panel**:
 +
-** Click the **Source Control** icon in the Activity Bar. *Shortcut:* `Ctrl+Shift+G` (Windows/Linux) or `Cmd+Shift+G` (Mac).
+** Click the **Source Control** icon in the Activity Bar.
++
+image::source_control.png[title='Source Control', link=self, window=blank]
 +
 . **Stage Your Changes**:
 ** Locate the files listed under **Changes**.
-** Click the `\+` icon next to each file to stage them, or click the `+` icon next to **Changes** to stage all files.
+** Click the `+` icon next to each file to stage them, or click the `+` icon next to **Changes** to stage all files.
 +   
+image::source_changes.png[title='File Changes', link=self, window=blank]
++
 . **Enter a Commit Message**:
 ** In the input box at the top of the Source Control panel, type a descriptive commit message, e.g.:
 +
 ----
-Add manage_vm_playbook.yml for VM management
+Add changes to main.yml
 ----
 +
 . **Commit the Changes**:
-** Click the **✔** (checkmark) icon to commit the staged files.
+** Click the **✔ Commit** button to commit the staged files.
++
+image::source_commit.png[title='File Commit', link=self, window=blank]
 +
 . **Push the Changes**:
-** Click the **…** (ellipsis menu) in the Source Control panel and select **Push**.
-** *Alternative:* Use the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`) → Type `Git: Push` → Press Enter.
+** Click the **Sync Changes** button to push the changes to your Gitea repository.
 +
 . **Verify in Gitea**:
-** Open your Gitea repository in a web browser and confirm that the changes appear.
+** Open your Gitea repository {gitea_console_url} in a web browser and confirm that the changes appear.
 
 === Using the Terminal
 
+. ** Git clone the gitea repository**:
++
+----
+git clone {gitea_console_url}/{gitea_user}/virt-aap-day2
+----
++
+. **Switch to the directory**:
++
+----
+cd /path/to/virt-app-day2
+----
++
 . **Stage Your Changes**:
 ** Run the following command to stage all modified files:
 +
 ----
-git add .
+git add -u
 ----
 +
 . **Commit Your Changes**:
 ** Commit the staged files with a descriptive message:
 +     
 ----
-git commit -m "Add manage_vm_playbook.yml for VM management"
+git commit -m "Add changes to main.yml"
 ----
 +
 . **Push Your Changes**:
@@ -61,8 +78,9 @@ git push
 ----
 +
 . **Verify in Gitea**:
-** Open your Gitea repository in a web browser and confirm that the changes appear.
+** Open your Gitea repository {{gitea_console_url}} in a web browser and confirm that the changes appear.
 
+\\\\
 == Tips for Working with Git
 
 . **View Git Output in VS Code**:
@@ -79,6 +97,7 @@ git log --oneline
 git rebase origin/main
 git stash
 ----
+\\\\
 
 == Conclusion
 
