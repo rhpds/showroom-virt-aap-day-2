@@ -50,19 +50,9 @@ $ cd collections/ansible_collections/redhatone/vm_management/roles/vm_management
 This Ansible playbook dynamically calls the role and executes the appropriate
 task based on the `task_file` variable given.
 
-. Navigate to your `virt-aap-day2` directory
+. Within your VSCode editor, right click `virt-aap-day2`  and create a New File labeled `manage_vm_playbook.yml`
 +
-----
-$ cd /home/lab-user/virt-aap-day2
-----
-+
-. Create a manage_vm_playbook.yml file
-+
-----
-$ touch manage_vm_playbook.yml
-----
-+
-. Using your favorite editor, create the following Ansible Playbook:
+. Add the following content to the `manage_vm_playbook.yml`
 +
 ----
 ---
@@ -72,7 +62,7 @@ $ touch manage_vm_playbook.yml
     - redhatone.vm_management.vm_management
 ----
 +
-. After making and saving the changes, ensure you commit and push them to your Gitea repository.
+. After making and saving the changes, ensure you commit and push them to your Gitea repository. For detailed instructions, refer to xref:appendix-vscode-commit-push.adoc[].
 
 === Stop a VM Task
 
@@ -81,21 +71,11 @@ included in the `vm_management` role, specifically under the `tasks` directory,
 in a file named `stop_vm.yml`. Later in the lab, you will call this task from an
 Ansible playbook to demonstrate its capability.
 
-. Navigate to the Tasks Directory:
+. Within your VSCode editor, right click `tasks` of the `vm_management` collection and create a New File labeled `stop_vm.yml`
 +
-  * Inside your `vm_management` role directory, go to the `tasks` folder:
+image::new_file.png[title='New File Creation', link=self, window=blank]
 +
-----
-$ cd collections/ansible_collections/redhatone/vm_management/roles/vm_management/tasks/
-----
-+
-. Create the `stop_vm.yml` file
-+
-----
-touch stop_vm.yml
-----
-+
-. Open the `stop_vm.yml` file with your favorite editor and add the following task
+. Add the following content to the `stop_vm.yml`
 +
 ----
 ---
@@ -114,7 +94,7 @@ Explanation of the Task:
   * The `running: false` ensures the VM is not running
   * The `wait: true` ensures the next Ansible task isn't triggered until the stop is complete
 +
-. After making and saving the changes, ensure you commit and push them to your Gitea repository.
+. After making and saving the changes, ensure you commit and push them to your Gitea repository. For detailed instructions, refer to xref:appendix-vscode-commit-push.adoc[].
 
 === Create & Run a Job Template with Ansible Automation Platform
 
@@ -164,11 +144,9 @@ Virtual Machines that reside within the `vms-aap-day2` namespace and learn how
 to use the debug task to understand the structure of the VM resource `vm_info`
 to identify key fields required to create dynamic Ansible tasks.
 
-. Access the `stop_vm.yml` file using your favorite editor
-+
-----
-$ cd collections/ansible_collections/redhatone/vm_management/roles/vm_management/tasks/
-----
+
+
+. Head back to the VSCode editor to Access the `stop_vm.yml` file
 +
 . Modify the existing `stop_vm.yml` content with the following:
 +
@@ -238,8 +216,10 @@ vm_name: rhel9-vm1
 ----
 +
 . Re-run via the `Launch Template` button.
-
++
 image::stop_vms_multiple.png[title='Stopping the VMs', link=self, window=blank]
++
+. Heading to the OpenShift UI dashboard, you can verify the VMs are stopped within the Virtualization -> Virtual Machines section.
 
 === Start VM Task
 
@@ -249,19 +229,9 @@ will be added to the tasks directory in a file named `start_vm.yml`.
 
 The following steps will guide you in creating the `start_vm.yml` file.
 
-. Inside your `vm_management` role directory, go to the `tasks` folder:
+. Within your VSCode editor, right click `tasks` of the `vm_management` collection and create a New File labeled `start_vm.yml`
 +
-----
-$ cd collections/ansible_collections/redhatone/vm_management/roles/vm_management/tasks/
-----
-+
-. Create the `start_vm.yml` file
-+
-----
-$ touch start_vm.yml
-----
-+
-. Open the `start_vm.yml` file with your favorite editor and add the following task:
+. Add the following content to the `start_vm.yml`
 +
 ----
 ---
@@ -292,7 +262,7 @@ $ touch start_vm.yml
 
 To execute the `manage_vm_playbook.yml` within Ansible Automation Platform, create a Job Template as follows:
 
-. Navigate to **Automation Execution → Templates**, click the **Create template** button, and choose **Create job template**.
+. Head to the AAP UI dashboard, navigate to **Automation Execution → Templates**, click the **Create template** button, and choose **Create job template**.
 +
 . Fill out the following details:
 +
@@ -313,6 +283,8 @@ To execute the `manage_vm_playbook.yml` within Ansible Automation Platform, crea
 . Click **Create job template**.
 +
 . Once the `Start VMs` Job Template is created, select the **Launch Template** button on the top right corner to run the job.
++
+. Head to the OpenShift UI dashboard, you can verify the VMs are running within the Virtualization -> Virtual Machines section.
 
 === Restart VM Task
 
@@ -320,19 +292,9 @@ In this lab exercise, you will focus on managing multiple VMs by creating a task
 
 The following steps will guide you in creating the `restart_vm.yml` file.
 
-. Inside your `vm_management` role directory, go to the `tasks` folder:
+. Within your VSCode editor, right click `tasks` of the `vm_management` collection and create a New File labeled `restart_vm.yml`
 +
-----
-$ cd collections/ansible_collections/redhatone/vm_management/roles/vm_management/tasks/
-----
-+
-. Create the `restart_vm.yml` file
-+
-----
-$ touch restart_vm.yml
-----
-+
-. Open the `restart_vm.yml` file with your favorite editor and add the following task:
+. Add the following content to the `restart_vm.yml`
 +
 ----
 ---
@@ -380,7 +342,7 @@ $ touch restart_vm.yml
 
 To execute the `manage_vm_playbook.yml` within Ansible Automation Platform, create a Job Template as follows:
 
-. Navigate to **Automation Execution → Templates**, click the **Create template** button, and choose **Create job template**.
+. Head to the AAP UI Dashboard, navigate to **Automation Execution → Templates**, click the **Create template** button, and choose **Create job template**.
 +
 . Fill out the following details:
 +
@@ -401,6 +363,7 @@ To execute the `manage_vm_playbook.yml` within Ansible Automation Platform, crea
 . Click **Create job template**.
 +
 . Once the `Restart VMs` Job Template is created, select the **Launch Template** button on the top right corner to run the job.
+. Head to the OpenShift UI Dashboard to view the changes of the VMs. 
 
 == Conclusion
 
@@ -416,7 +379,7 @@ By the end of this lab, you should now understand:
 
 * How to dynamically retrieve and process VM information using the `ansible.builtin.debug` module
 * How to modify a collection and role for starting, stopping, and restarting VMs.
-* How to integrate the `redhatone.vm_managemenet` collection into an Ansible playbook and run it using the Ansible Automation Platform.
+* How to integrate the `redhatone.vm_management` collection into an Ansible playbook and run it using the Ansible Automation Platform.
 
 These foundational skills set the stage for further automation, enabling you to
 automate new tasks  and optimize resource usage in your environment. In
