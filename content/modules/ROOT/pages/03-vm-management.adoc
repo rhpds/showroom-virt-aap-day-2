@@ -153,7 +153,7 @@ create a Job Template to run the automation as follows:
 . Once the Stop VMs Job Template is created, select the `Launch Template` button
 on the top right corner to run the job.
 
-image::stop_vms.png[Stopping a VM]
+image::stop_vms.png[title='Stopping a VM', link=self, window=blank]
 
 === Extending stop_vm.yml to Handle All VMs in a Namespace
 
@@ -239,7 +239,7 @@ vm_name: rhel9-vm1
 +
 . Re-run via the `Launch Template` button.
 
-image::stop_vms_multiple.png[Stopping the VMs]
+image::stop_vms_multiple.png[title='Stopping the VMs', link=self, window=blank]
 
 === Start VM Task
 

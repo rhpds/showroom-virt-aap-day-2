@@ -23,13 +23,13 @@ Virtualization. This will enable AAP to manage OpenShift VMs residing in the
 +
 . Click the **Create inventory** button.
 +
-image::create_inventory.png[title="Create Inventory"]
+image::create_inventory.png[title="Create Inventory", link=self, window=blank]
 
 == Add a Source to the Inventory
 
 . After creating the inventory, switch to the **Sources** tab.
 +
-image::sources.png[title="Sources"]
+image::sources.png[title="Sources", link=self, window=blank]
 +
 . Select the **Create source** button.
 +
@@ -43,13 +43,13 @@ image::sources.png[title="Sources"]
 +
 . Click the **Create source** button to save the configuration.
 +
-image::create_inventory_source.png[title="Create Inventory Source"]
+image::create_inventory_source.png[title="Create Inventory Source", link=self, window=blank]
 
 ==  Update the Inventory
 . Launch the inventory update:
    * Click the **Launch Inventory Update** button in the top-right corner.
 +
-image::update_inventory.png[title="Update Inventory"]
+image::update_inventory.png[title="Update Inventory", link=self, window=blank]
 +
 . Wait for the **Last Job Status** to show `Success`.
 
@@ -60,7 +60,7 @@ image::update_inventory.png[title="Update Inventory"]
 +
 . Confirm that the Virtual Machines from the `vms-app-day2` namespace of your OpenShift cluster are listed as inventory hosts.
 +
-image::verify_hosts.png[title="Verify Hosts"]
+image::verify_hosts.png[title="Verify Hosts", link=self, window=blank]
 
 == Test Connectivity of the Virtual Machines
 
@@ -112,7 +112,7 @@ You may also confirm the VMs are running using the **OpenShift UI** dashboard {o
 
 Virtualization -> VirtualMachines within the `vms-aap-day2` project.
 
-image::vms-ocp-dashboard.png[Virtual Machines Running on OpenShift]
+image::vms-ocp-dashboard.png[title='Virtual Machines Running on OpenShift', link=self, window=blank]
 
 == Conclusion
 You have successfully created a dynamic inventory in Ansible Automation Platform

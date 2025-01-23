@@ -60,7 +60,7 @@ Below is an example image illustrating both scenarios:
 +
 * Another VM indicates `rhel9-server-small` under the template field, indicating that the `rhel9-server-small` template was used.
 +
-image::example_instance_type_and_template.png[title="Instance Type vs. Template"]
+image::example_instance_type_and_template.png[title="Instance Type vs. Template", link=self, window=blank]
 
 
 == Create the `hot_plug.yml` File

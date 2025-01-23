@@ -141,7 +141,7 @@ There are three tasks found within this task file
 . Retrieves the definition of the `VirtualMachine` resource
 . Creates a new `VirtualMachineSnapshot` resource initiating a Snapshot of the targeted Virtual Machine
 
-The `ansible.builtin.assert` module is used to confirm conditions based on a set of expectations. In the task file, the task is confirming that a variable called  `vm_to_snapshot` has been defined and is not empty within the `that`` property. The `quiet` property limits the amount of output that is returned. Finally, the `fail_msg` property provides a user friendly message in the event the expected condition fails.
+The `ansible.builtin.assert` module is used to confirm conditions based on a set of expectations. In the task file, the task is confirming that a variable called  `vm_to_snapshot` has been defined and is not empty within the `that` property. The `quiet` property limits the amount of output that is returned. Finally, the `fail_msg` property provides a user friendly message in the event the expected condition fails.
 
 The individual Virtual Machine is retrieved using the `redhat.openshift_virtualization.kubevirt_vm_info` module and stored in the `vm_info` variable. This should look familiar as it once again follows the same pattern that was used previously when we were managing the Virtual Machine instances.
 
@@ -187,7 +187,7 @@ Once the Job completes successfully, confirm the new Snapshot has been created b
 
 Select the `rhel9-vm1` instance and then select the *Snapshots* tab and you will see the Snapshot created previously by the Job Template.
 
-image::snapshot.png[title="Snapshot"]
+image::snapshot.png[title="Snapshot", link=self, window=blank]
 
 == Automating taking Restoration of a Snapshot
 
@@ -381,7 +381,7 @@ Once the Job completes successfully, confirm the restoration of the Snapshot was
 
 Select the `rhel9-vm1` instance and then select the *Snapshots* tab. Locate the Snapshot created previously and notice the date and time within the _Last restored_ column indicating that the Snapshot was successfully restored against the Virtual Machine instance.
 
-image::restore_snapshot.png[title="Restore from Snapshot"]
+image::restore_snapshot.png[title="Restore from Snapshot", link=self, window=blank]
 
 == Conclusion
 
