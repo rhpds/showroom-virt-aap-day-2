@@ -85,13 +85,13 @@ To execute the `patch_vm_playbook.yml` within Ansible Automation Platform, creat
 image::patch_vm.png[title='Patch VM', link=self, window=blank]
 +
 This gives a breakdown of all the taks that ran and a play recap of the changes
-made to the different hosts. If you take a closer look at the Update
-security-related packages on all hosts task, you can drill into specific host
+made to the different hosts. If you take a closer look at the `Update
+security-related packages on all hosts` task, you can drill into specific host
 details on what was installed on the system(s).
 +
 image::patch_vm_task.png[title='Detail Task View', link=self, window=blank]
 +
-image::patch_vm_host_details.png[title='New File Creation', link=self, window=blank]
+image::patch_vm_host_details.png[title='Host Details', link=self, window=blank]
 
 
 == Conclusion
