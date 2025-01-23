@@ -12,6 +12,10 @@ Choose the method that suits you best.
 
 === Using Visual Studio Code
 
+. **Right click to create the file** under the tasks directory of your `vm_management` collection
++
+image::new_file.png[title='New File Creation', link=self, window=blank]
++
 . **Open the Source Control Panel**:
 +
 ** Click the **Source Control** icon in the Activity Bar.
@@ -55,6 +59,14 @@ git clone {gitea_console_url}/{gitea_user}/virt-aap-day2
 ----
 cd /path/to/virt-app-day2
 ----
++
+. **Make changes to file**:
++
+----
+vi /path/to/tasks/main.yml
+----
++
+. Make changes to your file and save them
 +
 . **Stage Your Changes**:
 ** Run the following command to stage all modified files:
