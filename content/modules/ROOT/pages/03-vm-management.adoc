@@ -146,7 +146,7 @@ to identify key fields required to create dynamic Ansible tasks.
 
 
 
-. Head back to the VSCode editor to Access the `stop_vm.yml` file
+. Head back to the VSCode editor to access the `stop_vm.yml` file
 +
 . Modify the existing `stop_vm.yml` content with the following:
 +
@@ -219,7 +219,7 @@ vm_name: rhel9-vm1
 +
 image::stop_vms_multiple.png[title='Stopping the VMs', link=self, window=blank]
 +
-. Heading to the OpenShift UI dashboard, you can verify the VMs are stopped within the Virtualization -> Virtual Machines section.
+. Head to the OpenShift UI dashboard, you can verify the VMs are stopped within the Virtualization -> Virtual Machines section.
 
 === Start VM Task
 
