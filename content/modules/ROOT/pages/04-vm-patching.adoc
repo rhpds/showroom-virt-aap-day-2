@@ -19,19 +19,11 @@ NOTE: To ensure the virtual machines can access the required repositories for pa
 
 === Create the `update_security_packages.yml` file.
 
-. Navigate to the `tasks` Folder:
+. Within your VSCode editor, right click `tasks` of the `vm_management` collection and create a New File labeled `update_security_packages.yml`
 +
-----
-$ cd collections/ansible_collections/redhatone/vm_management/roles/vm_management/tasks/
-----
-
-. Create the `update_security_packages.yml` File:
+image::new_file.png[title='New File Creation', link=self, window=blank]
 +
-----
-$ touch update_security_packages.yml
-----
-+
-. Open the `update_security_packages.yml` file with your favorite editor and add the following task:
+. Add the following content to the `update_security_packages.yml`
 +
 ----
 ---
@@ -42,7 +34,7 @@ $ touch update_security_packages.yml
     state: latest
 ----
 +
-. Within your `virt-aap-day2` directory, create an Ansible Playbook labeled `patch_vm_playbook.yml` as follows:
+. Within your `virt-aap-day2` directory, create an Ansible Playbook labeled `patch_vm_playbook.yml` with the following details:
 +
 ----
 ---
@@ -87,6 +79,20 @@ To execute the `patch_vm_playbook.yml` within Ansible Automation Platform, creat
 . Click **Create job template**.
 +
 . Once the **Patch VMs** Job Template is created, select the **Launch Template** button on the top right corner to run the job.
++
+. Once the **Patch VMs** Job is complete, you should see output similar to:
++
+image::patch_vm.png[title='Patch VM', link=self, window=blank]
++
+This gives a breakdown of all the taks that ran and a play recap of the changes
+made to the different hosts. If you take a closer look at the Update
+security-related packages on all hosts task, you can drill into specific host
+details on what was installed on the system(s).
++
+image::patch_vm_task.png[title='Detail Task View', link=self, window=blank]
++
+image::patch_vm_host_details.png[title='New File Creation', link=self, window=blank]
+
 
 == Conclusion
 

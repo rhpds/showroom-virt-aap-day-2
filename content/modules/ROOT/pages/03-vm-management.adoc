@@ -26,13 +26,9 @@ defined in the Ansible playbook that you will create later. This setup allows a
 single playbook to handle all three VM management tasks dynamically, depending
 on the specified action.
 
-. Within your link:{codeserver_url}[VSCode^] editor, change the directory to:
+. Within your link:{codeserver_url}[VSCode^] editor, navigate to the `virt-aap-day2/collections/ansible_collections/redhatone/vm_management/roles/vm_management/tasks/`
 +
-----
-$ cd collections/ansible_collections/redhatone/vm_management/roles/vm_management/tasks/
-----
-+
-. Open the `main.yml` file and edit as follows:
+. Edit the following content to the `main.yml` file
 +
 ----
 ---
