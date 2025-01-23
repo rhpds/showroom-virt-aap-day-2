@@ -29,7 +29,7 @@ Three (3) OpenShift API's are available to manage Virtual Machine Snapshots
 
 The VM snapshot controller binds a VirtualMachineSnapshotContent object with the VirtualMachineSnapshot object for which it was created, with a one-to-one mapping.
 
-We can use Ansible and Ansible Automation Platform to manage the creation of these OpenShift API's at scale so that we can snapshot a single VM or a fleet of VM's.
+We can use Ansible Automation Platform to manage the creation of these OpenShift API's at scale so that we can snapshot a single VM or a fleet of VM's.
 
 == Automating taking Snapshots of Virtual Machines
 
@@ -39,19 +39,11 @@ When using Ansible, the *loop* directive can be used to execute a task or a seri
 
 === Create the `snapshot_vms.yml` File
 
-. Navigate to the Tasks Folder:
+. Within your VSCode editor, right click `tasks` of the `vm_management` collection and create a New File labeled `snapshot_vms.yml`
 +
-----
-cd collections/ansible_collections/redhatone/vm_management/roles/vm_management/tasks/
-----
+image::new_file.png[title='New File Creation', link=self, window=blank]
 +
-. Create the `snapshot_vms.yml` File:
-+
-----
-touch snapshot_vms.yml
-----
-+
-. Open the `snapshot_vms.yml` File in Your Favorite Editor and Add the Following Task:
+. Add the following content to the `snapshot_vms.yml`:
 +
 ----
 ---
@@ -78,15 +70,13 @@ This is a fairly complex task, so let's break it down:
 
 === Create the `_snapshot_vm.yml` File
 
-A task file beginning with an underscore (`_`) indicates that it is included within another task file. While still within the _tasks_ folder, perform the following steps:
+A task file beginning with an underscore (`_`) indicates that it is included within another task file. While still within the _tasks_ folder, perform the following steps.
 
-. Create the `_snapshot_vm.yml` File:
+. Within your VSCode editor, right click `tasks` of the `vm_management` collection and create a New File labeled `_snapshot_vm.yml`
 +
-----
-touch _snapshot_vm.yml
-----
+image::new_file.png[title='New File Creation', link=self, window=blank]
 +
-. Open the `_snapshot_vm.yml` File in Your Favorite Editor and Add the Following Tasks:
+. Add the following content to the `_snapshot_vm.yml`:
 +
 ----
 ---
@@ -161,7 +151,7 @@ Lets break down this task in further detail:
 
 == Create and Run the Snapshot VMs Job Template
 
-. Navigate to *Automation Execution → Templates*.
+. Head to the AAP UI Dashboard, navigate to *Automation Execution → Templates*.
 . Click *Create Template* and select *Create job template*.
 . Fill in the following details:
 
@@ -229,19 +219,11 @@ Follow a similar approach that was used for taking a snapshot where a single pla
 
 === Create the `restore_vm_snapshots.yml` File
 
-. Navigate to the Tasks Folder:
+. Within your VSCode editor, right click `tasks` of the `vm_management` collection and create a New File labeled `restore_vm_snapshots.yml`
 +
-----
-cd collections/ansible_collections/redhatone/vm_management/roles/vm_management/tasks/
-----
+image::new_file.png[title='New File Creation', link=self, window=blank]
 +
-. Create the `restore_vm_snapshots.yml` File:
-+
-----
-touch restore_vm_snapshots.yml
-----
-+
-. Open the `restore_vm_snapshots.yml` File in Your Favorite Editor and Add the Following Task:
+. Add the following content to the `restore_vm_snapshots.yml`:
 +
 ----
 ---
@@ -269,13 +251,11 @@ Once the variable has been verified, the following are the steps that will be us
 . Create the `VirtualMachineRestore` resource and wait until the restoration completes successfully
 . Start the Virtual Machine
 
-. Create the `_restore_vm_snapshot.yml` File:
+. Within your VSCode editor, right click `tasks` of the `vm_management` collection and create a New File labeled `_restore_vm_snapshot.yml`
 +
-----
-touch _restore_vm_snapshot.yml
-----
+image::new_file.png[title='New File Creation', link=self, window=blank]
 +
-. Open the `_restore_vm_snapshot.yml` File in Your Favorite Editor and Add the Following Tasks:
+. Add the following content to the `_restore_vm_snapshot.yml`:
 +
 ----
 ---
@@ -356,7 +336,7 @@ One key difference during the creation of the `VirtualMachineRestore` using the 
 
 == Create and Run the Restore VM Snapshots Job Template
 
-. Navigate to *Automation Execution → Templates*.
+. Head to the AAP UI Dashboard, navigate to *Automation Execution → Templates*.
 . Click *Create Template* and select *Create job template*.
 . Fill in the following details making sure to include the name of the snapshot created previously for the `rhel9-vm1` Virtual Machine:
 
@@ -376,6 +356,8 @@ One key difference during the creation of the `VirtualMachineRestore` using the 
 |===
 
 WARNING: Replace <snapshot_name> with the name of your snapthot created previously.
+
+Launch the template. 
 
 Once the Job completes successfully, confirm the restoration of the Snapshot was applied to the `rhel9-vm1`  by navigating to the OpenShift UI, Virtualization -> VirtualMachines within the `vms-aap-day2` project.
 
