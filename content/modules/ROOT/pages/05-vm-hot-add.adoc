@@ -46,9 +46,9 @@ NOTE: Legacy method only works when creating VMs that do not use an Instance Typ
 To determine whether a VM is created with an instance type or not, follow these
 steps:
 
-. Navigate to the *Overview* tab of the VM in the OpenShift Virtualization dashboard.
+. Navigate to the *Overview* tab of the VM (e.g. `rhel9-vm1`) in the OpenShift Virtualization dashboard.
 . In the *Details* section, look for the following:
-   - *Instance Type*: If the VM uses an instance type, this field will display the name of the instance type applied to the VM.
+   - *Instance Type*: If the VM uses an instance type, this field will display the name of the instance type applied to the VM (e.g. `u1.small`).
    - *Template*: If no instance type is used, this field will display either `None` or the name of the template used to create the VM.
 
 You can use these visual cues to identify whether the VM relies on an instance
@@ -65,19 +65,11 @@ image::example_instance_type_and_template.png[title="Instance Type vs. Template"
 
 == Create the `hot_plug.yml` File
 
-. Navigate to the Tasks Folder:
+. Within your VSCode editor, right click `tasks` of the `vm_management` collection and create a New File labeled `hot_plug.yml`
 +
-----
-cd collections/ansible_collections/redhatone/vm_management/roles/vm_management/tasks/
-----
+image::new_file.png[title='New File Creation', link=self, window=blank]
 +
-. Create the `hot_plug.yml` File:
-+
-----
-touch hot_plug.yml
-----
-+
-. Open the `hot_plug.yml` File in VSCode and add the either of the following tasks based on the VM configuration:
+. Add the following content to the `hot_plug.yml` relating to the `instance_type` section below.
 
 === Using the `instance_type` (Recommended)
 
@@ -148,7 +140,7 @@ managing resources across multiple VMs.
 WARNING: Non-Legacy VMs are not part of this lab exercise and the Legacy Method is for informational purposes only.
 
 == Create and Run the Hot-Plug Job Template
-. Navigate to *Automation Execution → Templates*.
+. Within the AAP UI Dashboard, navigate to *Automation Execution → Templates*.
 . Click *Create Template* and select *Create job template*.
 . Fill in the following details:
 
@@ -169,6 +161,7 @@ WARNING: Non-Legacy VMs are not part of this lab exercise and the Legacy Method 
 
 . Click *Create Job Template*.
 . Launch the job by selecting *Launch Template* from the top-right corner.
+. When the job completes, head to the OpenShift UI dashboard and view the details of the Virtual Machines. You should see that the new size `u1.2xmedium` is now being used.
 
 == Conclusion
 
