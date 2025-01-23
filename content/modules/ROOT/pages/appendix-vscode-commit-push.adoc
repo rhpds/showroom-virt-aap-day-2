@@ -16,6 +16,8 @@ Choose the method that suits you best.
 +
 image::new_file.png[title='New File Creation', link=self, window=blank]
 +
+. Make the appropriate changes to your file and VSCode Editor will auto-save.
++
 . **Open the Source Control Panel**:
 +
 ** Click the **Source Control** icon in the Activity Bar.
