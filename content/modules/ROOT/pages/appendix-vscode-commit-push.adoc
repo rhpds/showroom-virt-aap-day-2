@@ -63,19 +63,25 @@ git clone {gitea_console_url}/{gitea_user}/virt-aap-day2
 cd /path/to/virt-app-day2
 ----
 +
-. **Make changes to file**:
+. **Make changes to file and save it**:
 +
 ----
 vi /path/to/tasks/main.yml
 ----
-+
-. Make changes to your file and save them
 +
 . **Stage Your Changes**:
 ** Run the following command to stage all modified files:
 +
 ----
 git add -u
+----
++
+. **Set your Git identity**:
+** Run the following command only once:
++
+----
+git config --global user.email "user1@redhatworkshops.io"
+git config --global user.name "User1"
 ----
 +
 . **Commit Your Changes**:
@@ -86,14 +92,15 @@ git commit -m "Add changes to main.yml"
 ----
 +
 . **Push Your Changes**:
-** Push the committed changes to the remote repository:
+** Push the committed changes to the remote repository
+** You will be asked for user **{gitea_user}** and password **{gitea_password}**.
 +     
 ----
 git push
 ----
 +
 . **Verify in Gitea**:
-** Open your Gitea repository {{gitea_console_url}} in a web browser and confirm that the changes appear.
+** Open your Gitea repository {gitea_console_url} in a web browser and confirm that the changes appear.
 
 ////
 
