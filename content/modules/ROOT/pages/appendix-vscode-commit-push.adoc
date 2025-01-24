@@ -54,7 +54,7 @@ image::source_commit.png[title='File Commit', link=self, window=blank]
 +
 [subs="+attributes"]
 ----
-git clone {gitea_console_url}/{gitea_user}/virt-aap-day2
+git clone -b {virt_aap_day2_workspace_revision} {gitea_console_url}/{gitea_user}/virt-aap-day2
 ----
 +
 . **Switch to the directory**:

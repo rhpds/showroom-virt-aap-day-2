@@ -19,3 +19,4 @@ asciidoc:
     gitea_console_url: https://gitea.apps.cluster-guid.dynamic.redhatworkshops.io
     gitea_user: user1
     gitea_password: password
+    virt_aap_day2_workspace_revision: rh1-2025
