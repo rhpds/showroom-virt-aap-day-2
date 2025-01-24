@@ -46,7 +46,7 @@ image::source_commit.png[title='File Commit', link=self, window=blank]
 ** Click the **Sync Changes** button to push the changes to your Gitea repository.
 +
 . **Verify in Gitea**:
-** Open your Gitea repository {gitea_console_url} in a web browser and confirm that the changes appear.
+** Open your Gitea repository {gitea_console_url}/{gitea_user}/virt-aap-day2/src/branch/{virt_aap_day2_workspace_revision} in a web browser and confirm that the changes appear.
 
 === Using the Terminal
 
@@ -100,7 +100,7 @@ git push
 ----
 +
 . **Verify in Gitea**:
-** Open your Gitea repository {gitea_console_url} in a web browser and confirm that the changes appear.
+** Open your Gitea repository {gitea_console_url}/{gitea_user}/virt-aap-day2/src/branch/{virt_aap_day2_workspace_revision} in a web browser and confirm that the changes appear.
 
 ////
 
