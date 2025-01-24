@@ -52,6 +52,7 @@ image::source_commit.png[title='File Commit', link=self, window=blank]
 
 . ** Git clone the gitea repository**:
 +
+[subs="+attributes"]
 ----
 git clone {gitea_console_url}/{gitea_user}/virt-aap-day2
 ----
