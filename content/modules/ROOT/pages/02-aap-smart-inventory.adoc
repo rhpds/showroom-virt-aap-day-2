@@ -37,7 +37,7 @@ image::sources.png[title="Sources", link=self, window=blank]
    * Provide a name: `OpenShift Virtual Machines Source`.
    * Select `OpenShift Virtualization` as the **Source** type.
    * Choose `Default Execution Environment` as the execution environment.
-   * Add the OpenShift Credential (Bearer Token was pre-created)
+   * Add the `OpenShift Credential` (Bearer Token was pre-created)
    * Select `Update on Launch` checkbox within Options.
    * Set `Cache timeout` to `0` seconds
 +
