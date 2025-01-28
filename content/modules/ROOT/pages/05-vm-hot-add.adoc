@@ -152,7 +152,7 @@ WARNING: Non-Legacy VMs are not part of this lab exercise and the Legacy Method 
 | *Inventory* | OpenShift Virtual Machines
 | *Project* | Workshop Project
 | *Playbook* | manage_vm_playbook.yml
-| *Execution Environment* | Day2 EE
+| *Execution Environment* | Day 2 EE
 | *Credentials* | OpenShift Credential
 | *Extra variables* | `vm_namespace: vms-aap-day2` +
                       `task_file: hot_plug.yml` +
@@ -161,7 +161,7 @@ WARNING: Non-Legacy VMs are not part of this lab exercise and the Legacy Method 
 
 . Click *Create Job Template*.
 . Launch the job by selecting *Launch Template* from the top-right corner.
-. When the job completes, head to the OpenShift UI dashboard and view the details of the Virtual Machines. You should see that the new size `u1.2xmedium` is now being used.
+. When the job completes, head to the OpenShift UI dashboard and view the details of the `rhel9-vm1` Virtual Machine. You should see that the new size `u1.2xmedium` is now being used.
 
 == Conclusion
 
