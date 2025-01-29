@@ -79,7 +79,7 @@ image::new_file.png[title='New File Creation', link=self, window=blank]
   redhat.openshift_virtualization.kubevirt_vm:
     name: "{{ vm_name }}"
     namespace: "{{ vm_namespace }}"
-    running: false
+    run_strategy: Halted
     wait: true
 ----
 +
@@ -87,7 +87,7 @@ Explanation of the Task:
 +
   * The `kubevirt_vm` module that is part of the `redhat.openshift_virtualization` collection is used to modify a VM
   * The `name` parameter uses a user defined variable named `vm_name` to specify  which VM to stop
-  * The `running: false` ensures the VM is not running
+  * The `run_strategy: Halted` ensures the VM is not running
   * The `wait: true` ensures the next Ansible task isn't triggered until the stop is complete
 +
 . After making and saving the changes, ensure you commit and push them to your Gitea repository. For detailed instructions, refer to xref:appendix-vscode-commit-push.adoc[].
@@ -161,7 +161,7 @@ to identify key fields required to create dynamic Ansible tasks.
   redhat.openshift_virtualization.kubevirt_vm:
     name: "{{ item.metadata.name }}"
     namespace: "{{ item.metadata.namespace }}"
-    running: false
+    run_strategy: Halted
     wait: true
   loop: "{{ vm_info.resources }}"
   loop_control:
@@ -244,7 +244,7 @@ The following steps will guide you in creating the `start_vm.yml` file.
   redhat.openshift_virtualization.kubevirt_vm:
     name: "{{ item.metadata.name }}"
     namespace: "{{ item.metadata.namespace }}"
-    running: true
+    run_strategy: Always
     wait: true
   loop: "{{ vm_info.resources }}"
   loop_control:
@@ -303,7 +303,7 @@ The following steps will guide you in creating the `restart_vm.yml` file.
   redhat.openshift_virtualization.kubevirt_vm:
     name: "{{ item.metadata.name }}"
     namespace: "{{ item.metadata.namespace }}"
-    running: false
+    run_strategy: Halted
     wait: true
   loop: "{{ vm_info.resources }}"
   loop_control:
@@ -319,7 +319,7 @@ The following steps will guide you in creating the `restart_vm.yml` file.
   redhat.openshift_virtualization.kubevirt_vm:
     name: "{{ item.metadata.name }}"
     namespace: "{{ item.metadata.namespace }}"
-    running: true
+    run_strategy: Always
     wait: true
   loop: "{{ updated_vm_info.resources }}"
   loop_control:

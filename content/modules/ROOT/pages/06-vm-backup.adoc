@@ -280,7 +280,7 @@ image::new_file.png[title='New File Creation', link=self, window=blank]
       redhat.openshift_virtualization.kubevirt_vm:
         name: "{{ vm_snapshot_instance.resources[0].metadata.ownerReferences[0].name }}"
         namespace: "{{ vm_snapshot_instance.resources[0].metadata.namespace }}"
-        running: false
+        run_strategy: Halted
         wait: true
 
     - name: Create Restore
@@ -313,7 +313,7 @@ image::new_file.png[title='New File Creation', link=self, window=blank]
       redhat.openshift_virtualization.kubevirt_vm:
         name: "{{ vm_snapshot_instance.resources[0].metadata.ownerReferences[0].name }}"
         namespace: "{{ vm_snapshot_instance.resources[0].metadata.namespace }}"
-        running: true
+        run_strategy: Always
         wait: true
   when: "'resources' in vm_snapshot_instance and vm_snapshot_instance.resources | length == 1"
 ----
