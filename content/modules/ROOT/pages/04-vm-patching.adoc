@@ -15,7 +15,15 @@ The following steps will guide you in creating the `update_security_packages.yml
 and the corresponding Ansible Playbook that will be called within your `Patch
 VMs` Job Template.
 
-NOTE: To ensure the virtual machines can access the required repositories for patch updates, the environment is configured to use the `redhatone.vm_management.rhsm_subscription` role for managing subscriptions. Additionally, a `Vault Credential` was created within Ansible Automation Platform to securely handle credentials during the automation process. These configurations have already been created for you and require no additional setup.
+
+[NOTE]
+====
+To ensure the virtual machines can access the required repositories for patch updates, the environment is configured to use the `redhatone.vm_management.rhsm_subscription` role for managing subscriptions. Additionally, a `Vault Credential` was created within Ansible Automation Platform to securely handle credentials during the automation process.
+
+Vault Credentials provide a significant security advantage: credentials are *one-way encrypted*, meaning they can be used within automation workflows but never exposed in plain text. This ensures sensitive information remains secure while simplifying credential management. This is a key benefit of Ansible Automation Platform that is often overlooked by ansible-core users.
+====
+
+
 
 === Create the `update_security_packages.yml` file.
 

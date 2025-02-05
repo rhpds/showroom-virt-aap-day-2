@@ -138,7 +138,7 @@ managing resources across multiple VMs.
     - *cpu*: Specifies the number of CPU sockets for the VM (e.g., `2`).
     - *memory*: Defines the memory allocated to the VM, (e.g., `4Gi`).
 
-WARNING: Non-Legacy VMs are not part of this lab exercise and the Legacy Method is for informational purposes only.
+WARNING: Legacy VMs are not part of this lab exercise and the Legacy Method is for informational purposes only.
 
 == Create and Run the Hot-Plug Job Template
 . Within the AAP UI Dashboard, navigate to *Automation Execution → Templates*.

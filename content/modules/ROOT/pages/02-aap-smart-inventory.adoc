@@ -70,7 +70,7 @@ OpenShift environment.
 Ensure that you can ping those VMs
 within the **AAP** dashboard {aap_controller_web_url} as follows:
 
-. Login to the AAP Dashboard using the credentials above.
+. Login to the AAP Dashboard using the credentials provided in the `Setup` step.
 +
 . Navigate to Automation Execution -> Infrastructure -> Inventories
    * Select the `OpenShift Virtual Machines` Inventory
