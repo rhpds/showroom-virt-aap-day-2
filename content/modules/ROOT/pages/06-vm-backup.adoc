@@ -70,7 +70,7 @@ This is a fairly complex task, so let's break it down:
 
 === Create the `_snapshot_vm.yml` File
 
-A task file beginning with an underscore (`_`) indicates that it is included within another task file. While still within the _tasks_ folder, perform the following steps.
+A task file beginning with an underscore " _ " indicates that it is included within another task file. While still within the _tasks_ folder, perform the following steps.
 
 . Within your VSCode editor, right click `tasks` of the `vm_management` collection and create a New File labeled `_snapshot_vm.yml`
 +
