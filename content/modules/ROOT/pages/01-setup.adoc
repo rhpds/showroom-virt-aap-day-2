@@ -29,7 +29,7 @@ NOTE: Select the `htpasswd_provider` as the `Log in with`
 * Password: {aap_controller_admin_password}
 
 == Gitea Repository Details: 
-* Gitea Console URL: {gitea_console_url}
+* Gitea Console URL: link:{gitea_console_url}[{gitea_console_url}, window="_blank]
 * Gitea User: {gitea_user}
 * Gitea Password: {gitea_password}
 
