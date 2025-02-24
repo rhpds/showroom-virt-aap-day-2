@@ -57,15 +57,15 @@ image::new_file.png[title='New File Creation', link=self, window=blank]
 +
 . Re-sync the `Workshop Project` with your latest updates within the Ansible Automation Platform UI
 +
-** Navigate to Automation Execution → Projects and select `Workshop Project`
+** Navigate to **Automation Execution → Projects** and select `Workshop Project`
 +
-** On the top right, select the `Sync Project` button and wait for `Last job status` to provide the status of `Success`.
+** On the top right, select the **Sync Project** button and wait for `Last job status` to provide the status of `Success`.
 
 === Create & Run Update Security Packages Job Template with Ansible Automation Platform
 
 To execute the `patch_vm_playbook.yml` within Ansible Automation Platform, create a Job Template as follows:
 
-. Navigate to Automation Execution → Templates, click the **Create template** button, and choose **Create job template**.
+. Navigate to **Automation Execution → Templates**, click the **Create template** button, and choose **Create job template**.
 +
 . Fill out the following details:
 +
@@ -92,7 +92,7 @@ To execute the `patch_vm_playbook.yml` within Ansible Automation Platform, creat
 +
 image::patch_vm.png[title='Patch VM', link=self, window=blank]
 +
-This gives a breakdown of all the taks that ran and a play recap of the changes
+This gives a breakdown of all the tasks that ran and a play recap of the changes
 made to the different hosts. If you take a closer look at the `Update
 security-related packages on all hosts` task, you can drill into specific host
 details on what was installed on the system(s).

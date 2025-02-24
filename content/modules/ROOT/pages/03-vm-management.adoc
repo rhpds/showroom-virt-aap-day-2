@@ -86,7 +86,7 @@ image::new_file.png[title='New File Creation', link=self, window=blank]
 Explanation of the Task:
 +
   * The `kubevirt_vm` module that is part of the `redhat.openshift_virtualization` collection is used to modify a VM
-  * The `name` parameter uses a user defined variable named `vm_name` to specify  which VM to stop
+  * The `name` parameter uses a user defined variable named `vm_name` to specify which VM to stop
   * The `run_strategy: Halted` ensures the VM is not running
   * The `wait: true` ensures the next Ansible task isn't triggered until the stop is complete
 +
@@ -221,7 +221,7 @@ image::stop_vms_multiple.png[title='Stopping the VMs', link=self, window=blank]
 
 In this lab exercise, you will build on your knowledge of managing multiple VMs
 by creating a task to start your VMs within the `vm_management` role. This task
-will be added to the tasks directory in a file named `start_vm.yml`.
+will be added to the `tasks` directory in a file named `start_vm.yml`.
 
 The following steps will guide you in creating the `start_vm.yml` file.
 
@@ -280,7 +280,7 @@ To execute the `manage_vm_playbook.yml` within Ansible Automation Platform, crea
 +
 . Once the `Start VMs` Job Template is created, select the **Launch Template** button on the top right corner to run the job.
 +
-. Head to the OpenShift UI dashboard, you can verify the VMs are running within the Virtualization -> Virtual Machines section.
+. Head to the OpenShift UI dashboard, you can verify the VMs are running within the **Virtualization -> Virtual Machines** section.
 
 === Restart VM Task
 

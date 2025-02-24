@@ -110,7 +110,7 @@ vms-aap-day2-rhel9-vm3 | SUCCESS => {
 
 You may also confirm the VMs are running using the **OpenShift UI** dashboard {openshift_cluster_console_url}:
 
-Virtualization -> VirtualMachines within the `vms-aap-day2` project.
+**Virtualization -> VirtualMachines** within the `vms-aap-day2` project.
 
 image::vms-ocp-dashboard.png[title='Virtual Machines Running on OpenShift', link=self, window=blank]
 

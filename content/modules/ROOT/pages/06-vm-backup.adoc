@@ -355,11 +355,11 @@ One key difference during the creation of the `VirtualMachineRestore` using the 
                       `vm_snapshots: <snapshot_name>`
 |===
 
-WARNING: Replace <snapshot_name> with the name of your snapthot created previously.
+WARNING: Replace <snapshot_name> with the name of your snapshot created previously.
 
 Launch the template. 
 
-Once the Job completes successfully, confirm the restoration of the Snapshot was applied to the `rhel9-vm1`  by navigating to the OpenShift UI, Virtualization -> VirtualMachines within the `vms-aap-day2` project.
+Once the Job completes successfully, confirm the restoration of the Snapshot was applied to the `rhel9-vm1`  by navigating to the OpenShift UI, **Virtualization -> VirtualMachines** within the `vms-aap-day2` project.
 
 Select the `rhel9-vm1` instance and then select the *Snapshots* tab. Locate the Snapshot created previously and notice the date and time within the _Last restored_ column indicating that the Snapshot was successfully restored against the Virtual Machine instance.
 
