@@ -1,6 +1,5 @@
 = Backup and Restore
 
-xref:05-vm-hot-add.adoc[← Previous Exercise]
 
 == Lab Overview
 
@@ -236,7 +235,7 @@ image::new_file.png[title='New File Creation', link=self, window=blank]
   when: vm_snapshots | default('', True) | length > 0
 ----
 +
-. After making and saving the changes, ensure you commit and push them to your Gitea repository. 
+. After making and saving the changes, ensure you commit and push them to your Gitea repository.
 
 This play is almost identical to the play from the `snapshot_vms.yml` task file. The primary difference is that the play references a variable called `vm_snapshots` that will container a comma delimitated string containing the names of `VirtualMachineSnapshot` resources to restore. Once split into a list, tasks defined within a task file called `_restore_vm_snapshot.yml` is invoked.
 
@@ -357,7 +356,7 @@ One key difference during the creation of the `VirtualMachineRestore` using the 
 
 WARNING: Replace <snapshot_name> with the name of your snapshot created previously.
 
-Launch the template. 
+Launch the template.
 
 Once the Job completes successfully, confirm the restoration of the Snapshot was applied to the `rhel9-vm1`  by navigating to the OpenShift UI, **Virtualization -> VirtualMachines** within the `vms-aap-day2` project.
 
@@ -376,5 +375,3 @@ In this lab, you explored how to utilize Virtual Machine Snapshots as a method o
 Virtual Machine Snapshots is just one of the different approaches that can be used to maintain business continuity using OpenShift Virtualization. Other strategies for managing the backup and restoration of Virtual Machines include leveraging OpenShift API for Data Protection (OADP) or a solution from a third-party vendor.
 
 Regardless of the approach, Ansible Automation Platform can be used to streamline the backup and restoration process.
-
-xref:05-vm-hot-add.adoc[← Previous Exercise]

@@ -1,6 +1,5 @@
 = Lab Setup
 
-xref:index.adoc[← Previous Exercise] | xref:02-aap-smart-inventory.adoc[Next Exercise →]
 
 This lab environment is pre-configured to ensure you can focus on learning and
 performing the key tasks without worrying about initial setup. Below are the
@@ -21,14 +20,14 @@ NOTE: It is recommended to open each of the environment's within separate tabs u
 * Username: {openshift_cluster_admin_username}
 * Password: {openshift_cluster_admin_password}
 
-NOTE: Select the `htpasswd_provider` as the `Log in with` 
+NOTE: Select the `htpasswd_provider` as the `Log in with`
 
 == Ansible Automation Platform Environment Details:
 * AAP Dashboard: link:{aap_controller_web_url}[{aap_controller_web_url}, window="_blank"]
 * Username: {aap_controller_admin_user}
 * Password: {aap_controller_admin_password}
 
-== Gitea Repository Details: 
+== Gitea Repository Details:
 * Gitea Console URL: link:{gitea_console_url}[{gitea_console_url}, window="_blank]
 * Gitea User: {gitea_user}
 * Gitea Password: {gitea_password}
@@ -54,6 +53,3 @@ To create these files, you will use the Visual Studio Code editor.
 
 With this setup, you’re ready to dive into the lab and focus on automating Day 2
 operations for VMs on OpenShift Virtualization.
-
-xref:index.adoc[← Previous Exercise] | xref:02-aap-smart-inventory.adoc[Next Exercise →]
-

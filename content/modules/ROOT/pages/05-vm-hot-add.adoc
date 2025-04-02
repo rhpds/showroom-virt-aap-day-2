@@ -1,6 +1,5 @@
 = Hot-Plugging CPU and Memory Resources Using Ansible Automation Platform
 
-xref:04-vm-patching.adoc[← Previous Exercise] | xref:06-vm-backup.adoc[Next Exercise →]
 
 == Lab Overview
 
@@ -187,5 +186,3 @@ Through this lab, you have learned how to:
 By applying these skills, you can efficiently manage resources in OpenShift
 Virtualization, adapting to the demands of dynamic workloads while minimizing
 downtime.
-
-xref:04-vm-patching.adoc[← Previous Exercise] | xref:06-vm-backup.adoc[Next Exercise →]

@@ -1,11 +1,10 @@
 = Creating a Dynamic Inventory for OpenShift Virtual Machines
 
-xref:01-setup.adoc[← Previous Exercise] | xref:03-vm-management.adoc[Next Exercise →]
 
 == Lab Overview
 Dynamic inventories allow Ansible Automation Platform (AAP) to automatically
 fetch and update the inventory of systems from external sources, eliminating
-the need for manual inventory management. 
+the need for manual inventory management.
 
 In this lab, we will configure a dynamic inventory to pull data from OpenShift
 Virtualization. This will enable AAP to manage OpenShift VMs residing in the
@@ -65,7 +64,7 @@ image::verify_hosts.png[title="Verify Hosts", link=self, window=blank]
 == Test Connectivity of the Virtual Machines
 
 In this lab, there will be three virtual machines running within your
-OpenShift environment. 
+OpenShift environment.
 
 Ensure that you can ping those VMs
 within the **AAP** dashboard {aap_controller_web_url} as follows:
@@ -118,5 +117,3 @@ image::vms-ocp-dashboard.png[title='Virtual Machines Running on OpenShift', link
 You have successfully created a dynamic inventory in Ansible Automation Platform
 that reflects your OpenShift Virtual Machines. This inventory is now ready for
 use in automation tasks.
-
-xref:01-setup.adoc[← Previous Exercise] | xref:03-vm-management.adoc[Next Exercise →]
