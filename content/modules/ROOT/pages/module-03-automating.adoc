@@ -1,0 +1,7 @@
+= Automated VM Management (5 minutes)
+
+== Scale to the moon with Ansible
+
+////
+relevant old content here
+////

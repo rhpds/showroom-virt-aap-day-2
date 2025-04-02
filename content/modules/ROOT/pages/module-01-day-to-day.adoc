@@ -1,0 +1,24 @@
+= Enabling Basic Day to Day Operations
+
+== Setup AAP jobs (either via config as code or manually through the UI)
+
+== Dynamic Inventories with AAP
+
+== Security and Compliance [compliance operator]
+
+== Examine virtual machines for compliance violations.
+
+== Configure Network Policies to manage VM Traffic
+
+=== See that the VM can ping google
+
+=== Create the Network Policy
+
+=== See that the VM CANNOT ping google
+
+.Example Image
+image::day-to-day/create_inventory.png["Create Inventory",width=100%]
+
+== Enable and Explore Alerts, Graphs, and Logs
+
+== VM Management (Patch the OS, and Restart the Guest)

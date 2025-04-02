@@ -1,6 +1,6 @@
 ---
 site:
-  title: ""
+  title: "Red Hat Summit 2025"
   start_page: modules::index.adoc
 
 content:
@@ -14,6 +14,11 @@ ui:
 
 runtime:
   cache_dir: ./.cache/antora
+
+antora:
+  extensions:
+    - require: ./content/lib/dev-mode.js
+      enabled: true
 
 output:
   dir: ./www

@@ -1,0 +1,23 @@
+= Real world scaling scenario
+
+//, new capacity demands (45 minutes)
+
+== Performance and Observability
+
+=== Examine Load on Virtual Guests
+
+=== Example graphs, logs, and alerts.
+
+== Horizontally Scale Front End
+
+=== Add more VMs
+
+== Vertically scale Backend
+
+=== Hotplug compute resources (cpu/memory)
+
+=== Enable Swap/Memory Overcommit
+
+== New gear arrives
+
+=== Live Migrate Backend VMs (remove or tolerate node taint)

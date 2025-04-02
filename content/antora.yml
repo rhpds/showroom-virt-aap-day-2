@@ -1,6 +1,6 @@
 name: modules
-title: Day-2 Operations for OpenShift Virt with AAP
-version: main
+title: "lb1969: Operations and Automation with OpenShift Virtualization"
+version: master
 nav:
   - modules/ROOT/nav.adoc
 
