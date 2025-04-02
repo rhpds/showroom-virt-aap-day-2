@@ -18,32 +18,32 @@ To demo network policy, we have a standard VM, user logs in via console, can pin
 
 . Click VirtualMachines, click *rhel9-vm1* click Console. If you do not see any Virtual Machines make sure you are in vms-aap-day2 project.
 
-image::day-to-day/view_vm.png
+image::day-to-day/view_vm.png[]
 
 . Click on the Console tab and using the provided login perform a ping test to google.com.
 
-image::day-to-day/login_vm.png
+image::day-to-day/login_vm.png[]
 
 Note: There is a Copy to clipboard button and a Paste button available here, which makes the login process much easier.
 
 . Once you are logged in, execute the following command:
 .. Ping google.com
 
-image::day-to-day/ping_site.png
+image::day-to-day/ping_site.png[]
 
 . Press Control +C to stop the ping.
 
 . From the OpenShift console, Click on Workloads > Pods. Click on the pod name for *rhel9-vm1*.
 
-image::day-to-day/select_pod.png
+image::day-to-day/select_pod.png[]
 
 . In the Pod details section click Edit.
 
-image::day-to-day/pod_deatails.png
+image::day-to-day/pod_deatails.png[]
 
 . Add app=network-policy-deny to the labels and click Save.
 
-image::day-to-day/pod_label.png
+image::day-to-day/pod_label.png[]
 
 . Repeat this process for  *rhel9-vm2*.
 
@@ -51,7 +51,7 @@ image::day-to-day/pod_label.png
 
 . Under Networking click on *NetworkPolicies* then *Create NetworkPolicy*.
 
-image::day-to-day/networkpolicy.png
+image::day-to-day/networkpolicy.png[]
 
 . In NetworkPolicies fill out these fields and Click *Save*.
 
@@ -60,11 +60,11 @@ image::day-to-day/networkpolicy.png
 .. Value: network-policy-deny
 .. Check Deny all egress traffic
 
-image::day-to-day/network_policy_configure.png
+image::day-to-day/network_policy_configure.png[]
 
 . You can verify what pods are affected pods by the network policy.
 
-image::day-to-day/affected_pod.png
+image::day-to-day/affected_pod.png[]
 
 === See that the VM CANNOT ping google
 
@@ -72,7 +72,7 @@ image::day-to-day/affected_pod.png
 .. Click on the *Console* tab and login to the VM
 .. Enter the command ping google.com. You should get no responce.
 
-image::day-to-day/ping_site_deny.png
+image::day-to-day/ping_site_deny.png[]
 
 . Once complete, delete the network policy you created.
 
