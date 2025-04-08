@@ -6,8 +6,6 @@
 
 == Security and Compliance [compliance operator]
 
-== Examine virtual machines for compliance violations.
-
 == Configure Network Policies to manage VM Traffic
 
 === Introduction
