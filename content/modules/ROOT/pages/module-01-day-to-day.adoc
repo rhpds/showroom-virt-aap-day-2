@@ -6,6 +6,53 @@
 
 == Security and Compliance [compliance operator]
 
+=== Getting started
+
+To set up a security scan, navigate to the Operators tab and select Installed Operators, then select the Compliance Operator.
++
+image::day-to-day/compliance_operator.png[]
++
+This takes you to the operator details page, from here move to the ScanSetting tab
++
+image::day-to-day/compliance_details.png[]
++
+Select Create ScanSetting
++
+image::day-to-day/create_scansetting.png[]
++
+In the ScanSetting yaml details, note the 'autoApplyRemediations' =False, the roles section includes both master & worker nodes,
+and the name can be set according to your choosing.
++
+image:day-to-day/scansetting_details.png[]
++
+Before moving on, there are quite a number of predefined profiles that can be used for scanning purposes on the 'Profiles' tab. 
+We’ll use the fedramp moderate profile = rhcos4-moderate
++
+image::day-to-day/profile_details.png[]
++
+Additional detail on these profiles can be found here- 
+https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/security_and_compliance/compliance-operator#compliance-operator-supported-profiles
+The next step is to set up a ScanSettingBinding, navigate to that tab and select create ScanSettingBinding
++
+image:day-to-day/create_scansettingbinding.png[]
++
+In the ScanSettingBinding yaml details, the name (fedramp1) can be set to whatever you like.  Note the profile is set to rhcos4-moderate (the fedramp moderate profile), and the ScanSetting is set to the previously defined ScanSetting (scan1)
++
+image::day-to-day/scansettingbinding_details.png[]
++
+After the ScanSettingBinding is created this will kick of the fedramp1 Compliance Suite
++
+image::day-to-day/compliance_suite.png[]
++
+This Compliance Suite (fedramp1) kicks off the defined profile (rhcos4-moderate) scans for each of the defined roles in the ScanSetting (master/worker) 
++
+image::day-to-day/compliance_scan.png[]
++
+The scan takes ~3-4 minutes to complete, then you can check the failures on the ComplianceCheckResult tab.
++
+image::day-to-day/checkcomplianceresults.png[]
++
+
 == Configure Network Policies to manage VM Traffic
 
 === Introduction
