@@ -16,6 +16,52 @@
 
 === Hotplug compute resources (cpu/memory)
 
+. For this part of the lab we need to make sure that the load maker pod is running
+
++
+. Click on *Workloads* > *Deployments* > *loadmaker*. Ensure you are in Project: *windows-vms*.
++
+image::day-to-day/select_loadmaker.png[]
++
+. You should see 1 Pod under the Deployment Details tab.
++
+image::day-to-day/show_num_pod.png[]
++
+. Click on *Environment* tab
++
+image::day-to-day/lm_pod_config.png[]
++
+. In *Virtualization* > *VirtualMachine* Select *windows-vms* project to show *winweb01*, *winweb02* and database. You should see high resource usage.
++
+image::day-to-day/before_upgrade.png[]
++
+. Click on the *winweb01*.
++
+image::day-to-day/select_vm.png[]
++
+. Click on the *Configuration* tab
++
+image::day-to-day/select_config.png[]
++
+. In the VIrtualMachine Details under CPU | Memory section Click on *2 CPU | 1 Gib Memory*
++
+image::day-to-day/edit_vm.png[]
++
+. Increase the vCPUs to 8 and Memory to 4 and Click Save
++
+image::day-to-day/update_specs.png[]
++
+. Click back on the *Overview* tab. You will see that the CPU | Memory section in the details has been updated to the new values.
++
+image::day-to-day/vm_new_spec.png[]
++
+. Repeat these steps for *winweb02*.
+
+. Once both vms are upgraded in the project tree view click on *windows-vms* project. You will see that the CPU and Memory usage has gone down.
++
+image::day-to-day/updated_usage.png[]
++
+
 === Enable Swap/Memory Overcommit
 
 == New gear arrives
