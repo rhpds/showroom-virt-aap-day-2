@@ -43,7 +43,7 @@ image::day-to-day/select_vm.png[]
 +
 image::day-to-day/select_config.png[]
 +
-. In the VIrtualMachine Details under CPU | Memory section Click on *2 CPU | Gib Memory*
+. In the VIrtualMachine Details under CPU | Memory section Click on *2 CPU | 1 Gib Memory*
 +
 image::day-to-day/edit_vm.png[]
 +
