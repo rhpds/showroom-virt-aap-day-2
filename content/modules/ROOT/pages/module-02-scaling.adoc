@@ -36,9 +36,8 @@ image::day-to-day/power_on.png[]
 . After approximently 5 minutes the load will even itself out between both winweb servers.
 +
 image::day-to-day/vm_add_horizontally.png[]
-+
 
-== Vertically scale Backend
+=== Vertically scale Backend
 
 . Click on the *winweb01*.
 +
