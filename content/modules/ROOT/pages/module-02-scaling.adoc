@@ -47,7 +47,7 @@ image::day-to-day/select_config.png[]
 +
 image::day-to-day/edit_vm.png[]
 +
-. Increase the vCPUs to 4 and Memory to 2 and Click Save
+. Increase the vCPUs to 8 and Memory to 4 and Click Save
 +
 image::day-to-day/update_specs.png[]
 +
