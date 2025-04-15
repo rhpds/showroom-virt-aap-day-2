@@ -81,7 +81,7 @@ within the **AAP** dashboard {aap_controller_web_url} as follows:
 . Select the 3 VMs and click the *Run command* button
    * Within the Run command Details, select the `ping` module and click *Next*.
    * Within the Run command Execution Environment, Select the *Day2 EE* execution environment and click *Next*.
-   * Within the Run command Credential, select the pre-created *VM Credential* and click *Next*.
+   * Within the Run command Credential, select the pre-created *Workshop Credential* and click *Next*.
    * Within the Run command Review, select *Finish*.
 +
 . Verify Results: You should see a list of VMs along with their statuses similar to:
