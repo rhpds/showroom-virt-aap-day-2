@@ -15,55 +15,55 @@
 +
 . Click on *Workloads* > *Deployments* > *loadmaker*. Ensure you are in Project: *windows-vms*.
 +
-image::day-to-day/select_loadmaker.png[]
+image::day-to-day/select_loadmaker.png[link=self, window=blank, width=100%]
 +
 . You should see 1 Pod under the Deployment Details tab.
 +
-image::day-to-day/show_num_pod.png[]
+image::day-to-day/show_num_pod.png[link=self, window=blank, width=100%]
 +
 . Click on *Environment* tab
 +
-image::day-to-day/lm_pod_config.png[]
+image::day-to-day/lm_pod_config.png[link=self, window=blank, width=100%]
 +
 . In *Virtualization* > *VirtualMachine* Select *windows-vms* project to show *winweb01*, *winweb02* and *database*. You should see high resource usage on *winweb01*.
 +
-image::day-to-day/before_upgrade_horizontally.png[]
+image::day-to-day/before_upgrade_horizontally.png[link=self, window=blank, width=100%]
 +
 . Click on the checkbox next to *winweb02*, Click on *Actions* > *Start* to power on *winweb02*
 +
-image::day-to-day/power_on.png[]
+image::day-to-day/power_on.png[link=self, window=blank, width=100%]
 +
 . After approximently 5 minutes the load will even itself out between both winweb servers.
 +
-image::day-to-day/vm_add_horizontally.png[]
+image::day-to-day/vm_add_horizontally.png[link=self, window=blank, width=100%]
 
 === Vertically scale Backend
 
 . Click on the *winweb01*.
 +
-image::day-to-day/select_vm.png[]
+image::day-to-day/select_vm.png[link=self, window=blank, width=100%]
 +
 . Click on the *Configuration* tab
 +
-image::day-to-day/select_config.png[]
+image::day-to-day/select_config.png[link=self, window=blank, width=100%]
 +
 . In the VIrtualMachine Details under CPU | Memory section Click on *2 CPU | 1 Gib Memory*
 +
-image::day-to-day/edit_vm.png[]
+image::day-to-day/edit_vm.png[link=self, window=blank, width=100%]
 +
 . Increase the vCPUs to 8 and Memory to 4 and Click Save
 +
-image::day-to-day/update_specs.png[]
+image::day-to-day/update_specs.png[link=self, window=blank, width=100%]
 +
 . Click back on the *Overview* tab. You will see that the CPU | Memory section in the details has been updated to the new values.
 +
-image::day-to-day/vm_new_spec.png[]
+image::day-to-day/vm_new_spec.png[link=self, window=blank, width=100%]
 +
 . Repeat these steps for *winweb02*.
 
 . Once both vms are upgraded in the project tree view click on *windows-vms* project. You will see that the CPU and Memory usage has gone down.
 +
-image::day-to-day/updated_usage.png[]
+image::day-to-day/updated_usage.png[link=self, window=blank, width=100%]
 +
 
 === Enable Swap/Memory Overcommit
