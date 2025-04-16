@@ -11,48 +11,48 @@
 To set up a security scan, navigate to the Operators tab and select Installed Operators, then select the Compliance Operator.
 
 +
-image::day-to-day/compliance_operator.png[]
+image::day-to-day/compliance_operator.png[link=self, window=blank, width=100%]
 +
 
 This takes you to the operator details page, from here move to the ScanSetting tab
 +
-image::day-to-day/compliance_details.png[]
+image::day-to-day/compliance_details.png[link=self, window=blank, width=100%]
 +
 Select Create ScanSetting
 +
-image::day-to-day/create_scansetting.png[]
+image::day-to-day/create_scansetting.png[link=self, window=blank, width=100%]
 +
 In the ScanSetting yaml details, note the 'autoApplyRemediations' =False, the roles section includes both master & worker nodes,
 and the name can be set according to your choosing.
 +
-image:day-to-day/scansetting_details.png[]
+image:day-to-day/scansetting_details.png[link=self, window=blank, width=100%]
 +
 Before moving on, there are quite a number of predefined profiles that can be used for scanning purposes on the 'Profiles' tab. 
 We’ll use the fedramp moderate profile = rhcos4-moderate
 +
-image::day-to-day/profile_details.png[]
+image::day-to-day/profile_details.png[link=self, window=blank, width=100%]
 +
 Additional detail on these profiles can be found here- 
 https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/security_and_compliance/compliance-operator#compliance-operator-supported-profiles
 The next step is to set up a ScanSettingBinding, navigate to that tab and select create ScanSettingBinding
 +
-image:day-to-day/create_scansettingbinding.png[]
+image:day-to-day/create_scansettingbinding.png[link=self, window=blank, width=100%]
 +
 In the ScanSettingBinding yaml details, the name (fedramp1) can be set to whatever you like.  Note the profile is set to rhcos4-moderate (the fedramp moderate profile), and the ScanSetting is set to the previously defined ScanSetting (scan1)
 +
-image::day-to-day/scansettingbinding_details.png[]
+image::day-to-day/scansettingbinding_details.png[link=self, window=blank, width=100%]
 +
 After the ScanSettingBinding is created this will kick of the fedramp1 Compliance Suite
 +
-image::day-to-day/compliance_suite.png[]
+image::day-to-day/compliance_suite.png[link=self, window=blank, width=100%]
 +
 This Compliance Suite (fedramp1) kicks off the defined profile (rhcos4-moderate) scans for each of the defined roles in the ScanSetting (master/worker) 
 +
-image::day-to-day/compliance_scan.png[]
+image::day-to-day/compliance_scan.png[link=self, window=blank, width=100%]
 +
 The scan takes ~3-4 minutes to complete, then you can check the failures on the ComplianceCheckResult tab.
 +
-image::day-to-day/checkcomplianceresults.png[]
+image::day-to-day/checkcomplianceresults.png[link=self, window=blank, width=100%]
 +
 
 == Configure Network Policies to manage VM Traffic
@@ -68,32 +68,32 @@ Show how we can set a network policy to block egress of that vm, or limit egress
 . Click VirtualMachines, click *rhel9-vm1* click Console.
 If you do not see any Virtual Machines make sure you are in vms-aap-day2 project.
 +
-image::day-to-day/view_vm.png[]
+image::day-to-day/view_vm.png[link=self, window=blank, width=100%]
 +
 . Click on the Console tab and using the provided login perform a ping test to google.com.
 +
-image::day-to-day/login_vm.png[]
+image::day-to-day/login_vm.png[link=self, window=blank, width=100%]
 +
 NOTE: There is a Copy to clipboard button and a Paste button available here, which makes the login process much easier.
 +
 . Once you are logged in, execute the following command:
 .. `ping google.com`
 +
-image::day-to-day/ping_site.png[]
+image::day-to-day/ping_site.png[link=self, window=blank, width=100%]
 +
 . Press Control+C to stop the ping.
 +
 . From the OpenShift console, Click on Workloads > Pods. Click on the pod name for *rhel9-vm1*.
 +
-image::day-to-day/select_pod.png[]
+image::day-to-day/select_pod.png[link=self, window=blank, width=100%]
 +
 . In the Pod details section click Edit.
 +
-image::day-to-day/pod_details.png[]
+image::day-to-day/pod_details.png[link=self, window=blank, width=100%]
 +
 . Add app=network-policy-deny to the labels and click Save.
 +
-image::day-to-day/pod_label.png[]
+image::day-to-day/pod_label.png[link=self, window=blank, width=100%]
 +
 . Repeat this process for *rhel9-vm2*.
 
@@ -101,7 +101,7 @@ image::day-to-day/pod_label.png[]
 
 . Under Networking click on *NetworkPolicies* then *Create NetworkPolicy*.
 +
-image::day-to-day/networkpolicy.png[]
+image::day-to-day/networkpolicy.png[link=self, window=blank, width=100%]
 +
 . In NetworkPolicies fill out these fields and Click *Save*.
 
@@ -110,11 +110,11 @@ image::day-to-day/networkpolicy.png[]
 .. Value: network-policy-deny
 .. Check Deny all egress traffic
 +
-image::day-to-day/network_policy_configure.png[]
+image::day-to-day/network_policy_configure.png[link=self, window=blank, width=100%]
 +
 . You can verify what pods are affected pods by the network policy.
 +
-image::day-to-day/affected_pod.png[]
+image::day-to-day/affected_pod.png[link=self, window=blank, width=100%]
 
 === See that the VM CANNOT ping google
 
@@ -122,7 +122,7 @@ image::day-to-day/affected_pod.png[]
 .. Click on the *Console* tab and login to the VM
 .. Enter the command ping google.com. You should get no responce.
 +
-image::day-to-day/ping_site_deny.png[]
+image::day-to-day/ping_site_deny.png[link=self, window=blank, width=100%]
 +
 . Once complete, delete the network policy you created.
 
