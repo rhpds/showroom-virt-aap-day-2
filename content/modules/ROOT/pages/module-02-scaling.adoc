@@ -8,6 +8,20 @@
 
 === Example graphs, logs, and alerts.
 
+==== Node Graphs
+
+Now lets look at the metrics for the Nodes.
+
+. Under *Compute* Click on *Nodes*. From This view you can see the Node status and role.
++
+image::day-to-day/node_list.png[link=self, window=blank, width=100%]
++
+. Click on one of the nodes.
++
+image::day-to-day/node_example.png[link=self, window=blank, width=100%]
++
+. You will see the Utilization. You can select if you want to see 1, 6 or 24 hours.
+
 == Horizontally Scale Front End
 
 . For this part of the lab we need to make sure that the load maker pod is running
