@@ -24,7 +24,6 @@ image::day-to-day/node_example.png[link=self, window=blank, width=100%]
 
 ==== Virtal Machine Graphs
 
-+
 . Click on *Workloads* > *Deployments* > *loadmaker*. Ensure you are in Project: *windows-vms*.
 +
 image::day-to-day/select_loadmaker.png[link=self, window=blank, width=100%]
