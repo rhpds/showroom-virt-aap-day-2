@@ -116,16 +116,14 @@ You may also confirm the VMs are running using the **OpenShift UI** dashboard {o
 
 image::vms-ocp-dashboard.png[title='Virtual Machines Running on OpenShift', link=self, window=blank]
 
-
 == Security and Compliance [compliance operator]
 
 === Getting started
 
 To set up a security scan, navigate to the Operators tab and select Installed Operators, then select the Compliance Operator.
 +
-image::compliance_operator.png[link=self, window=blank, width=100%]
+image::day-to-day/compliance_operator.png[link=self, window=blank, width=100%]
 +
-
 This takes you to the operator details page, from here move to the ScanSetting tab
 +
 image::day-to-day/compliance_details.png[link=self, window=blank, width=100%]
