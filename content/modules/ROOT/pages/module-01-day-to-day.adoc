@@ -173,7 +173,7 @@ To demo network policy, we have a standard VM.
 The user logs in via console, can ping google or other public IP by default.
 Show how we can set a network policy to block egress of that vm, or limit egress to only other VMs in the same namespace.
 
-=== See that the VM can ping google
+==== See that the VM can ping google
 
 . Click VirtualMachines, click *rhel9-vm1* click Console.
 If you do not see any Virtual Machines make sure you are in vms-aap-day2 project.
@@ -207,7 +207,7 @@ image::day-to-day/pod_label.png[link=self, window=blank, width=100%]
 +
 . Repeat this process for *rhel9-vm2*.
 
-=== Create the Network Policy
+==== Create the Network Policy
 
 . Under Networking click on *NetworkPolicies* then *Create NetworkPolicy*.
 +
@@ -226,7 +226,7 @@ image::day-to-day/network_policy_configure.png[link=self, window=blank, width=10
 +
 image::day-to-day/affected_pod.png[link=self, window=blank, width=100%]
 
-=== See that the VM CANNOT ping google
+==== See that the VM CANNOT ping google
 
 . Go back to Virtualization > *Virtual Machines* and click *rhel9-vm1*.
 .. Click on the *Console* tab and login to the VM
