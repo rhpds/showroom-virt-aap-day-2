@@ -99,6 +99,7 @@ image::day-to-day/cpu_inspect.png.png[link=self, window=blank, width=100%]
 image::day-to-day/metrics_select.png[link=self, window=blank, width=100%]
 +
 
+
 == Horizontally Scale Front End
 
 . For this part of the lab we need to make sure that the load maker pod is running
