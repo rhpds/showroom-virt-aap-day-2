@@ -77,7 +77,6 @@ image::day-to-day/select_qurey.png[link=self, window=blank, width=100%]
 . Lets add a query "sum(rate(kubevirt_vmi_vcpu_wait_seconds_total{name='winweb01',namespace='windows-vms'}[5m])) BY (name, namespace)" without the "". This query will show the amouont of time spent by each vcpu while waiting on I/O.
 +
 image::day-to-day/example_query.png[link=self, window=blank, width=100%]
-+
 
 ==== Dashboards
 
