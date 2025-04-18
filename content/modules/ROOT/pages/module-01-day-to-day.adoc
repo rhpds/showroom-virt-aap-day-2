@@ -140,7 +140,7 @@ image:day-to-day/scansetting_details.png[link=self, window=blank, width=100%]
 Before moving on, there are quite a number of predefined profiles that can be used for scanning purposes on the 'Profiles' tab. 
 We’ll use the fedramp moderate profile = rhcos4-moderate
 +
-image::day-to-day/profile_details.png[link=self, window=blank, width=100%]
+image::day-to-day/profiles_detail.png[link=self, window=blank, width=100%]
 +
 Additional detail on these profiles can be found here- 
 https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/security_and_compliance/compliance-operator#compliance-operator-supported-profiles
