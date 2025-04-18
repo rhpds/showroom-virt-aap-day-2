@@ -164,7 +164,6 @@ image::day-to-day/compliance_scan.png[link=self, window=blank, width=100%]
 . The scan takes ~3-4 minutes to complete, then you can check the failures on the ComplianceCheckResult tab.
 +
 image::day-to-day/checkcomplianceresults.png[link=self, window=blank, width=100%]
-+
 
 == Configure Network Policies to manage VM Traffic
 
