@@ -142,25 +142,25 @@ We’ll use the fedramp moderate profile = rhcos4-moderate
 +
 image::day-to-day/profiles_detail.png[link=self, window=blank, width=100%]
 +
-Additional detail on these profiles can be found here- 
+. Additional detail on these profiles can be found here- 
 https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/security_and_compliance/compliance-operator#compliance-operator-supported-profiles
-The next step is to set up a ScanSettingBinding, navigate to that tab and select create ScanSettingBinding
+. The next step is to set up a ScanSettingBinding, navigate to that tab and select create ScanSettingBinding
 +
 image:day-to-day/create_scansettingbinding.png[link=self, window=blank, width=100%]
 +
-In the ScanSettingBinding yaml details, the name (fedramp1) can be set to whatever you like.  Note the profile is set to rhcos4-moderate (the fedramp moderate profile), and the ScanSetting is set to the previously defined ScanSetting (scan1)
+. In the ScanSettingBinding yaml details, the name (fedramp1) can be set to whatever you like.  Note the profile is set to rhcos4-moderate (the fedramp moderate profile), and the ScanSetting is set to the previously defined ScanSetting (scan1)
 +
 image::day-to-day/scansettingbinding_details.png[link=self, window=blank, width=100%]
 +
-After the ScanSettingBinding is created this will kick of the fedramp1 Compliance Suite
+. After the ScanSettingBinding is created this will kick of the fedramp1 Compliance Suite
 +
 image::day-to-day/compliance_suite.png[link=self, window=blank, width=100%]
 +
-This Compliance Suite (fedramp1) kicks off the defined profile (rhcos4-moderate) scans for each of the defined roles in the ScanSetting (master/worker) 
+. This Compliance Suite (fedramp1) kicks off the defined profile (rhcos4-moderate) scans for each of the defined roles in the ScanSetting (master/worker) 
 +
 image::day-to-day/compliance_scan.png[link=self, window=blank, width=100%]
 +
-The scan takes ~3-4 minutes to complete, then you can check the failures on the ComplianceCheckResult tab.
+. The scan takes ~3-4 minutes to complete, then you can check the failures on the ComplianceCheckResult tab.
 +
 image::day-to-day/checkcomplianceresults.png[link=self, window=blank, width=100%]
 +
