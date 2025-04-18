@@ -191,7 +191,7 @@ NOTE: There is a Copy to clipboard button and a Paste button available here, whi
 +
 image::day-to-day/ping_site.png[link=self, window=blank, width=100%]
 +
-. Press Control+C to stop the ping.
+. Press *Control+C* to stop the ping.
 +
 . From the OpenShift console, Click on Workloads > Pods. Click on the pod name for *rhel9-vm1*.
 +
