@@ -123,7 +123,7 @@ image::vms-ocp-dashboard.png[title='Virtual Machines Running on OpenShift', link
 
 To set up a security scan, navigate to the Operators tab and select Installed Operators, then select the Compliance Operator.
 +
-image::day-to-day/compliance_operator.png[link=self, window=blank, width=100%]
+image::compliance_operator.png[link=self, window=blank, width=100%]
 +
 
 This takes you to the operator details page, from here move to the ScanSetting tab
