@@ -110,7 +110,7 @@ vms-aap-day2-rhel9-vm3 | SUCCESS => {
 }
 ----
 
-You may also confirm the VMs are running using the **OpenShift UI** dashboard {openshift_cluster_console_url}:
+. You may also confirm the VMs are running using the **OpenShift UI** dashboard {openshift_cluster_console_url}:
 
 **Virtualization -> VirtualMachines** within the `vms-aap-day2` project.
 
@@ -120,24 +120,24 @@ image::vms-ocp-dashboard.png[title='Virtual Machines Running on OpenShift', link
 
 === Getting started
 
-To set up a security scan, navigate to the Operators tab and select Installed Operators, then select the Compliance Operator.
+. To set up a security scan, navigate to the Operators tab and select Installed Operators, then select the Compliance Operator.
 +
 image::day-to-day/compliance_operator.png[link=self, window=blank, width=100%]
 +
-This takes you to the operator details page, from here move to the ScanSetting tab
+. This takes you to the operator details page, from here move to the ScanSetting tab
 +
 image::day-to-day/compliance_details.png[link=self, window=blank, width=100%]
 +
-Select Create ScanSetting
+. Select Create ScanSetting
 +
 image::day-to-day/create_scansetting.png[link=self, window=blank, width=100%]
 +
-In the ScanSetting yaml details, note the 'autoApplyRemediations' =False, the roles section includes both master & worker nodes,
+. In the ScanSetting yaml details, note the 'autoApplyRemediations' =False, the roles section includes both master & worker nodes,
 and the name can be set according to your choosing.
 +
 image:day-to-day/scansetting_details.png[link=self, window=blank, width=100%]
 +
-Before moving on, there are quite a number of predefined profiles that can be used for scanning purposes on the 'Profiles' tab. 
+. Before moving on, there are quite a number of predefined profiles that can be used for scanning purposes on the 'Profiles' tab. 
 We’ll use the fedramp moderate profile = rhcos4-moderate
 +
 image::day-to-day/profiles_detail.png[link=self, window=blank, width=100%]
