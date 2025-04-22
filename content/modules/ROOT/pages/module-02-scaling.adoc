@@ -158,7 +158,26 @@ image::day-to-day/updated_usage.png[link=self, window=blank, width=100%]
 
 === Enable Swap/Memory Overcommit
 
-
+. Under *Virtualization* > *ViirtalMachines* make sure all vms in *vms=aap=day2* and *windows-vms* are powered on. You should see a green arrow to thr left of the vm name.
++
+image::day-to-day/verify_oc.png[link=self, window=blank, width=100%]
++
+. Click on *mass=vm* project. Click on *1 - 15 of 30* drop down and change it to *50 per page*
++
+image::day-to-day/project_mass.png[link=self, window=blank, width=100%]
++
+. Click on the Check box under filter to select all vms. Click on *Actions* and *Start*
++
+image::day-to-day/select_all.png[link=self, window=blank, width=100%]
++
+. After the vms start to power on there should be approximently 7 vms that have errors. 
++
+image::day-to-day/after_start.png[link=self, window=blank, width=100%]
++
+. Click on the number of errors
++
+image::day-to-day/num__errors.png[link=self, window=blank, width=100%]
++
 
 == New gear arrives
 
