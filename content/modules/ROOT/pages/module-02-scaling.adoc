@@ -141,7 +141,7 @@ image::day-to-day/select_config.png[link=self, window=blank, width=100%]
 +
 image::day-to-day/edit_vm.png[link=self, window=blank, width=100%]
 +
-. Increase the vCPUs to 8 and Memory to 4 and Click Save
+. Increase the vCPUs to *8* and Memory to *4* and Click *Save*.
 +
 image::day-to-day/update_specs.png[link=self, window=blank, width=100%]
 +
@@ -157,6 +157,8 @@ image::day-to-day/updated_usage.png[link=self, window=blank, width=100%]
 +
 
 === Enable Swap/Memory Overcommit
+
+
 
 == New gear arrives
 
