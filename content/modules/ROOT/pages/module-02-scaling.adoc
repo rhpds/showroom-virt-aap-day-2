@@ -178,6 +178,29 @@ image::day-to-day/after_start.png[link=self, window=blank, width=100%]
 +
 image::day-to-day/num__errors.png[link=self, window=blank, width=100%]
 +
+. These VMs will show a ErrorUnschedulable in the status column.
+. Click on *Compute* then *Nodes*. Select the worker-1 node.
++
+image::day-to-day/worker_node.png[link=self, window=blank, width=100%]
++
+. Click on *Details* and scroll down until you see Taints
++
+image::day-to-day/node_details.png[link=self, window=blank, width=100%]
++
+. Click on the *pencil icon*.
++
+image::day-to-day/select_taints.png[link=self, window=blank, width=100%]
++
+. Remove on the *-* to remove and *Save*.
++
+image::day-to-day/remove_taint.png[link=self, window=blank, width=100%]
++
+. Once the taint is remove go back to the *Virtualmachine* and go to the *mass-vm* porject
+. Click the check box for select all VMs and click on *Actions* and *Start*
+. You will start to see the VMs powering on. This will take a few minutes to start.
++
+image::day-to-day/massvm_running_total.png[link=self, window=blank, width=100%]
++
 
 == New gear arrives
 
