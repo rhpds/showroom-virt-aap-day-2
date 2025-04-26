@@ -560,7 +560,7 @@ automation using a Job Template.
 . Navigate to **Automation Execution → Templates**.
 . Click **Create template → Create job template**.
 . Fill out the following fields:
-
++
 |===
 | Parameter               | Value
 
@@ -575,7 +575,9 @@ automation using a Job Template.
 | Privilege Escalation    | Enabled
 
 |===
-
++
+WARNING: Notice there are two credentials attached and privilege escalation is enabled.
++
 . Click **Create job template**.
 . Once created, click **Launch Template** (top-right) to start the job.
 . Once the **Patch VMs** Job is complete, you should see output similar to:
@@ -594,7 +596,7 @@ These views help validate that the automation worked and that each VM received
 the expected patches.
 
 image::patch_vm_task.png[title='Detail Task View', link=self, window=blank]
-+
+
 image::patch_vm_host_details.png[title='Host Details', link=self, window=blank]
 
 == VM Management (Hot-Plugging CPU and Memory Resources)
