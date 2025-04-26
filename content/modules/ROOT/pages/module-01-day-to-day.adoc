@@ -426,7 +426,7 @@ AAP.
 | Job Type      | Run
 | Inventory     | OpenShift Virtual Machines
 | Project       | Workshop Project
-| Playbook      | `manage_vm_playbook.yml`
+| Playbook      | `solutions/manage_vm_playbook.yml`
 | Execution Environment | Day2 EE
 | Credentials   | OpenShift Credential
 | Extra variables            | `vm_namespace: vms-aap-day2` +
@@ -451,7 +451,7 @@ For Starting VMs, use the following details to create the job template
 | Job Type      | Run
 | Inventory     | OpenShift Virtual Machines
 | Project       | Workshop Project
-| Playbook      | `manage_vm_playbook.yml`
+| Playbook      | `solutions/manage_vm_playbook.yml`
 | Execution Environment | Day2 EE
 | Credentials   | OpenShift Credential
 | Extra variables            | `vm_namespace: vms-aap-day2` +
@@ -467,7 +467,7 @@ For Restarting VMs, use the following details to create the job template
 | **Job Type**      | Run
 | **Inventory**     | OpenShift Virtual Machines
 | **Project**       | Workshop Project
-| **Playbook**      | `manage_vm_playbook.yml`
+| **Playbook**      | `solutions/manage_vm_playbook.yml`
 | **Execution Environment** | Day2 EE
 | **Credentials**   | OpenShift Credential
 | Extra variables            | `vm_namespace: vms-aap-day2` +
@@ -477,3 +477,277 @@ For Restarting VMs, use the following details to create the job template
 Once you have created these Job templates select the **Launch template** button
 on the top right corner to run the job and notice the changes of these VMs
 within the OpenShift console. 
+
+== VM Management (Patching your VMs)
+
+In this exercise, you’ll automate the patching of RHEL virtual machines by applying
+only security-related updates using Ansible Automation Platform. 
+
+The virtual machines you'll target are already part of a dynamic inventory that
+was set up in a previous step — specifically, the **OpenShift Virtual Machines**
+inventory.
+
+Rather than writing playbooks or tasks from scratch, you'll be working with
+provided automation content, which includes:
+
+* A task file that performs security updates using the `dnf` module.
+* A playbook that executes roles responsible for system registration and patching.
+
+Your goal is to understand what this content does and then create a Job Template
+to execute the automation using Ansible Automation Platform’s web UI.
+
+[NOTE] 
+==== 
+This lab uses Vault Credentials to securely handle sensitive
+authentication data and a subscription management role to register RHEL systems
+to Red Hat.  This ensures VMs have access to the correct repositories for
+updates and demonstrates secure automation practices.  
+====
+
+=== Understanding the Provided Task File: `update_security_packages.yml`
+
+This task file lives inside the `tasks/` directory of the
+`redhatone.vm_management.vm_management` role. It uses the `ansible.builtin.dnf`
+module to scan for and install the latest security-related updates on all hosts
+in the inventory.
+
+[source,yaml]
+----
+- name: Update security-related packages on all hosts
+  ansible.builtin.dnf:
+    name: "*"
+    security: true
+    state: latest
+----
+
+Breakdown:
+
+* `name: "*"` — Targets all available packages.
+* `security: true` — Filters for only security-related updates.
+* `state: latest` — Ensures the latest available security updates are installed.
+
+This task is designed to be modular. It’s included in your role and can be
+triggered from any playbook using a variable like `task_file`, which you’ll see
+used shortly.
+
+== Understanding the Provided Playbook: `patch_vm_playbook.yml`
+
+This playbook is responsible for executing the logic that handles both system
+registration and patching. It is already present in your project directory.
+
+[source,yaml]
+----
+- name: Patch Virtual Machines
+  hosts: all
+  roles:
+    - redhatone.vm_management.rhsm_subscription
+    - redhatone.vm_management.vm_management
+----
+
+Breakdown:
+
+* `redhatone.vm_management.rhsm_subscription`: Registers the RHEL VMs to Red Hat using credentials provided via Vault. This step ensures the systems have access to the necessary repositories for receiving updates.
+* `redhatone.vm_management.vm_management`: Calls the role that includes the security update task (`update_security_packages.yml`), referenced via the `task_file` variable.
+
+The playbook ensures that every target host goes through both registration and
+patching in the correct order.
+
+=== Creating the Patch VMs Job Template in Ansible Automation Platform
+
+You’ll now connect all the pieces through the AAP web interface and run the
+automation using a Job Template.
+
+. Navigate to **Automation Execution → Templates**.
+. Click **Create template → Create job template**.
+. Fill out the following fields:
+
+|===
+| Parameter               | Value
+
+| Name                    | Patch VMs
+| Job Type                | Run
+| Inventory               | OpenShift Virtual Machines
+| Project                 | Workshop Project
+| Playbook                | `solutions/patch_vm_playbook.yml`
+| Execution Environment   | Day2 EE
+| Credentials             | Workshop Credential, Vault Credential
+| Extra Variables         | `task_file: update_security_packages.yml`
+| Privilege Escalation    | Enabled
+
+|===
+
+. Click **Create job template**.
+. Once created, click **Launch Template** (top-right) to start the job.
+. Once the **Patch VMs** Job is complete, you should see output similar to:
++
+image::patch_vm.png[title='Patch VM', link=self, window=blank]
+
+=== Reviewing the Job Output
+
+After the job runs, you’ll be able to see:
+
+* A task-by-task breakdown showing which operations were performed.
+* Output for the task titled `Update security-related packages on all hosts`.
+* Per-host details indicating which security updates were applied.
+
+These views help validate that the automation worked and that each VM received
+the expected patches.
+
+image::patch_vm_task.png[title='Detail Task View', link=self, window=blank]
++
+image::patch_vm_host_details.png[title='Host Details', link=self, window=blank]
+
+== VM Management (Hot-Plugging CPU and Memory Resources)
+
+In this section, you will learn how to hot-plug CPU and memory resources into a
+running Virtual Machine (VM) using Ansible Automation Platform and the
+`redhat.openshift_virtualization` collection.
+
+Hot-plugging is the ability to add or remove hardware resources, such as CPU or
+memory, to a running VM without requiring a reboot. This capability is critical
+for dynamic workloads, allowing you to scale resources based on demand while
+minimizing downtime.
+
+This exercise focuses on using *instance types*, which are reusable objects in
+OpenShift Virtualization that define the resources and characteristics for VMs.
+Instance types simplify resource management by enabling consistent
+configurations across VMs.
+
+=== What Are Instance Types?
+
+An instance type is a reusable configuration object where you define resources
+(like CPU and memory) and characteristics for new VMs. OpenShift Virtualization
+provides two types of instance types:
+
+. *VirtualMachineInstancetype*: A namespaced object for instance types limited to a specific namespace.
+. *VirtualMachineClusterInstancetype*: A cluster-wide object for instance types available across all namespaces.
+
+Both types share the same `VirtualMachineInstancetypeSpec`, allowing you to
+define custom configurations or use the variety of instance types included by
+default when OpenShift Virtualization is installed.
+
+By using instance types, you can simplify VM configuration management and ensure
+consistency, making them the *recommended approach* for hot-plugging resources.
+
+In this lab, you will primarily focus on using the instance type method while
+also learning about the classic approach of directly modifying the VM
+specification for context.
+
+NOTE: The classic method only works when creating VMs that do not use an instance type.
+
+=== How to Identify if a VM Uses Instance Types or Not?
+
+To determine whether a VM is created with an instance type or not, follow these steps:
+
+. Navigate to the *Overview* tab of the VM (e.g., `rhel9-vm1`) in the OpenShift Virtualization dashboard.
+. In the *Details* section, look for the following:
+   - *Instance Type*: If the VM uses an instance type, this field will display the name of the instance type applied to the VM (e.g., `u1.small`).
+   - *Template*: If no instance type is used, this field will display either `None` or the name of the template used to create the VM.
+
+You can use these visual cues to identify whether the VM relies on an instance
+type or a traditional template.
+
+Below is an example image illustrating both scenarios:
+
+* One VM shows an assigned instance type.
++
+* Another VM indicates `rhel9-server-small` under the template field, indicating that the `rhel9-server-small` template was used.
++
+image::example_instance_type_and_template.png[title="Instance Type vs. Template", link=self, window=blank]
+
+
+=== What's in the `hot_plug.yml` file?
+
+The `hot_plug.yml` file consists of a task that updates a running VM by applying a
+new instance type. This approach lets you add CPU and memory resources
+dynamically without needing to recreate or power off the VM.
+
+The `instance_type` method is the recommended approach for hot-plugging
+resources into a VM. It ensures consistent and reusable resource configurations
+across multiple VMs while leveraging the powerful features of OpenShift
+Virtualization.
+
+----
+- name: Swap Instance Type to add more Resources
+  redhat.openshift_virtualization.kubevirt_vm:
+    name: "rhel9-vm1"
+    namespace: "{{ vm_namespace }}"
+    state: present
+    run_strategy: Always
+    instancetype:
+      name: "{{ instance_type }}"
+      revisionName: ""
+----
+
+**Explanation of the Task:**
+
+- *redhat.openshift_virtualization.kubevirt_vm*: Specifies the module used to manage VMs in OpenShift Virtualization.
+- *name*: The name of the VM to which the new resources will be applied.
+- *namespace*: The namespace in which the VM resides.
+- *state*: Ensures the VM is present and available.
+- *instancetype*: Defines the instance type for the VM, allowing you to use pre-configured or custom resource settings.
+  - *name*: The name of the instance type to be applied.
+  - *revisionName*: Optionally specifies the exact revision of the instance type, ensuring compatibility with the VM. Typically auto-generated, thus left empty.
+
+WARNING: VMs must be created using Instance Types for this task method to work. Otherwise use the CLassic  method.
+
+=== Classic Method: Modifying the Spec Directly (Informational Only)
+
+The classic method involves directly modifying the VM's `spec` file to update
+CPU and memory resources. While this approach is flexible, it lacks the
+reusability and consistency offered by instance types, making it less ideal for
+managing resources across multiple VMs.
+
+
+[source, yaml]
+----
+- name: Modify CPU & Memory Resources
+  redhat.openshift_virtualization.kubevirt_vm:
+    name: "rhel9-vm2"
+    namespace: "{{ vm_namespace }}"
+    state: present
+    spec:
+      domain:
+        cpu:
+          sockets: 2
+        memory:
+          guest: 4Gi
+----
+
+**Explanation of the Task:**
+
+- *redhat.openshift_virtualization.kubevirt_vm*: Specifies the module used to manage VMs in OpenShift Virtualization.
+- *name*: The name of the VM being modified.
+- *namespace*: The namespace in which the VM resides.
+- *state*: Ensures the VM is in the desired state, in this case, `present`.
+- *spec*: Directly modifies the VM's specification.
+  - *domain*: Contains settings related to the VM's virtualized environment.
+    - *cpu*: Specifies the number of CPU sockets for the VM (e.g., `2`).
+    - *memory*: Defines the memory allocated to the VM, (e.g., `4Gi`).
+
+WARNING: Classic VMs are not part of this lab exercise and the Classic Method is for informational purposes only.
+
+=== Create and Run the Hot-Plug Job Template
+
+. Within the AAP UI Dashboard, navigate to *Automation Execution → Templates*.
+. Click *Create Template* and select *Create job template*.
+. Fill in the following details:
+
+[cols="2,3",options="header"]
+|===
+| Parameter | Value
+| *Name* | Hot Plug VMs
+| *Job Type* | Run
+| *Inventory* | OpenShift Virtual Machines
+| *Project* | Workshop Project
+| *Playbook* | `solutions/manage_vm_playbook.yml`
+| *Execution Environment* | Day 2 EE
+| *Credentials* | OpenShift Credential
+| *Extra variables* | `vm_namespace: vms-aap-day2` +
+                      `task_file: hot_plug.yml` +
+                      `instance_type: u1.2xmedium`
+|===
+
+. Click *Create Job Template*.
+. Launch the job by selecting *Launch Template* from the top-right corner.
+. When the job completes, head to the OpenShift UI dashboard and view the details of the `rhel9-vm1` Virtual Machine. You should see that the new size `u1.2xmedium` is now being used.
