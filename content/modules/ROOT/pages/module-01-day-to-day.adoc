@@ -238,4 +238,244 @@ image::day-to-day/ping_site_deny.png[link=self, window=blank, width=100%]
 
 == Enable and Explore Alerts, Graphs, and Logs
 
-== VM Management (Patch the OS, and Restart the Guest)
+== VM Management (Stop, Start, Restart Guest VMs)
+
+In this section, you'll learn how to manage the lifecycle of your guest VMs
+running in Red Hat OpenShift Virtualization using Ansible Automation
+Platform (AAP). While much of the groundwork such as creating playbooks and
+VM task files has already been completed for you, this lab focuses on
+understanding how the pieces work together and how to run the automation via
+AAP.
+
+To start, you’ll perform common VM lifecycle actions such as stopping, starting, and
+restarting all VMs in a given namespace, and you’ll gain insight into how the
+automation behind these actions is structured.
+
+=== The existing setup
+
+To assist with your experience, the following content has already been created and configured:
+
+* The `tasks/main.yml` file has been pre-populated with dynamic task inclusion logic.
+* The Ansible playbook (`manage_vm_playbook.yml`) that calls the appropriate task based on input variables is in place.
+* Task files for stopping, starting, and restarting VMs (`stop_vm.yml`, `start_vm.yml`, and `restart_vm.yml`) have been pre-written.
+
+Although you don’t need to create or modify these files, it's important to understand how they work, as you’ll be referencing them when creating job templates in AAP.
+
+
+=== Understanding the task files
+
+Each of the task files works by retrieving all virtual machines within a
+specific namespace (in our case `vms-aap-day2`)  and then performing an action
+(stop, start, restart) based on their current status. The
+`ansibel.builtin.debug` task provides insights to understanding the structure of
+your VM resource `vm_info` to identify key fields required to create dynamic
+Ansible tasks. 
+
+=== `stop_vm.yml`
+
+This task file stops any VMs that are currently running within a given namespace.
+
+```
+---
+- name: Get all VirtualMachines in the namespace
+  redhat.openshift_virtualization.kubevirt_vm_info:
+    namespace: "{{ vm_namespace }}"
+  register: vm_info
+
+- name: Debug the vm_info variable
+  ansible.builtin.debug:
+    var: vm_info
+
+- name: Stop VM using OpenShift API
+  ansible.builtin.uri:
+    url: "{{ OCP_HOST }}/apis/subresources.kubevirt.io/v1/namespaces/{{ vm_namespace }}/virtualmachines/{{ item.metadata.name }}/stop"
+    method: PUT
+    headers:
+      Authorization: "Bearer {{ OCP_BEARER_TOKEN }}"
+    validate_certs: false
+    status_code:
+      - 202
+  loop: "{{ vm_info.resources }}"
+  loop_control:
+    label: "{{ item.metadata.name }}"
+  when: item.status.printableStatus != "Stopped"
+
+```
+
+=== `start_vm.yml`
+
+This task file starts any VMs that are currently stopped within a given
+namespace.
+
+```
+---
+- name: Get all VirtualMachines in the namespace
+  redhat.openshift_virtualization.kubevirt_vm_info:
+    namespace: "{{ vm_namespace }}"
+  register: vm_info
+
+- name: Debug the vm_info variable
+  ansible.builtin.debug:
+    var: vm_info
+
+- name: Start VM using OpenShift API
+  ansible.builtin.uri:
+    url: "{{ OCP_HOST }}/apis/subresources.kubevirt.io/v1/namespaces/{{ vm_namespace }}/virtualmachines/{{ item.metadata.name }}/start"
+    method: PUT
+    headers:
+      Authorization: "Bearer {{ OCP_BEARER_TOKEN }}"
+    validate_certs: false
+    status_code:
+      - 202
+  loop: "{{ vm_info.resources }}"
+  loop_control:
+    label: "{{ item.metadata.name }}"
+  when: item.status.printableStatus != "Running"
+```
+
+=== `restart_vm.yml`
+
+This task file restarts  any VMs that are currently running within a given
+namespace.
+
+```
+---
+- name: Get all VirtualMachines in the namespace
+  redhat.openshift_virtualization.kubevirt_vm_info:
+    namespace: "{{ vm_namespace }}"
+  register: vm_info
+
+- name: Debug the vm_info variable
+  ansible.builtin.debug:
+    var: vm_info
+
+- name: Restart VM using OpenShift API
+  ansible.builtin.uri:
+    url: "{{ OCP_HOST }}/apis/subresources.kubevirt.io/v1/namespaces/{{ vm_namespace }}/virtualmachines/{{ item.metadata.name }}/restart"
+    method: PUT
+    headers:
+      Authorization: "Bearer {{ OCP_BEARER_TOKEN }}"
+    validate_certs: false
+    status_code:
+      - 202
+  loop: "{{ vm_info.resources }}"
+  loop_control:
+    label: "{{ item.metadata.name }}"
+  when: item.status.printableStatus != "Running"
+```
+
+These task files use the OpenShift REST API directly using the
+`ansible.builtin.uri` module to invoke the appropriate lifecycle action of
+stopping, starting or restarting.
+
+The debug task helps you visualize the
+structure of VM data returned by the `kubevirt_vm_info` module and breaks down
+as follows:
+
+
+* The `kubevirt_vm_info` module retrieves all VMs in the namespace.
+
+* `metadata.name`: The name of the VirtualMachine.
+
+* `metadata.namespace`: The namespace the VM belongs to.
+
+* The `loop_control` option sets a label for each task iteration, showing the VM name (`item.metadata.name`) in the output. This makes the playbook output more readable and easier to debug.
+
+* `status.printableStatus`: The current status of the VM (e.g., Stop, Start,Restart).
+
+A snippet sample of the `ansible.builtin.debug module is shown below.
+
+```
+changed: true
+result:
+  apiVersion: kubevirt.io/v1
+  kind: VirtualMachine
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: >
+        ...
+    ...
+    name: rhel9-vm1
+    namespace: vms-aap-day2
+  spec:
+    ...
+  status:
+    ...
+    printableStatus: Stopped
+  ...
+```
+
+=== Creating & Running the VM Job Templates with Ansible Automation Platform
+
+Each VM lifecycle template that you will create takes advantage of the
+`manage_vm_playbook.yml`. In this section,  you will head to the Ansible
+Automation Platform (AAP) dashboard and create a VM Job Template for each
+scenario: Start VMs, Stop VMs, Restart VMs.
+
+The following instructions showcase how to create the Stop VMs Template within
+AAP.
+
+. Within the AAP UI dashboard, navigate to **Automation Execution → Templates**, click the **Create template** button, and chose **Create job template**.
++
+. Fill out the following details within the job template
++
+|===
+| Parameter         | Value
+
+| Name          | Stop VMs
+| Job Type      | Run
+| Inventory     | OpenShift Virtual Machines
+| Project       | Workshop Project
+| Playbook      | `manage_vm_playbook.yml`
+| Execution Environment | Day2 EE
+| Credentials   | OpenShift Credential
+| Extra variables            | `vm_namespace: vms-aap-day2` +
+                               `task_file: stop_vm.yml`
+|===
++
+. Click **Create job template**.
++
+. Once the `Stop VMs` Job Template is created, select the **Launch template** button on the top right corner to run the job.
++
+. Head to the OpenShift UI dashboard, you can verify the VMs are running within the **Virtualization -> Virtual Machines** section.
+
+Repeat this process to create the *Start VMs* and *Restart VMs* Ansible Job
+Templates. The details for each is provided below.
+
+For Starting VMs, use the following details to create the job template
+
+|===
+| Parameter                  | Value
+
+| Name                       | Stop VMs
+| Job type                   | Run
+| Inventory                  | OpenShift Virtual Machines
+| Project                    | Workshop Project
+| Playbook                   | `manage_vm_playbook.yml`
+| Execution environment      | Day2 EE
+| Credentials                | OpenShift Credential
+| Extra variables            | `vm_name: rhel9-vm1` +
+                               `vm_namespace: vms-aap-day2` +
+                               `task_file: stop_vm.yml`
+|===
+
+
+For Restarting VMs, use the following details to create the job template
+
+|===
+| Parameter         | Value
+
+| **Name**          | Restart VMs
+| **Job Type**      | Run
+| **Inventory**     | OpenShift Virtual Machines
+| **Project**       | Workshop Project
+| **Playbook**      | `manage_vm_playbook.yml`
+| **Execution Environment** | Day2 EE
+| **Credentials**   | OpenShift Credential
+| Extra variables            | `vm_namespace: vms-aap-day2` +
+                               `task_file: restart_vm.yml`
+|===
+
+Once you have created these Job templates select the **Launch template** button
+on the top right corner to run the job and notice the changes of these VMs
+within the OpenShift console. 
