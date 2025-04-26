@@ -658,7 +658,7 @@ Below is an example image illustrating both scenarios:
 image::example_instance_type_and_template.png[title="Instance Type vs. Template", link=self, window=blank]
 
 
-=== What's in the `hot_plug.yml` file?
+=== Using the pre-created `hot_plug.yml` to update resources
 
 The `hot_plug.yml` file consists of a task that updates a running VM by applying a
 new instance type. This approach lets you add CPU and memory resources
@@ -691,7 +691,7 @@ Virtualization.
   - *name*: The name of the instance type to be applied.
   - *revisionName*: Optionally specifies the exact revision of the instance type, ensuring compatibility with the VM. Typically auto-generated, thus left empty.
 
-WARNING: VMs must be created using Instance Types for this task method to work. Otherwise use the CLassic  method.
+WARNING: VMs must be created using Instance Types for this task method to work. Otherwise use the Classic method.
 
 === Classic Method: Modifying the Spec Directly (Informational Only)
 
@@ -734,7 +734,7 @@ WARNING: Classic VMs are not part of this lab exercise and the Classic Method is
 . Within the AAP UI Dashboard, navigate to *Automation Execution → Templates*.
 . Click *Create Template* and select *Create job template*.
 . Fill in the following details:
-
++
 [cols="2,3",options="header"]
 |===
 | Parameter | Value
@@ -749,7 +749,7 @@ WARNING: Classic VMs are not part of this lab exercise and the Classic Method is
                       `task_file: hot_plug.yml` +
                       `instance_type: u1.2xmedium`
 |===
-
++
 . Click *Create Job Template*.
 . Launch the job by selecting *Launch Template* from the top-right corner.
 . When the job completes, head to the OpenShift UI dashboard and view the details of the `rhel9-vm1` Virtual Machine. You should see that the new size `u1.2xmedium` is now being used.
