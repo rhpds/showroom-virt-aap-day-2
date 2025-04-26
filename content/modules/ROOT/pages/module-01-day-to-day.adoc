@@ -445,20 +445,18 @@ Templates. The details for each is provided below.
 For Starting VMs, use the following details to create the job template
 
 |===
-| Parameter                  | Value
+| Parameter         | Value
 
-| Name                       | Stop VMs
-| Job type                   | Run
-| Inventory                  | OpenShift Virtual Machines
-| Project                    | Workshop Project
-| Playbook                   | `manage_vm_playbook.yml`
-| Execution environment      | Day2 EE
-| Credentials                | OpenShift Credential
-| Extra variables            | `vm_name: rhel9-vm1` +
-                               `vm_namespace: vms-aap-day2` +
-                               `task_file: stop_vm.yml`
+| Name          | Start VMs
+| Job Type      | Run
+| Inventory     | OpenShift Virtual Machines
+| Project       | Workshop Project
+| Playbook      | `manage_vm_playbook.yml`
+| Execution Environment | Day2 EE
+| Credentials   | OpenShift Credential
+| Extra variables            | `vm_namespace: vms-aap-day2` +
+                               `task_file: start_vm.yml`
 |===
-
 
 For Restarting VMs, use the following details to create the job template
 
