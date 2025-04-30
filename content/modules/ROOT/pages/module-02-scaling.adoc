@@ -38,13 +38,13 @@ image::day-to-day/lm_pod_config.png[link=self, window=blank, width=100%]
 +
 . In *Virtualization* > *VirtualMachine* Select *windows-vms* project to show *winweb01*, *winweb02* and *database*. You should only see *database* and *winweb01* powered on. Power on them if needed.
 
-. Click on *winweb01* 
+. Click on *winweb01*
 +
 image::day-to-day/ob_select_vm.png[link=self, window=blank, width=100%]
 +
 . On the main page of the VM there is a utilization section that show the basic status of the VM updated every 15 seconds.
 - Each of the line graphs are clickable.
-- Note: CPU overcommute in the environment is 10:1 overcommitment which is the default setting. 
+- Note: CPU overcommute in the environment is 10:1 overcommitment which is the default setting.
 
 . You can adjust the time range going from 5 min to 1 week.
 +
@@ -70,7 +70,7 @@ image::day-to-day/change_interval.png[link=self, window=blank, width=100%]
 +
 image::day-to-day/change_refresh.png[link=self, window=blank, width=100%]
 +
-. You can also add queries 
+. You can also add queries
 +
 image::day-to-day/select_qurey.png[link=self, window=blank, width=100%]
 +
@@ -154,7 +154,6 @@ image::day-to-day/vm_new_spec.png[link=self, window=blank, width=100%]
 . Once both vms are upgraded in the project tree view click on *windows-vms* project. You will see that the CPU and Memory usage has gone down.
 +
 image::day-to-day/updated_usage.png[link=self, window=blank, width=100%]
-+
 
 === Enable Swap/Memory Overcommit
 
@@ -170,13 +169,13 @@ image::day-to-day/project_mass.png[link=self, window=blank, width=100%]
 +
 image::day-to-day/select_all.png[link=self, window=blank, width=100%]
 +
-. After the vms start to power on there should be approximently 7 vms that have errors. 
+. After the vms start to power on there should be approximently 7 vms that have errors.
 +
 image::day-to-day/after_start.png[link=self, window=blank, width=100%]
 +
 . Click on the number of errors
 +
-image::day-to-day/num__errors.png[link=self, window=blank, width=100%]
+image::day-to-day/num_errors.png[link=self, window=blank, width=100%]
 +
 . These VMs will show a ErrorUnschedulable in the status column.
 . Click on *Compute* then *Nodes*. Select the worker-1 node.
@@ -200,7 +199,6 @@ image::day-to-day/remove_taint.png[link=self, window=blank, width=100%]
 . You will start to see the VMs powering on. This will take a few minutes to start.
 +
 image::day-to-day/massvm_running_total.png[link=self, window=blank, width=100%]
-+
 
 == New gear arrives
 
