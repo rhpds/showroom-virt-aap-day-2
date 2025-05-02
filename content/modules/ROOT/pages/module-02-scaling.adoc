@@ -3,7 +3,7 @@
 //, new capacity demands (45 minutes)
 In this sections we will be going over vertical, horizontal scaling and looking at the graphs, logs and alerts.
 
-== Performance and Observability
+//, == Performance and Observability
 
 //, === Examine Load on Virtual Guests
 
