@@ -4,38 +4,56 @@
 
 Dynamic inventories allow Ansible Automation Platform (AAP) to automatically
 fetch and update the inventory of systems from external sources, eliminating
-the need for manual inventory management. 
+the need for manual inventory management.
 
 In this lab, we will configure a dynamic inventory to pull data from OpenShift
 Virtualization. This will enable AAP to manage OpenShift VMs residing in the
 `vms-aap-day2` namespace of an OCP cluster.
 
+== Log in to the OpenShift Environment
+
+. Log in to your OpenShift environment using the following details:
+
+* Console URL: link:{openshift_cluster_console_url}[{openshift_cluster_console_url}, window="_blank"]
+* Username: `{openshift_cluster_admin_username}`
+* Password: `{openshift_cluster_admin_password}`
+
+== Ansible Automation Platform Environment Details:
+
+. Log in to your AAP environment using the following details:
+
+* AAP Dashboard: link:{aap_controller_web_url}[{aap_controller_web_url}, window="_blank"]
+* Username: `{aap_controller_admin_user}`
+* Password: `{aap_controller_admin_password}`
+
+image::aap_login.png[title="AAP Login", link=self, window=blank]
+
 === Create an Inventory
 
-. Navigate to **Automation Execution → Infrastructure → Inventories**.
+. Navigate to *Automation Execution → Infrastructure → Inventories*.
 +
-. Select the **Create inventory** button.
+. Click the *Create inventory* drop-down box and select the *Create inventory* option.
 +
-. In the **Create Inventory** form:
+. In the *Create Inventory* form:
    * Provide a name: `OpenShift Virtual Machines`.
    * Select `Default` as the Organization.
 +
-. Click the **Create inventory** button.
+. Click the *Create inventory* button.
 +
-image::create_inventory.png[title="Create Inventory", link=self, window=blank]
+image::create_inventory1.png[title="Create Inventory", link=self, window=blank]
 
 === Add a Source to the Inventory
 
-. After creating the inventory, switch to the **Sources** tab.
+. After creating the inventory, switch to the *Sources* tab.
 +
 image::sources.png[title="Sources", link=self, window=blank]
 +
-. Select the **Create source** button.
+. Select the *Create source* button.
 +
-. In the **Create Source** form:
+. In the *Create Source* form:
    * Provide a name: `OpenShift Virtual Machines Source`.
    * Choose `Day 2 EE` as the execution environment.
-   * Select `OpenShift Virtualization` as the **Source** type.
+   * Select `OpenShift Virtualization` as the *Source* type.
    * Add the `OpenShift Credential` (Bearer Token was pre-created)
    * Select `Update on Launch` checkbox within Options.
    * Set `Cache timeout` to `0` seconds
@@ -46,22 +64,22 @@ namespaces:
   - vms-aap-day2
 ```
 +
-. Click the **Create source** button to save the configuration.
+. Click the *Create source* button to save the configuration.
 +
 image::create_inventory_source.png[title="Create Inventory Source", link=self, window=blank]
 
 ===  Update the Inventory
 . Launch the inventory update:
-   * Click the **Launch Inventory Update** button in the top-right corner.
+   * Click the *Launch Inventory Update* button in the top-right corner.
 +
 image::update_inventory.png[title="Update Inventory", link=self, window=blank]
 +
-. Wait for the **Last Job Status** to show `Success`.
+. Wait for the *Last Job Status* to show `Success`.
 
 === Verify the Inventory
 . Once the update completes successfully:
-   * Click the **Back to Inventory Sources** button.
-   * Switch to the **Hosts** tab.
+   * Click the *Back to Inventory Sources* button.
+   * Switch to the *Hosts* tab.
 +
 . Confirm that the Virtual Machines from the `vms-app-day2` namespace of your OpenShift cluster are listed as inventory hosts.
 +
@@ -70,7 +88,7 @@ image::verify_hosts.png[title="Verify Hosts", link=self, window=blank]
 === Test Connectivity of the Virtual Machines
 
 Ensure that you can ping those VMs
-within the **AAP** dashboard {aap_controller_web_url} as follows:
+within the *AAP* dashboard {aap_controller_web_url} as follows:
 
 . Login to the AAP Dashboard using the credentials provided in the `Setup` step.
 +
@@ -110,9 +128,9 @@ vms-aap-day2-rhel9-vm3 | SUCCESS => {
 }
 ----
 
-. You may also confirm the VMs are running using the **OpenShift UI** dashboard {openshift_cluster_console_url}:
+. You may also confirm the VMs are running using the *OpenShift UI* dashboard {openshift_cluster_console_url}:
 
-**Virtualization -> VirtualMachines** within the `vms-aap-day2` project.
+*Virtualization -> VirtualMachines* within the `vms-aap-day2` project.
 
 image::vms-ocp-dashboard.png[title='Virtual Machines Running on OpenShift', link=self, window=blank]
 
@@ -137,18 +155,18 @@ and the name can be set according to your choosing.
 +
 image:day-to-day/scansetting_details.png[link=self, window=blank, width=100%]
 +
-. Before moving on, there are quite a number of predefined profiles that can be used for scanning purposes on the 'Profiles' tab. 
+. Before moving on, there are quite a number of predefined profiles that can be used for scanning purposes on the 'Profiles' tab.
 We’ll use the fedramp moderate profile = rhcos4-moderate
 +
 image::day-to-day/profiles_detail.png[link=self, window=blank, width=100%]
 +
-- Additional detail on these profiles can be found here- 
+- Additional detail on these profiles can be found here-
 https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/security_and_compliance/compliance-operator#compliance-operator-supported-profiles
 - The next step is to set up a ScanSettingBinding, navigate to that tab and select create ScanSettingBinding
 +
 image:day-to-day/create_scansettingbinding.png[link=self, window=blank, width=100%]
 +
-. In the ScanSettingBinding yaml details, the name (fedramp1) can be set to whatever you like.  
+. In the ScanSettingBinding yaml details, the name (fedramp1) can be set to whatever you like.
 Note the profile is set to rhcos4-moderate (the fedramp moderate profile), and the ScanSetting is set to the previously defined ScanSetting (scan1).
 +
 image::day-to-day/scansettingbinding_details.png[link=self, window=blank, width=100%]
@@ -157,7 +175,7 @@ image::day-to-day/scansettingbinding_details.png[link=self, window=blank, width=
 +
 image::day-to-day/compliance_suite.png[link=self, window=blank, width=100%]
 +
-. This Compliance Suite (fedramp1) kicks off the defined profile (rhcos4-moderate) scans for each of the defined roles in the ScanSetting (master/worker) 
+. This Compliance Suite (fedramp1) kicks off the defined profile (rhcos4-moderate) scans for each of the defined roles in the ScanSetting (master/worker)
 +
 image::day-to-day/compliance_scan.png[link=self, window=blank, width=100%]
 +
@@ -358,7 +376,7 @@ specific namespace (in our case `vms-aap-day2`)  and then performing an action
 (stop, start, restart) based on their current status. The
 `ansibel.builtin.debug` task provides insights to understanding the structure of
 your VM resource `vm_info` to identify key fields required to create dynamic
-Ansible tasks. 
+Ansible tasks.
 
 === `stop_vm.yml`
 
@@ -504,7 +522,7 @@ scenario: Start VMs, Stop VMs, Restart VMs.
 The following instructions showcase how to create the Stop VMs Template within
 AAP.
 
-. Within the AAP UI dashboard, navigate to **Automation Execution → Templates**, click the **Create template** button, and chose **Create job template**.
+. Within the AAP UI dashboard, navigate to *Automation Execution → Templates*, click the *Create template* button, and chose *Create job template*.
 +
 . Fill out the following details within the job template
 +
@@ -522,11 +540,11 @@ AAP.
                                `task_file: stop_vm.yml`
 |===
 +
-. Click **Create job template**.
+. Click *Create job template*.
 +
-. Once the `Stop VMs` Job Template is created, select the **Launch template** button on the top right corner to run the job.
+. Once the `Stop VMs` Job Template is created, select the *Launch template* button on the top right corner to run the job.
 +
-. Head to the OpenShift UI dashboard, you can verify the VMs are running within the **Virtualization -> Virtual Machines** section.
+. Head to the OpenShift UI dashboard, you can verify the VMs are running within the *Virtualization -> Virtual Machines* section.
 
 Repeat this process to create the *Start VMs* and *Restart VMs* Ansible Job
 Templates. The details for each is provided below.
@@ -552,28 +570,28 @@ For Restarting VMs, use the following details to create the job template
 |===
 | Parameter         | Value
 
-| **Name**          | Restart VMs
-| **Job Type**      | Run
-| **Inventory**     | OpenShift Virtual Machines
-| **Project**       | Workshop Project
-| **Playbook**      | `solutions/manage_vm_playbook.yml`
-| **Execution Environment** | Day2 EE
-| **Credentials**   | OpenShift Credential
+| *Name*          | Restart VMs
+| *Job Type*      | Run
+| *Inventory*     | OpenShift Virtual Machines
+| *Project*       | Workshop Project
+| *Playbook*      | `solutions/manage_vm_playbook.yml`
+| *Execution Environment* | Day2 EE
+| *Credentials*   | OpenShift Credential
 | Extra variables            | `vm_namespace: vms-aap-day2` +
                                `task_file: restart_vm.yml`
 |===
 
-Once you have created these Job templates select the **Launch template** button
+Once you have created these Job templates select the *Launch template* button
 on the top right corner to run the job and notice the changes of these VMs
-within the OpenShift console. 
+within the OpenShift console.
 
 == VM Management (Patching your VMs)
 
 In this exercise, you’ll automate the patching of RHEL virtual machines by applying
-only security-related updates using Ansible Automation Platform. 
+only security-related updates using Ansible Automation Platform.
 
 The virtual machines you'll target are already part of a dynamic inventory that
-was set up in a previous step — specifically, the **OpenShift Virtual Machines**
+was set up in a previous step — specifically, the *OpenShift Virtual Machines*
 inventory.
 
 Rather than writing playbooks or tasks from scratch, you'll be working with
@@ -585,12 +603,12 @@ provided automation content, which includes:
 Your goal is to understand what this content does and then create a Job Template
 to execute the automation using Ansible Automation Platform’s web UI.
 
-[NOTE] 
-==== 
+[NOTE]
+====
 This lab uses Vault Credentials to securely handle sensitive
 authentication data and a subscription management role to register RHEL systems
 to Red Hat.  This ensures VMs have access to the correct repositories for
-updates and demonstrates secure automation practices.  
+updates and demonstrates secure automation practices.
 ====
 
 === Understanding the Provided Task File: `update_security_packages.yml`
@@ -646,8 +664,8 @@ patching in the correct order.
 You’ll now connect all the pieces through the AAP web interface and run the
 automation using a Job Template.
 
-. Navigate to **Automation Execution → Templates**.
-. Click **Create template → Create job template**.
+. Navigate to *Automation Execution → Templates*.
+. Click *Create template → Create job template*.
 . Fill out the following fields:
 +
 |===
@@ -667,9 +685,9 @@ automation using a Job Template.
 +
 WARNING: Notice there are two credentials attached and privilege escalation is enabled.
 +
-. Click **Create job template**.
-. Once created, click **Launch Template** (top-right) to start the job.
-. Once the **Patch VMs** Job is complete, you should see output similar to:
+. Click *Create job template*.
+. Once created, click *Launch Template* (top-right) to start the job.
+. Once the *Patch VMs* Job is complete, you should see output similar to:
 +
 image::patch_vm.png[title='Patch VM', link=self, window=blank]
 
@@ -770,7 +788,7 @@ Virtualization.
       revisionName: ""
 ----
 
-**Explanation of the Task:**
+*Explanation of the Task:*
 
 - *redhat.openshift_virtualization.kubevirt_vm*: Specifies the module used to manage VMs in OpenShift Virtualization.
 - *name*: The name of the VM to which the new resources will be applied.
@@ -805,7 +823,7 @@ managing resources across multiple VMs.
           guest: 4Gi
 ----
 
-**Explanation of the Task:**
+*Explanation of the Task:*
 
 - *redhat.openshift_virtualization.kubevirt_vm*: Specifies the module used to manage VMs in OpenShift Virtualization.
 - *name*: The name of the VM being modified.
