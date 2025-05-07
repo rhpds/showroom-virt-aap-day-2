@@ -140,48 +140,48 @@ image::vms-ocp-dashboard.png[title='Virtual Machines Running on OpenShift', link
 
 . To set up a security scan, navigate to the Operators tab and select Installed Operators, then select the Compliance Operator.
 +
-image::day-to-day/compliance_operator.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/compliance_operator.png[link=self, window=blank, width=100%]
 +
 . This takes you to the operator details page, from here move to the ScanSetting tab
 +
-image::day-to-day/compliance_details.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/compliance_details.png[link=self, window=blank, width=100%]
 +
 . Select Create ScanSetting
 +
-image::day-to-day/create_scansetting.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/create_scansetting.png[link=self, window=blank, width=100%]
 +
 . In the ScanSetting yaml details, note the 'autoApplyRemediations' =False, the roles section includes both master & worker nodes,
 and the name can be set according to your choosing.
 +
-image:day-to-day/scansetting_details.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/scansetting_details.png[link=self, window=blank, width=100%]
 +
 . Before moving on, there are quite a number of predefined profiles that can be used for scanning purposes on the 'Profiles' tab.
 We’ll use the fedramp moderate profile = rhcos4-moderate
 +
-image::day-to-day/profiles_detail.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/profiles_detail.png[link=self, window=blank, width=100%]
 +
 - Additional detail on these profiles can be found here-
 https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/security_and_compliance/compliance-operator#compliance-operator-supported-profiles
 - The next step is to set up a ScanSettingBinding, navigate to that tab and select create ScanSettingBinding
 +
-image:day-to-day/create_scansettingbinding.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/create_scansettingbinding.png[link=self, window=blank, width=100%]
 +
 . In the ScanSettingBinding yaml details, the name (fedramp1) can be set to whatever you like.
 Note the profile is set to rhcos4-moderate (the fedramp moderate profile), and the ScanSetting is set to the previously defined ScanSetting (scan1).
 +
-image::day-to-day/scansettingbinding_details.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/scansettingbinding_details.png[link=self, window=blank, width=100%]
 +
 . After the ScanSettingBinding is created this will kick of the fedramp1 Compliance Suite
 +
-image::day-to-day/compliance_suite.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/compliance_suite.png[link=self, window=blank, width=100%]
 +
 . This Compliance Suite (fedramp1) kicks off the defined profile (rhcos4-moderate) scans for each of the defined roles in the ScanSetting (master/worker)
 +
-image::day-to-day/compliance_scan.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/compliance_scan.png[link=self, window=blank, width=100%]
 +
 . The scan takes ~3-4 minutes to complete, then you can check the failures on the ComplianceCheckResult tab.
 +
-image::day-to-day/checkcomplianceresults.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/checkcomplianceresults.png[link=self, window=blank, width=100%]
 
 == Configure Network Policies to manage VM Traffic
 
@@ -196,32 +196,32 @@ Show how we can set a network policy to block egress of that vm, or limit egress
 . Click VirtualMachines, click *rhel9-vm1* click Console.
 If you do not see any Virtual Machines make sure you are in vms-aap-day2 project.
 +
-image::day-to-day/view_vm.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/view_vm.png[link=self, window=blank, width=100%]
 +
 . Click on the Console tab and using the provided login perform a ping test to google.com.
 +
-image::day-to-day/login_vm.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/login_vm.png[link=self, window=blank, width=100%]
 +
 NOTE: There is a Copy to clipboard button and a Paste button available here, which makes the login process much easier.
 +
 . Once you are logged in, execute the following command:
 .. `ping google.com`
 +
-image::day-to-day/ping_site.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/ping_site.png[link=self, window=blank, width=100%]
 +
 . Press *Control+C* to stop the ping.
 +
 . From the OpenShift console, Click on Workloads > Pods. Click on the pod name for *rhel9-vm1*.
 +
-image::day-to-day/select_pod.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/select_pod.png[link=self, window=blank, width=100%]
 +
 . In the Pod details section click Edit.
 +
-image::day-to-day/pod_details.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/pod_details.png[link=self, window=blank, width=100%]
 +
 . Add app=network-policy-deny to the labels and click Save.
 +
-image::day-to-day/pod_label.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/pod_label.png[link=self, window=blank, width=100%]
 +
 . Repeat this process for *rhel9-vm2*.
 
@@ -229,7 +229,7 @@ image::day-to-day/pod_label.png[link=self, window=blank, width=100%]
 
 . Under Networking click on *NetworkPolicies* then *Create NetworkPolicy*.
 +
-image::day-to-day/networkpolicy.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/networkpolicy.png[link=self, window=blank, width=100%]
 +
 . In NetworkPolicies fill out these fields and Click *Save*.
 
@@ -238,11 +238,11 @@ image::day-to-day/networkpolicy.png[link=self, window=blank, width=100%]
 .. Value: network-policy-deny
 .. Check Deny all egress traffic
 +
-image::day-to-day/network_policy_configure.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/network_policy_configure.png[link=self, window=blank, width=100%]
 +
 . You can verify what pods are affected pods by the network policy.
 +
-image::day-to-day/affected_pod.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/affected_pod.png[link=self, window=blank, width=100%]
 
 ==== See that the VM CANNOT ping google
 
@@ -250,7 +250,7 @@ image::day-to-day/affected_pod.png[link=self, window=blank, width=100%]
 .. Click on the *Console* tab and login to the VM
 .. Enter the command ping google.com. You should get no responce.
 +
-image::day-to-day/ping_site_deny.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/ping_site_deny.png[link=self, window=blank, width=100%]
 +
 . Once complete, delete the network policy you created.
 
@@ -262,11 +262,11 @@ Now lets look at the metrics for the Nodes.
 
 . Under *Compute* Click on *Nodes*. From This view you can see the Node status and role.
 +
-image::day-to-day/node_list.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/node_list.png[link=self, window=blank, width=100%]
 +
 . Click on one of the nodes.
 +
-image::day-to-day/node_example.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/node_example.png[link=self, window=blank, width=100%]
 +
 . You will see the Utilization. You can select if you want to see 1, 6 or 24 hours.
 
@@ -274,21 +274,21 @@ image::day-to-day/node_example.png[link=self, window=blank, width=100%]
 
 . Click on *Workloads* > *Deployments* > *loadmaker*. Ensure you are in Project: *windows-vms*.
 +
-image::day-to-day/select_loadmaker.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/select_loadmaker.png[link=self, window=blank, width=100%]
 +
 . You should see 1 Pod under the Deployment Details tab.
 +
-image::day-to-day/show_num_pod.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/show_num_pod.png[link=self, window=blank, width=100%]
 +
 . Click on *Environment* tab
 +
-image::day-to-day/lm_pod_config.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/lm_pod_config.png[link=self, window=blank, width=100%]
 +
 . In *Virtualization* > *VirtualMachine* Select *windows-vms* project to show *winweb01*, *winweb02* and *database*. You should only see *database* and *winweb01* powered on. Power on them if needed.
 
 . Click on *winweb01*
 +
-image::day-to-day/ob_select_vm.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/ob_select_vm.png[link=self, window=blank, width=100%]
 +
 . On the main page of the VM there is a utilization section that show the basic status of the VM updated every 15 seconds.
 - Each of the line graphs are clickable.
@@ -296,53 +296,53 @@ image::day-to-day/ob_select_vm.png[link=self, window=blank, width=100%]
 
 . You can adjust the time range going from 5 min to 1 week.
 +
-image::day-to-day/ob_select_vm.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/ob_select_vm.png[link=self, window=blank, width=100%]
 +
 . By the Network Transfer and Clicking Breakdown by network section you can see how much traffic is passing through in this space it only shows default because there is only one network adapter.
 +
-image::day-to-day/select_network.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/select_network.png[link=self, window=blank, width=100%]
 +
 . Click on CPU Usage bar graph
 +
-image::day-to-day/select_cpu.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/select_cpu.png[link=self, window=blank, width=100%]
 +
 . In the Metrics you see how the CPU spiked. here you can see over the last 30 minutes
 +
-image::day-to-day/cpu_metrics.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/cpu_metrics.png[link=self, window=blank, width=100%]
 +
 . You can change the interval time anywhere from 5 minutes to 2 weeks.
 +
-image::day-to-day/change_interval.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/change_interval.png[link=self, window=blank, width=100%]
 +
 . Here you can change the refresh timing.
 +
-image::day-to-day/change_refresh.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/change_refresh.png[link=self, window=blank, width=100%]
 +
 . You can also add queries
 +
-image::day-to-day/select_qurey.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/select_qurey.png[link=self, window=blank, width=100%]
 +
 . Lets add a query "sum(rate(kubevirt_vmi_vcpu_wait_seconds_total{name='winweb01',namespace='windows-vms'}[5m])) BY (name, namespace)" without the "". This query will show the amouont of time spent by each vcpu while waiting on I/O.
 +
-image::day-to-day/example_query.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/example_query.png[link=self, window=blank, width=100%]
 
 ==== Dashboards
 
 . Click on *Observe* > *Dashboard*.
 +
-image::day-to-day/dashboard.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/dashboard.png[link=self, window=blank, width=100%]
 +
 . Click on *API Performance* and search for *KubeVirt/Infrastructure Resources/Top Consumers*
 +
-image::day-to-day/kubevirt_dashboard.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/kubevirt_dashboard.png[link=self, window=blank, width=100%]
 +
 . This dashboard you will see the top consumer for your virtual machines. Let dive in and look at the Top Consumers of CPU by virt-launcher Pods and Click *Inspect*
 +
-image::day-to-day/cpu_inspect.png.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/cpu_inspect.png.png[link=self, window=blank, width=100%]
 +
 . You can can select the VMs you want to see in the graph.
 +
-image::day-to-day/metrics_select.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/metrics_select.png[link=self, window=blank, width=100%]
 +
 
 == VM Management (Stop, Start, Restart Guest VMs)
