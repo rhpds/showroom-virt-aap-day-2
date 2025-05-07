@@ -7,3 +7,5 @@
 * xref:module-03-automating.adoc[Scale to the Moon with Ansible]
 
 * xref:conclusion.adoc[Conclusion]
+** xref:conclusion.adoc#key_takeaways[Key Takeaways]
+** xref:conclusion.adoc#additional_info[Additional Information]
