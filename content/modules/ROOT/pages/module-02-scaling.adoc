@@ -30,6 +30,14 @@ image::day-to-day/lm_pod_config.png[link=self, window=blank, width=100%]
 +
 image::day-to-day/before_upgrade_horizontally.png[link=self, window=blank, width=100%]
 +
+. Make sure you are still on *windows-vms* projeect and click on *winweb01* 
++
+image::day-to-day/before_selectedvm.png[link=self, window=blank, width=100%]
++
+. Click on the *metrics* tab and *CPU* graph. You will see the spike in resource usage go up as the loadmakeris running. Now lets bring down those resources with powering on the second winweb vm.
++
+image::day-to-day/winweb01_select_cpu.png[link=self, window=blank, width=100%]
++
 . Click on the checkbox next to *winweb02*, Click on *Actions* > *Start* to power on *winweb02*
 +
 image::day-to-day/power_on.png[link=self, window=blank, width=100%]
@@ -37,6 +45,10 @@ image::day-to-day/power_on.png[link=self, window=blank, width=100%]
 . After approximently 5 minutes the load will even itself out between both winweb servers.
 +
 image::day-to-day/vm_add_horizontally.png[link=self, window=blank, width=100%]
++
+. Now lets go back to *winweb01* > Click on *Metrics* > Click on *CPU* graph.
++
+image::day-to-day/after_poweron.png[link=self, window=blank, width=100%]
 
 === Vertically scale Backend
 
