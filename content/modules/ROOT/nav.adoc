@@ -2,9 +2,9 @@
 
 * xref:module-01-day-to-day.adoc[Enabling Basic Day to Day Operations]
 
-* xref:module-02-scaling.adoc[Real World Scaling Scenario]
+* xref:module-02-real-world-scaling.adoc[Real World Scaling Scenario]
 
-* xref:module-03-automating.adoc[Scale to the Moon with Ansible]
+* xref:module-03-to-the-moon.adoc[Scale to the Moon]
 
 * xref:conclusion.adoc[Conclusion]
 ** xref:conclusion.adoc#key_takeaways[Key Takeaways]
