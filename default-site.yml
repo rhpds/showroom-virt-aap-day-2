@@ -1,7 +1,7 @@
 ---
 site:
-  title: "lb1969: Operations and Automation with OpenShift Virtualization"
-  url: https://redhat-scholars.github.io/course-template
+  title: "lb1969: Day 2 Operations and Automation with OpenShift Virtualization"
+  url: https://events.experiences.redhat.com/widget/redhat/sum25/SessionCatalog2025/session/1731425941350001deug
   start_page: modules::index.adoc
 
 content:

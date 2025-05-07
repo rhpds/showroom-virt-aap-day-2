@@ -53,4 +53,4 @@ Click the link https://www.redhat.com/en/services/training/managing-virtual-mach
 * Perform automation operations as rolling updates.
 * Create automation execution environments to bundle and distribute the dependencies needed to run automation code.
 
-
+Click the link https://www.redhat.com/en/services/training/au374-developing-advanced-automation-red-hat-ansible-automation-platform[here^] to check it out.
