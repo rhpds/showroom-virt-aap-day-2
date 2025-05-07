@@ -10,27 +10,29 @@ In this lab, we will configure a dynamic inventory to pull data from OpenShift
 Virtualization. This will enable AAP to manage OpenShift VMs residing in the
 `vms-aap-day2` namespace of an OCP cluster.
 
-== Log in to the OpenShift Environment
+=== Credentials for the OpenShift Console and Ansible Automation Platform
 
-. Log in to your OpenShift environment using the following details:
+Your OpenShift cluster console is available {openshift_cluster_console_url}[here^].
 
-* Console URL: link:{openshift_cluster_console_url}[{openshift_cluster_console_url}, window="_blank"]
-* Username: `{openshift_cluster_admin_username}`
-* Password: `{openshift_cluster_admin_password}`
+Your login is available with:
 
-== Ansible Automation Platform Environment Details:
+* *User:* {openshift_cluster_admin_username}
+* *Password:* {openshift_cluster_admin_password}
 
-. Log in to your AAP environment using the following details:
+image::module-01-day-to-day/01-openshift_login.png[title="OpenShift Login", link=self, window=blank, width=100%]
 
-* AAP Dashboard: link:{aap_controller_web_url}[{aap_controller_web_url}, window="_blank"]
-* Username: `{aap_controller_admin_user}`
-* Password: `{aap_controller_admin_password}`
+Your Ansible Automation Platform console is available {aap_controller_web_url}[here^].
 
-image::aap_login.png[title="AAP Login", link=self, window=blank]
+* *User:* {aap_controller_admin_user}
+* *Password* {aap_controller_admin_password}
+
+image::module-01-day-to-day/02-aap_login.png[title="AAP Login", link=self, window=blank, width=100%]
 
 === Create an Inventory
 
-. Navigate to *Automation Execution → Infrastructure → Inventories*.
+. In the left-sid menu, click to expand the menu for *Automation Execution*, then click on *Infrastructure*, and lastly*Inventories*.
++
+image::module-01-day-to-day/03-auto_infra_inv.png[title="Automation Execution, Infrastucture, Inventories", link=self, window=blank, width=100%]
 +
 . Click the *Create inventory* drop-down box and select the *Create inventory* option.
 +
@@ -40,13 +42,13 @@ image::aap_login.png[title="AAP Login", link=self, window=blank]
 +
 . Click the *Create inventory* button.
 +
-image::create_inventory1.png[title="Create Inventory", link=self, window=blank]
+image::create_inventory1.png[title="Create Inventory", link=self, window=blank, width=100%]
 
 === Add a Source to the Inventory
 
 . After creating the inventory, switch to the *Sources* tab.
 +
-image::sources.png[title="Sources", link=self, window=blank]
+image::sources.png[title="Sources", link=self, window=blank, width=100%]
 +
 . Select the *Create source* button.
 +
@@ -66,13 +68,13 @@ namespaces:
 +
 . Click the *Create source* button to save the configuration.
 +
-image::create_inventory_source.png[title="Create Inventory Source", link=self, window=blank]
+image::create_inventory_source.png[title="Create Inventory Source", link=self, window=blank, width=100%]
 
 ===  Update the Inventory
 . Launch the inventory update:
    * Click the *Launch Inventory Update* button in the top-right corner.
 +
-image::update_inventory.png[title="Update Inventory", link=self, window=blank]
+image::update_inventory.png[title="Update Inventory", link=self, window=blank, width=100%]
 +
 . Wait for the *Last Job Status* to show `Success`.
 
@@ -83,7 +85,7 @@ image::update_inventory.png[title="Update Inventory", link=self, window=blank]
 +
 . Confirm that the Virtual Machines from the `vms-app-day2` namespace of your OpenShift cluster are listed as inventory hosts.
 +
-image::verify_hosts.png[title="Verify Hosts", link=self, window=blank]
+image::verify_hosts.png[title="Verify Hosts", link=self, window=blank, width=100%]
 
 === Test Connectivity of the Virtual Machines
 
@@ -132,7 +134,7 @@ vms-aap-day2-rhel9-vm3 | SUCCESS => {
 
 *Virtualization -> VirtualMachines* within the `vms-aap-day2` project.
 
-image::vms-ocp-dashboard.png[title='Virtual Machines Running on OpenShift', link=self, window=blank]
+image::vms-ocp-dashboard.png[title='Virtual Machines Running on OpenShift', link=self, window=blank, width=100%]
 
 == Security and Compliance [compliance operator]
 
@@ -689,7 +691,7 @@ WARNING: Notice there are two credentials attached and privilege escalation is e
 . Once created, click *Launch Template* (top-right) to start the job.
 . Once the *Patch VMs* Job is complete, you should see output similar to:
 +
-image::patch_vm.png[title='Patch VM', link=self, window=blank]
+image::patch_vm.png[title='Patch VM', link=self, window=blank, width=100%]
 
 === Reviewing the Job Output
 
@@ -702,9 +704,9 @@ After the job runs, you’ll be able to see:
 These views help validate that the automation worked and that each VM received
 the expected patches.
 
-image::patch_vm_task.png[title='Detail Task View', link=self, window=blank]
+image::patch_vm_task.png[title='Detail Task View', link=self, window=blank, width=100%]
 
-image::patch_vm_host_details.png[title='Host Details', link=self, window=blank]
+image::patch_vm_host_details.png[title='Host Details', link=self, window=blank, width=100%]
 
 == VM Management (Hot-Plugging CPU and Memory Resources)
 
@@ -762,7 +764,7 @@ Below is an example image illustrating both scenarios:
 +
 * Another VM indicates `rhel9-server-small` under the template field, indicating that the `rhel9-server-small` template was used.
 +
-image::example_instance_type_and_template.png[title="Instance Type vs. Template", link=self, window=blank]
+image::example_instance_type_and_template.png[title="Instance Type vs. Template", link=self, window=blank, width=100%]
 
 
 === Using the pre-created `hot_plug.yml` to update resources
