@@ -9,7 +9,7 @@ In this sections we will be going over vertical, horizontal scaling and looking 
 
 //, === Example graphs, logs, and alerts.
 
-== Horizontally Scale Front End
+== Horizontally Scaling
 
 . For this part of the lab we need to make sure that the load maker pod is running
 
@@ -50,7 +50,7 @@ image::day-to-day/vm_add_horizontally.png[link=self, window=blank, width=100%]
 +
 image::day-to-day/after_poweron.png[link=self, window=blank, width=100%]
 
-=== Vertically scale Backend
+=== Vertically Scaling
 
 . Click on the *winweb01*.
 +
@@ -77,6 +77,10 @@ image::day-to-day/vm_new_spec.png[link=self, window=blank, width=100%]
 . Once both vms are upgraded in the project tree view click on *windows-vms* project. You will see that the CPU and Memory usage has gone down.
 +
 image::day-to-day/updated_usage.png[link=self, window=blank, width=100%]
++
+. Let head back to *winweb01* and look at its metrics afters the CPU increase. Click on *Metrics* > Click on *CPU* graph.
++
+image::day-to-day/updated_usage_verify.png[link=self, window=blank, width=100%]
 
 === Enable Swap/Memory Overcommit
 
