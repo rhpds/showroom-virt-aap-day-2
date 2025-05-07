@@ -1,9 +1,6 @@
-= Welcome to Red Hat Summit 2025 and {lab_name}!
+= lb1969: Operations and Automation with OpenShift Virtualization
 
-[%hardbreaks]
-
-== Introduction
-This is a hands-on lab desiwhere we are going to  for managing Virtual Machines (VMs) on *OpenShift Virtualization* using the *Ansible Automation Platform (AAP)*.
+Welcome to this hands-on lab, where we dive into *Operations* for managing Virtual Machines (VMs) on *OpenShift Virtualization* using the *Ansible Automation Platform (AAP)*.
 This lab is designed to equip you with the knowledge and tools to perform critical operational tasks, ensuring your virtualized workloads are efficiently managed and maintained.
 
 == What You'll Learn
