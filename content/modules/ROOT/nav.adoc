@@ -2,6 +2,8 @@
 
 * xref:module-01-day-to-day.adoc[Enabling Basic Day to Day Operations]
 ** xref:module-01-day-to-day.adoc#dynamic_inventory[Creating a Dynamic Inventory for OpenShift Virtual Machines]
+** xref:module-01-day-to-day.adoc#sec_and_comp[Security and Compliance Using the OpenShift Compliance Operator]
+** xref:module-01-day-to-day.adoc#net_policy[Configure Network Policies to Manage VM Traffic]
 
 * xref:module-02-real-world-scaling.adoc[Real World Scaling Scenario]
 
