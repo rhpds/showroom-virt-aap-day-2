@@ -1,108 +1,112 @@
 = Enabling Basic Day to Day Operations
 
+== Credentials for the OpenShift Console and Ansible Automation Platform
+
+Your OpenShift cluster console is available {openshift_cluster_console_url}[here^].
+
+Your login is available with:
+
+* *User:* {openshift_cluster_admin_username}
+* *Password:* {openshift_cluster_admin_password}
+
+image::module-01-day-to-day/01-openshift_login.png[title="OpenShift Login", link=self, window=blank, width=100%]
+
+Your Ansible Automation Platform console is available {aap_controller_web_url}[here^].
+
+* *User:* {aap_controller_admin_user}
+* *Password* {aap_controller_admin_password}
+
+image::module-01-day-to-day/02-aap_login.png[title="AAP Login", link=self, window=blank, width=100%]
+
+Use this opportunity to open and log into both consoles to prepare for the lab.
+
+
+[[dynamic_inventory]]
 == Creating a Dynamic Inventory for OpenShift Virtual Machines
 
-Dynamic inventories allow Ansible Automation Platform (AAP) to automatically
-fetch and update the inventory of systems from external sources, eliminating
-the need for manual inventory management.
+OBJECTIVE: 
 
-In this lab, we will configure a dynamic inventory to pull data from OpenShift
-Virtualization. This will enable AAP to manage OpenShift VMs residing in the
-`vms-aap-day2` namespace of an OCP cluster.
+Dynamic inventories allow Ansible Automation Platform (AAP) to automatically fetch and update the inventory of systems from external sources, eliminating the need for manual inventory management.
 
-== Log in to the OpenShift Environment
-
-. Log in to your OpenShift environment using the following details:
-
-* Console URL: link:{openshift_cluster_console_url}[{openshift_cluster_console_url}, window="_blank"]
-* Username: `{openshift_cluster_admin_username}`
-* Password: `{openshift_cluster_admin_password}`
-
-== Ansible Automation Platform Environment Details:
-
-. Log in to your AAP environment using the following details:
-
-* AAP Dashboard: link:{aap_controller_web_url}[{aap_controller_web_url}, window="_blank"]
-* Username: `{aap_controller_admin_user}`
-* Password: `{aap_controller_admin_password}`
-
-image::aap_login.png[title="AAP Login", link=self, window=blank]
+In this lab, we will configure a dynamic inventory to pull data from OpenShift Virtualization. This will enable AAP to manage OpenShift VMs residing in the *vms-aap-day2* namespace of an OCP cluster.
 
 === Create an Inventory
 
-. Navigate to *Automation Execution → Infrastructure → Inventories*.
+. In the left-side menu, click to expand the menu for *Automation Execution*, then click on *Infrastructure*, followed by *Inventories*.
++
+image::module-01-day-to-day/03-auto_infra_inv.png[title="Automation Execution, Infrastucture, Inventories", link=self, window=blank, width=100%]
 +
 . Click the *Create inventory* drop-down box and select the *Create inventory* option.
 +
-. In the *Create Inventory* form:
-   * Provide a name: `OpenShift Virtual Machines`.
-   * Select `Default` as the Organization.
+image::module-01-day-to-day/04-create_inventory_dropdown.png[title="Create Inventory Dropdown", link=self, window=blank, width=100%]
 +
-. Click the *Create inventory* button.
+. Fill out or select the appropriate value from the drop down menus available for the following fields in the *Create Inventory* form:
+   * *Name:* OpenShift Virtual Machines
+   * *Organization:* Default
 +
-image::create_inventory1.png[title="Create Inventory", link=self, window=blank]
+. Click the *Create inventory* button at the bottom.
++
+image::module-01-day-to-day/05-create_inventory.png[title="Create Inventory", link=self, window=blank, width=100%]
 
 === Add a Source to the Inventory
 
 . After creating the inventory, switch to the *Sources* tab.
 +
-image::sources.png[title="Sources", link=self, window=blank]
-+
 . Select the *Create source* button.
 +
-. In the *Create Source* form:
-   * Provide a name: `OpenShift Virtual Machines Source`.
-   * Choose `Day 2 EE` as the execution environment.
-   * Select `OpenShift Virtualization` as the *Source* type.
-   * Add the `OpenShift Credential` (Bearer Token was pre-created)
-   * Select `Update on Launch` checkbox within Options.
-   * Set `Cache timeout` to `0` seconds
-   * Set `Source variables` to look for VMs only within the `vms-aap-day2` namespace
+image::module-01-day-to-day/06-sources_tab.png[title="Sources Tab", link=self, window=blank, width=100%]
 +
-```
+. Fill out or select the appropriate value from the drop down menus available for the following fields in the *Create Source* form:
+   * *Name:* OpenShift Virtual Machines Source
+   * *Execution environment:* Day 2 EE
+   * *Source:* OpenShift Virtualization
+   * *Credential:* OpenShift Credential
+   * *Update on launch Checkbox*: Checked
+   * *Cache timeout (seconds):* 0
++
+. Copy and paste the following YAML snippet into the *Source variables* field on the form.
++
+[source,yaml,role=execute,subs="attributes"]
+----
 namespaces:
   - vms-aap-day2
-```
+----
 +
 . Click the *Create source* button to save the configuration.
 +
-image::create_inventory_source.png[title="Create Inventory Source", link=self, window=blank]
+image::module-01-day-to-day/07-create_inventory_source.png[title="Create Inventory Source", link=self, window=blank, width=100%]
 
 ===  Update the Inventory
-. Launch the inventory update:
-   * Click the *Launch Inventory Update* button in the top-right corner.
+. Click the *Launch Inventory Update* button in the top-right corner to start inventory collection.
 +
-image::update_inventory.png[title="Update Inventory", link=self, window=blank]
+image::module-01-day-to-day/08-update_inventory.png[title="Update Inventory", link=self, window=blank, width=100%]
 +
-. Wait for the *Last Job Status* to show `Success`.
-
-=== Verify the Inventory
-. Once the update completes successfully:
-   * Click the *Back to Inventory Sources* button.
-   * Switch to the *Hosts* tab.
+. Wait for the *Last Job Status* to show *Success*.
 +
-. Confirm that the Virtual Machines from the `vms-app-day2` namespace of your OpenShift cluster are listed as inventory hosts.
+image::module-01-day-to-day/09-job_status_success.png[title="Job Status Success", link=self, window=blank, width=100%]
 +
-image::verify_hosts.png[title="Verify Hosts", link=self, window=blank]
-
-=== Test Connectivity of the Virtual Machines
-
-Ensure that you can ping those VMs
-within the *AAP* dashboard {aap_controller_web_url} as follows:
-
-. Login to the AAP Dashboard using the credentials provided in the `Setup` step.
+. Click on the tab for *Back to Inventory Sources*.
 +
-. Navigate to Automation Execution -> Infrastructure -> Inventories
-   * Select the `OpenShift Virtual Machines` Inventory
-   * Within the Details page of the `OpenShift Virtual Machines` Inventory, select the *Hosts* tab.
+image::module-01-day-to-day/10-back_to_inventory_sources.png[title="Back to Inventory Sources", link=self, window=blank, width=100%]
 +
-. Select the 3 VMs and click the *Run command* button
-   * Within the Run command Details, select the `ping` module and click *Next*.
-   * Within the Run command Execution Environment, Select the *Day2 EE* execution environment and click *Next*.
-   * Within the Run command Credential, select the pre-created *Workshop Credential* and click *Next*.
-   * Within the Run command Review, select *Finish*.
+. Switch to the *Hosts* tab at the top of the screen.
+. Confirm that the Virtual Machines from the *vms-app-day2* namespace of your OpenShift cluster are listed as inventory hosts.
 +
-. Verify Results: You should see a list of VMs along with their statuses similar to:
+image::module-01-day-to-day/11-verify_hosts.png[title="Verify Hosts", link=self, window=blank, width=100%]
++
+. To verify that the machines are alive we can select the three VMs we have discovered and run an automated *ping* job against them by clicking the *Run command* button.
++
+image::module-01-day-to-day/12-run_command.png[title="Run Command", link=self, window=blank, width=100%]
++
+. You will be presented with the *Run command* wizard with several pages:
+   * On the *Details* page, select *ping* from the *Module* dropdown menu, and click *Next*.
+   * On the *Execution Environment* page, select *Day2 EE* from the *Execution Environment* dropdown, and click *Next*.
+   * On the *Credential* page, select *Workshop Credential* from the *Credential* dropdown, and click *Next*.
+   * On the *Review* page, check over your selected options, and when you are ready click the *Finish* button.
++
+image::module-01-day-to-day/13-review_run_command.png[title="Review Run Command", link=self, window=blank, width=100%]
++
+. The output of running the command should be similar to the output below, including the names of each VM and their status:
 +
 ----
 vms-aap-day2-rhel9-vm1 | SUCCESS => {
@@ -127,146 +131,212 @@ vms-aap-day2-rhel9-vm3 | SUCCESS => {
     "ping": "pong"
 }
 ----
++
+image::module-01-day-to-day/14-ping_success.png[title="Ping Success", link=self, window=blank, width=100%]
++
+NOTE: You may also confirm the VMs are running in a manual manner by logging into your OpenShift console, and viewing the virtual machines there manually.
 
-. You may also confirm the VMs are running using the *OpenShift UI* dashboard {openshift_cluster_console_url}:
+=== Verifying VM Inventory in the OpenShift Console
+. Switch to your OpenShift administration console window.
+. On the left side navigation menu, click on *Virtualization* and then *VirtualMachines*.
+. Highlight the *vms-aap-day2* project in the central navigation column.
+. Confirm that the virtual machines are running.
++
+image::module-01-day-to-day/15-vm_inventory_openshift.png[title="Virtual Machines Running on OpenShift", link=self, window=blank, width=100%]
 
-*Virtualization -> VirtualMachines* within the `vms-aap-day2` project.
+[[sec_and_comp]]
+== Security and Compliance Using the OpenShift Compliance Operator
 
-image::vms-ocp-dashboard.png[title='Virtual Machines Running on OpenShift', link=self, window=blank]
+This section of our lab will focus on making use of the OpenShift Compliance Operator to configure security scans in your OpenShift cluster. The compliance operator can help ensure that the hosts in your OpenShift environment meet specific security standards, and are deployed to meet those standards.
 
-== Security and Compliance [compliance operator]
+image::module-01-day-to-day/15a-compliance_overview.png[title="Compliance Overview", link=self, window=blank, width=100%]
 
-=== Getting started
+. Select *Operators* and then *Installed Operators* from the left side navigation menu, confirm that you have selected *All Projects* and select the *Compliance Operator*.
++
+image::module-01-day-to-day/16-compliance_operator.png[title="Compliance Operator", link=self, window=blank, width=100%]
++
+. This takes you to the *Operator details* page, use the horizontal scrollbar to move across and locate the *ScanSetting* tab.
++
+image::module-01-day-to-day/17-compliance_details.png[title="Compliance Details", link=self, window=blank, width=100%]
++
+. Click the *Create ScanSetting* button.
++
+image::module-01-day-to-day/18-scansetting_button.png[title="Create ScanSetting Button", link=self, window=blank, width=100%]
++
+. On the *Create ScanSetting* page, set the name of the scan to *scan01*. Then click the *YAML view* radio button.
++
+image::module-01-day-to-day/19-create_scansetting.png[title="Create Scansetting", link=self, window=blank, width=100%]
++
+. In the ScanSetting YAML details, make note of the following values that are set by default:
+  * The *autoApplyRemediations* field is set to *false*.
+  * The *roles* to be scanned by default include both *worker* and *master* nodes.
+  * The *name* field is set to *scan01* which you entered on the form view.
+. Click the *Create* button to create this simple scansetting definition.
++
+image::module-01-day-to-day/20-scansetting_details.png[title="ScanSetting Details", link=self, window=blank, width=100%]
++
+. Now click on the *Profile* tab where there are a number of pre-defined scanning profiles.
+. In the search box, type *rhcos4* and locate the FedRamp moderate profile *rhcos4-moderate* in the list. 
++
+image::module-01-day-to-day/21-profiles_detail.png[title="Profiles Detail", link=self, window=blank, width=100%]
++
+. Click on *rhcos4-moderate* and then on the *YAML*. Scroll down the output to browse the rules that are enforced as a part of this scan. A quick glimpse at the side panel shows that there are quite a few of them.
++
+image::module-01-day-to-day/22-rhcos4_mod_rules.png[title="RHCOS4-Moderate Rules", link=self, window=blank, width=100%]
++
+. When you are done reviewing the rules, click return to the *Operator details* page by clicking your browser's _back button_ twice.
++
+NOTE: Additional details on the profiles available can be found https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/security_and_compliance/compliance-operator#compliance-operator-supported-profiles[here^].
++
+. Next we want to create a *ScanSettingBinding*, pairing a *Profile* with our *ScanSetting* definition we created. We do this by navigating to the *Scan Setting Binding* tab, and clicking the *Create ScanSettingBinding* button.
++
+image::module-01-day-to-day/23-create_scansettingbinding.png[title="Create ScanSettingBinding", link=self, window=blank, width=100%]
++
+. In the ScanSettingBinding YAML details, let us make a few changes:
+  * The *metadata/name* value should be set to *fedramp01*
+  * The *settingsRef/name* field is set to *scan01* which we created earlier.
+. Click the *Create* button.
++
+NOTE: The profile is set to rhcos4-moderate (the fedramp moderate profile) by default.
++
+image::module-01-day-to-day/24-scansettingbinding_details.png[title="ScanSettingBinding Details", link=self, window=blank, width=100%]
++
+. After the *ScanSettingBinding* is created, the fedramp01 scan will be run automatically. You can view this on the *Compliance Suite* tab.
++
+image::module-01-day-to-day/25-compliance_suite.png[title="Compliance Suite", link=self, window=blank, width=100%]
++
+. This Compliance Suite runs the defined scans against the specified nodes, in our case the masters and the workers defined in *scan01*.
+. You can watch as the scan proceeds through the steps of *RUNNING, AGGREGATING, and DONE* by clicking on the *Compliance Scan* tab.
++
+image::module-01-day-to-day/26-compliance_scan.png[title="Compliance Scan", link=self, window=blank, width=100%]
++
+. Once the scan completes (3-4 minutes on average) you can check your results by clicking on the *ComplianceCheckResult* tab.
++
+. Change the search bar to *Label* and apply the following labels:
+  * compliance.openshift.io/check-status=FAIL
+  * compliance.openshift.io/check-severity=high
++
+image::module-01-day-to-day/27-compliance_check_results.png[title="Compliance Check Results", link=self, window=blank, width=100%]
++
+. Twelve high severity checks have a failed status:
 
-. To set up a security scan, navigate to the Operators tab and select Installed Operators, then select the Compliance Operator.
-+
-image::day-to-day/compliance_operator.png[link=self, window=blank, width=100%]
-+
-. This takes you to the operator details page, from here move to the ScanSetting tab
-+
-image::day-to-day/compliance_details.png[link=self, window=blank, width=100%]
-+
-. Select Create ScanSetting
-+
-image::day-to-day/create_scansetting.png[link=self, window=blank, width=100%]
-+
-. In the ScanSetting yaml details, note the 'autoApplyRemediations' =False, the roles section includes both master & worker nodes,
-and the name can be set according to your choosing.
-+
-image:day-to-day/scansetting_details.png[link=self, window=blank, width=100%]
-+
-. Before moving on, there are quite a number of predefined profiles that can be used for scanning purposes on the 'Profiles' tab.
-We’ll use the fedramp moderate profile = rhcos4-moderate
-+
-image::day-to-day/profiles_detail.png[link=self, window=blank, width=100%]
-+
-- Additional detail on these profiles can be found here-
-https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/security_and_compliance/compliance-operator#compliance-operator-supported-profiles
-- The next step is to set up a ScanSettingBinding, navigate to that tab and select create ScanSettingBinding
-+
-image:day-to-day/create_scansettingbinding.png[link=self, window=blank, width=100%]
-+
-. In the ScanSettingBinding yaml details, the name (fedramp1) can be set to whatever you like.
-Note the profile is set to rhcos4-moderate (the fedramp moderate profile), and the ScanSetting is set to the previously defined ScanSetting (scan1).
-+
-image::day-to-day/scansettingbinding_details.png[link=self, window=blank, width=100%]
-+
-. After the ScanSettingBinding is created this will kick of the fedramp1 Compliance Suite
-+
-image::day-to-day/compliance_suite.png[link=self, window=blank, width=100%]
-+
-. This Compliance Suite (fedramp1) kicks off the defined profile (rhcos4-moderate) scans for each of the defined roles in the ScanSetting (master/worker)
-+
-image::day-to-day/compliance_scan.png[link=self, window=blank, width=100%]
-+
-. The scan takes ~3-4 minutes to complete, then you can check the failures on the ComplianceCheckResult tab.
-+
-image::day-to-day/checkcomplianceresults.png[link=self, window=blank, width=100%]
+|===
+| *ComplianceCheckResult* | *Check-Severity* | *Check-Status*
+| rhcos4-moderate-master-configure-crypto-policy| high| FAIL
+| rhcos4-moderate-master-coreos-pti-kernel-argument| high| FAIL
+| rhcos4-moderate-master-disable-ctrlaltdel-burstaction| high| FAIL
+| rhcos4-moderate-master-disable-ctrlaltdel-reboot| high| FAIL
+| rhcos4-moderate-master-enable-fips-mode| high| FAIL
+| rhcos4-moderate-master-no-empty-passwords| high| FAIL
+| rhcos4-moderate-worker-configure-crypto-policy| high| FAIL
+| rhcos4-moderate-worker-coreos-pti-kernel-argument| high| FAIL
+| rhcos4-moderate-worker-disable-ctrlaltdel-burstaction| high| FAIL
+| rhcos4-moderate-worker-disable-ctrlaltdel-reboot| high| FAIL
+| rhcos4-moderate-worker-enable-fips-mode| high| FAIL
+| rhcos4-moderate-worker-no-empty-passwords| high| FAIL
+|===
 
-== Configure Network Policies to manage VM Traffic
+You have now completed this section on configuring and running compliance scans against your OpenShift cluster. 
 
-=== Introduction
+[[net_policy]]
+== Configure Network Policies to Manage VM Traffic
 
-To demo network policy, we have a standard VM.
-The user logs in via console, can ping google or other public IP by default.
-Show how we can set a network policy to block egress of that vm, or limit egress to only other VMs in the same namespace.
+In Red Hat OpenShift administrators can configure Network Policies to further secure their environments, and the virtual guests that run there. In this portion of the lab we are going to configure a virtual machine and then apply a network policy that prevents it's egress to the world.
 
-==== See that the VM can ping google
+=== Confirm Network Egress on Virtual Machines
 
-. Click VirtualMachines, click *rhel9-vm1* click Console.
-If you do not see any Virtual Machines make sure you are in vms-aap-day2 project.
+. On the left side navigation menu, click on *Virtualization* then click *VirtualMachines*, and select the *rhel9-vm1* virtual machine under the *vms-aap-day2* project in the center column.
 +
-image::day-to-day/view_vm.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/28-view_vm.png[title="View VM", link=self, window=blank, width=100%]
 +
-. Click on the Console tab and using the provided login perform a ping test to google.com.
+. Click on the *Console* tab and use the provided credentials, and the built in copy/paste functionality to authenticate to the VM.
 +
-image::day-to-day/login_vm.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/29-login_vm.png[title="Login to VM", link=self, window=blank, width=100%]
 +
-NOTE: There is a Copy to clipboard button and a Paste button available here, which makes the login process much easier.
+NOTE: You may see a popup that asks you to enable the copy/paste functionality. If prompted click *Allow*.
 +
-. Once you are logged in, execute the following command:
-.. `ping google.com`
+. Once you are logged in, execute the following command to start an outward bound ping to Google:
 +
-image::day-to-day/ping_site.png[link=self, window=blank, width=100%]
+[source,sh,role=execute] 
+----
+ping www.google.com
+----
++
+image::module-01-day-to-day/30-ping_site.png[title="Ping Google", link=self, window=blank, width=100%]
 +
 . Press *Control+C* to stop the ping.
 +
-. From the OpenShift console, Click on Workloads > Pods. Click on the pod name for *rhel9-vm1*.
+. From the left side navigation menu, click on *Workloads* and then *Pods*, and then click on the virt-launcher pod for the one that represents the VM *rhel9-vm1* to view the pod details.
 +
-image::day-to-day/select_pod.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/31-select_pod.png[title="Select Pod", link=self, window=blank, width=100%]
 +
-. In the Pod details section click Edit.
+NOTE: Pod names are randomly generated, so yours will most likely not match the screenshot above.
 +
-image::day-to-day/pod_details.png[link=self, window=blank, width=100%]
+. On the *Pod details* page, click the *Edit* option on the *Labels* section. 
 +
-. Add app=network-policy-deny to the labels and click Save.
+image::module-01-day-to-day/32-pod_details.png[title="Edit Pod Details", link=self, window=blank, width=100%]
 +
-image::day-to-day/pod_label.png[link=self, window=blank, width=100%]
+. An *Edit labels* window will appear, you can click into the center box and add a label for *app=network-policy-deny*, press the *Enter* key to commit it, and then click the *Save* button.
 +
-. Repeat this process for *rhel9-vm2*.
+image::module-01-day-to-day/33-pod_labels.png[title="Edit Pod Labels", link=self, window=blank, width=100%]
++
+. Repeat the same process for the *rhel9-vm2* virtual machine.
 
-==== Create the Network Policy
+=== Create the Network Policy
 
-. Under Networking click on *NetworkPolicies* then *Create NetworkPolicy*.
+. From the left side navigation menu, click on *Networking* and then click on *NetworkPolicies*, then click on the *Create NetworkPolicy* button in the center of the screen.
 +
-image::day-to-day/networkpolicy.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/34-network_policy.png[title="Network Policy", link=self, window=blank, width=100%]
 +
-. In NetworkPolicies fill out these fields and Click *Save*.
+. In *NetworkPolicies* fill out the following fields:
+  * *Policy name*: ping-egress-deny
+  * *Key*: app
+  * *Value*: network-policy-deny
+  * *Deny all egress traffic checkbox*: checked
++
+image::module-01-day-to-day/35-network_policy_configure.png[title="Configure Network Policy", link=self, window=blank, width=100%]
++
+. With the values filled out, you can click the *affected pods* link under the *Pod selector* section to show which pods are affected by this policy. Once you are satisfied with your settings you can click the *Create* button.
++
+image::module-01-day-to-day/36-affected_pods.png[title="Affected Pods", link=self, window=blank, width=100%]
++
+. With the policy created, lets go test it out.
 
-.. Policy name: ping-egress-deny
-.. Key: app
-.. Value: network-policy-deny
-.. Check Deny all egress traffic
-+
-image::day-to-day/network_policy_configure.png[link=self, window=blank, width=100%]
-+
-. You can verify what pods are affected pods by the network policy.
-+
-image::day-to-day/affected_pod.png[link=self, window=blank, width=100%]
+=== Confirm the Effects of the Network Policy on the VM.
 
-==== See that the VM CANNOT ping google
-
-. Go back to Virtualization > *Virtual Machines* and click *rhel9-vm1*.
-.. Click on the *Console* tab and login to the VM
-.. Enter the command ping google.com. You should get no responce.
+. Let's return to the console of the *rhel9-vm1* virtual machine to test our policy. 
+. Using the left side navigation menu, click on *Virtualization*, then *VirtualMachines*, and select *rhel9-vm1* from the center column.
+. Click the *Console* tab of the VM, you should still be logged in from before.
+. Copy and paste the following syntax to test out our new Network Policy:
 +
-image::day-to-day/ping_site_deny.png[link=self, window=blank, width=100%]
+[source,sh,role=execute] 
+----
+ping www.google.com
+----
 +
-. Once complete, delete the network policy you created.
+image::module-01-day-to-day/37-ping_site_deny.png[title="Egress Blocked", link=self, window=blank, width=100%]
++
+. Egress from the cluster is completely blocked, including DNS lookups.
+. Once you have completed this exercise, return to *Networking* and *NetworkPolicies* and delete the *ping-egress-deny* policy using the three-dot menu on the right, and confirming in the popup box.
++
+image::module-01-day-to-day/38-delete_policy.png[title="Delete Policy", link=self, window=blank, width=100%]
 
+In this section we learned how to apply a simple network policy to block egress traffic from a virtual machine to a public website. While this is a very simple example and application of this function, network policies are quite feature rich and very tuneable. In an advanced example, they can allow you to implement microsegmentation policies helping to shape the traffic flow both inside and outside of your cluster, between virtual guests in different or even the same OpenShift project.
+
+[[alerts_graphs_logs]]
 == Enable and Explore Alerts, Graphs, and Logs
 
-==== Node Graphs
+=== Node Graphs
 
 Now lets look at the metrics for the Nodes.
 
 . Under *Compute* Click on *Nodes*. From This view you can see the Node status and role.
 +
-image::day-to-day/node_list.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/node_list.png[link=self, window=blank, width=100%]
 +
 . Click on one of the nodes.
 +
-image::day-to-day/node_example.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/node_example.png[link=self, window=blank, width=100%]
 +
 . You will see the Utilization. You can select if you want to see 1, 6 or 24 hours.
 
@@ -274,21 +344,21 @@ image::day-to-day/node_example.png[link=self, window=blank, width=100%]
 
 . Click on *Workloads* > *Deployments* > *loadmaker*. Ensure you are in Project: *windows-vms*.
 +
-image::day-to-day/select_loadmaker.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/select_loadmaker.png[link=self, window=blank, width=100%]
 +
 . You should see 1 Pod under the Deployment Details tab.
 +
-image::day-to-day/show_num_pod.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/show_num_pod.png[link=self, window=blank, width=100%]
 +
 . Click on *Environment* tab
 +
-image::day-to-day/lm_pod_config.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/lm_pod_config.png[link=self, window=blank, width=100%]
 +
 . In *Virtualization* > *VirtualMachine* Select *windows-vms* project to show *winweb01*, *winweb02* and *database*. You should only see *database* and *winweb01* powered on. Power on them if needed.
 
 . Click on *winweb01*
 +
-image::day-to-day/ob_select_vm.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/ob_select_vm.png[link=self, window=blank, width=100%]
 +
 . On the main page of the VM there is a utilization section that show the basic status of the VM updated every 15 seconds.
 - Each of the line graphs are clickable.
@@ -296,53 +366,53 @@ image::day-to-day/ob_select_vm.png[link=self, window=blank, width=100%]
 
 . You can adjust the time range going from 5 min to 1 week.
 +
-image::day-to-day/ob_select_vm.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/ob_select_vm.png[link=self, window=blank, width=100%]
 +
 . By the Network Transfer and Clicking Breakdown by network section you can see how much traffic is passing through in this space it only shows default because there is only one network adapter.
 +
-image::day-to-day/select_network.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/select_network.png[link=self, window=blank, width=100%]
 +
 . Click on CPU Usage bar graph
 +
-image::day-to-day/select_cpu.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/select_cpu.png[link=self, window=blank, width=100%]
 +
 . In the Metrics you see how the CPU spiked. here you can see over the last 30 minutes
 +
-image::day-to-day/cpu_metrics.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/cpu_metrics.png[link=self, window=blank, width=100%]
 +
 . You can change the interval time anywhere from 5 minutes to 2 weeks.
 +
-image::day-to-day/change_interval.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/change_interval.png[link=self, window=blank, width=100%]
 +
 . Here you can change the refresh timing.
 +
-image::day-to-day/change_refresh.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/change_refresh.png[link=self, window=blank, width=100%]
 +
 . You can also add queries
 +
-image::day-to-day/select_qurey.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/select_qurey.png[link=self, window=blank, width=100%]
 +
 . Lets add a query "sum(rate(kubevirt_vmi_vcpu_wait_seconds_total{name='winweb01',namespace='windows-vms'}[5m])) BY (name, namespace)" without the "". This query will show the amouont of time spent by each vcpu while waiting on I/O.
 +
-image::day-to-day/example_query.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/example_query.png[link=self, window=blank, width=100%]
 
 ==== Dashboards
 
 . Click on *Observe* > *Dashboard*.
 +
-image::day-to-day/dashboard.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/dashboard.png[link=self, window=blank, width=100%]
 +
 . Click on *API Performance* and search for *KubeVirt/Infrastructure Resources/Top Consumers*
 +
-image::day-to-day/kubevirt_dashboard.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/kubevirt_dashboard.png[link=self, window=blank, width=100%]
 +
 . This dashboard you will see the top consumer for your virtual machines. Let dive in and look at the Top Consumers of CPU by virt-launcher Pods and Click *Inspect*
 +
-image::day-to-day/cpu_inspect.png.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/cpu_inspect.png.png[link=self, window=blank, width=100%]
 +
 . You can can select the VMs you want to see in the graph.
 +
-image::day-to-day/metrics_select.png[link=self, window=blank, width=100%]
+image::module-01-day-to-day/metrics_select.png[link=self, window=blank, width=100%]
 +
 
 == VM Management (Stop, Start, Restart Guest VMs)
@@ -689,7 +759,7 @@ WARNING: Notice there are two credentials attached and privilege escalation is e
 . Once created, click *Launch Template* (top-right) to start the job.
 . Once the *Patch VMs* Job is complete, you should see output similar to:
 +
-image::patch_vm.png[title='Patch VM', link=self, window=blank]
+image::patch_vm.png[title='Patch VM', link=self, window=blank, width=100%]
 
 === Reviewing the Job Output
 
@@ -702,9 +772,9 @@ After the job runs, you’ll be able to see:
 These views help validate that the automation worked and that each VM received
 the expected patches.
 
-image::patch_vm_task.png[title='Detail Task View', link=self, window=blank]
+image::patch_vm_task.png[title='Detail Task View', link=self, window=blank, width=100%]
 
-image::patch_vm_host_details.png[title='Host Details', link=self, window=blank]
+image::patch_vm_host_details.png[title='Host Details', link=self, window=blank, width=100%]
 
 == VM Management (Hot-Plugging CPU and Memory Resources)
 
@@ -762,7 +832,7 @@ Below is an example image illustrating both scenarios:
 +
 * Another VM indicates `rhel9-server-small` under the template field, indicating that the `rhel9-server-small` template was used.
 +
-image::example_instance_type_and_template.png[title="Instance Type vs. Template", link=self, window=blank]
+image::example_instance_type_and_template.png[title="Instance Type vs. Template", link=self, window=blank, width=100%]
 
 
 === Using the pre-created `hot_plug.yml` to update resources
