@@ -443,7 +443,9 @@ image::module-01-day-to-day/55-metrics_select.png[title="Select Metrics", link=s
 Now that we have completed this section determining how to locate and display alerts, performance metrics, and graphs about our nodes and workloads, we can leverage these skills in the future in order to troubleshoot our own OpenShift Virtualization environments.
 
 [[vm_mgmt_power]]
-== Automated VM Management (Stop, Start, Restart Guest VMs)
+== Automated VM Management
+
+=== Stop, Start, Restart Guest VMs
 
 Now that we've spent some time working with the OpenShift console, lets see what types of activities we can automate to make our administration jobs easier.
 
@@ -454,7 +456,7 @@ While much of the groundwork, such as creating playbooks and VM task files, has 
 
 To being, we’ll perform some common VM lifecycle actions such as stopping, starting, and restarting all VMs in a given namespace. These tasks are designed to demonstrate how the automation behind these actions is structured.
 
-=== The Existing Setup
+==== The Existing Setup
 
 To assist with your experience, the following content has already been created and configured for you:
 
@@ -464,12 +466,12 @@ To assist with your experience, the following content has already been created a
 
 Although you don’t need to create or modify these files, it's important to understand how they work, as you’ll be referencing them when creating job templates in Ansible Automation Platform.
 
-=== Understanding the Task Files
+==== Understanding the Task Files
 
 Each of the task files works by retrieving all virtual machines within a specific namespace (in our case *vms-aap-day2*), and then performing an action (stop, start, restart) based on their current status.
 The *ansible.builtin.debug* task provides insights to understanding the structure of your VM resource *vm_info* to identify key fields required to create dynamic Ansible tasks.
 
-==== *stop_vm.yml*
+===== *stop_vm.yml*
 
 This task file stops any VMs that are currently running within a given namespace.
 
@@ -500,7 +502,7 @@ This task file stops any VMs that are currently running within a given namespace
   when: item.status.printableStatus != "Stopped"
 ----
 
-==== *start_vm.yml*
+===== *start_vm.yml*
 
 This task file starts any VMs that are currently stopped within a given namespace.
 
@@ -531,7 +533,7 @@ This task file starts any VMs that are currently stopped within a given namespac
   when: item.status.printableStatus != "Running"
 ----
 
-==== *restart_vm.yml*
+===== *restart_vm.yml*
 
 This task file restarts any VMs that are currently running within a given namespace.
 
@@ -595,7 +597,7 @@ result:
   ...
 ----
 
-=== Creating and Running the VM Job Templates with Ansible Automation Platform
+==== Creating and Running the VM Job Templates with Ansible Automation Platform
 
 Each VM lifecycle template that you will create takes advantage of the *manage_vm_playbook.yml*.
 
@@ -636,7 +638,6 @@ image::module-01-day-to-day/56-create_job_template.png[title="Create Job Templat
 +
 image::module-01-day-to-day/57-stop_vms_template.png[title="Stop VMs Template", link=self, window=blank, width=100%]
 +
-
 . Once the *Stop VMs* Job Template is created, select the *Launch template* button on the top right corner to run the job.
 +
 image::module-01-day-to-day/58-launch_stop_vms.png[title="Launch Stop VMs Template", link=self, window=blank, width=100%]
@@ -686,7 +687,7 @@ image::module-01-day-to-day/60-stopped_vms.png[title="Stopped VMs", link=self, w
 . Once you have created these Job templates select the *Launch template* button on the top right corner to run the job and notice the changes of these VMs within the OpenShift console. Each VM should start back up after executing the *Start VMs* template, and then each machine should reboot after executing the *Restrat VMs* template.
 
 [[vm_mgmt_patch]]
-== Automated VM Management (Patching your VMs)
+=== Patching your VMs
 
 In this exercise, you’ll automate the patching of RHEL virtual machines by applying only security-related updates using Ansible Automation Platform.
 
@@ -701,8 +702,7 @@ Your goal is to understand what this content does and then create a Job Template
 
 NOTE: This lab uses Vault Credentials to securely handle sensitive authentication data and a subscription management role to register RHEL systems to Red Hat. This ensures VMs have access to the correct repositories for updates and demonstrates secure automation practices.
 
-
-=== Understanding the Provided Task File: update_security_packages.yml
+==== Understanding the Provided Task File: update_security_packages.yml
 
 This task file lives inside the tasks/ directory of the redhatone.vm_management.vm_management role. It uses the ansible.builtin.dnf module to scan for and install the latest security-related updates on all hosts in the inventory.
 
@@ -721,7 +721,7 @@ This task file lives inside the tasks/ directory of the redhatone.vm_management.
 This task is designed to be modular.
 It is included in your role and can be triggered from any playbook using a variable like *task_file*, which will be used shortly.
 
-== Understanding the Provided Playbook: patch_vm_playbook.yml
+=== Understanding the Provided Playbook: patch_vm_playbook.yml
 
 This playbook is responsible for executing the logic that handles both system registration and patching.
 It is already present in your project directory.
@@ -739,7 +739,7 @@ It is already present in your project directory.
 
 The playbook ensures that every target host goes through both registration and patching in the correct order.
 
-=== Creating the Patch VMs Job Template in Ansible Automation Platform
+==== Creating the Patch VMs Job Template in Ansible Automation Platform
 
 Now lets connect all the pieces through the AAP web interface and run the automation using a Job Template.
 
@@ -776,7 +776,7 @@ image::module-01-day-to-day/62-create_patch_template.png[title="Create Patch Tem
 +
 image::module-01-day-to-day/63-patch_vm.png[title="Patch VM", link=self, window=blank, width=100%]
 
-=== Reviewing the Job Output
+==== Reviewing the Job Output
 
 After the job runs, you’ll be able to see:
 
@@ -793,7 +793,7 @@ image::module-01-day-to-day/64-patch_complete.png[title="Patching Complete", lin
 image::module-01-day-to-day/65-patch_details.png[title="Patch Details", link=self, window=blank, width=100%]
 
 [[vm_mgmt_hp]]
-== Automated VM Management (Hot-Plugging CPU and Memory Resources)
+=== Hot-Plugging CPU and Memory Resources
 
 One of the great benefits of having virtual workloads is the ability to adjust the resources used by those workloads on the fly to meet workload demands. Compared to the days of having to shut down the server to physically add RAM or upgrade the processor, the ability to scale VM resources dynamically by hot-plugging additional resources is a fantastic timesaver. Also, being able to automate the scaling up and down of these requests using Ansible Automation Platform based on metrics gathered from the guests ensures efficiency in both resource consumption and physical administrative time.
 
@@ -803,7 +803,7 @@ Hot-plugging is the ability to add or remove hardware resources, such as CPU or 
 
 This exercise focuses on using *instance types*, which are reusable objects in OpenShift Virtualization that define the resources and characteristics for VMs. Instance types simplify resource management by enabling consistent configurations across VMs.
 
-=== What Are Instance Types?
+==== What Are Instance Types?
 
 An instance type is a reusable configuration object where you define resources (like CPU and memory) and characteristics for new VMs.
 OpenShift Virtualization provides two types of instance types:
@@ -819,7 +819,7 @@ In this lab, you will primarily focus on using the instance type method while al
 
 NOTE: The classic method only works when creating VMs that do not use an instance type.
 
-=== How to Identify if a VM Uses Instance Types or Not?
+==== How to Identify if a VM Uses Instance Types or Not?
 
 To determine whether a VM is created with an instance type or not, follow these steps:
 
@@ -832,7 +832,7 @@ image::module-01-day-to-day/66-vm_details.png[title="VM Details", link=self, win
 
 The instance_type method is the recommended approach for hot-plugging resources into a VM. It ensures consistent and reusable resource configurations across multiple VMs while leveraging the powerful features of OpenShift Virtualization.
 
-=== Using the Pre-created hot_plug.yml File to Update Resources
+==== Using the Pre-created hot_plug.yml File to Update Resources
 
 The hot_plug.yml file consists of a task that updates a running VM by applying a new instance type. This approach lets you add CPU and memory resources dynamically without needing to recreate or power off the VM.
 
@@ -859,7 +859,7 @@ The hot_plug.yml file consists of a task that updates a running VM by applying a
 
 NOTE: VMs must be created using Instance Types for this task method to work. Otherwise you must use the Classic method.
 
-=== Classic Method: Modifying the Spec Directly (Informational Only)
+==== Classic Method: Modifying the Spec Directly (Informational Only)
 
 The classic method involves directly modifying the VM's spec file to update CPU and memory resources.
 While this approach is flexible, it lacks the reusability and consistency offered by instance types, making it less ideal for managing resources across multiple VMs.
@@ -889,7 +889,7 @@ While this approach is flexible, it lacks the reusability and consistency offere
 
 NOTE: Classic VMs are not a part of this lab exercise, and the Classic Method is for informational purposes only.
 
-=== Create and Run the Hot-Plug Job Template
+==== Create and Run the Hot-Plug Job Template
 
 . Within the AAP UI Dashboard, use the left side menu to navigate to *Automation Execution* and then click on *Templates*.
 . Click *Create Template* and select *Create job template* from the dropdown menu that appears.
