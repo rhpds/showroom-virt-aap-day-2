@@ -773,7 +773,7 @@ image::module-01-day-to-day/62-create_patch_template.png[title="Create Patch Tem
 +
 . Once created, click *Launch Template* button in the top-right corner to start the job.
 . When the *Patch VMs* job has completed successfully, you should see output similar to:
-
++
 image::module01-day-to-day/63-patch_vm.png[title="Patch VM", link=self, window=blank, width=100%]
 
 === Reviewing the Job Output
@@ -789,7 +789,7 @@ After the job runs, you’ll be able to see:
 image::module01-day-to-day/64-patch_complete.png[title="Patching Complete", link=self, window=blank, width=100%]
 +
 . You will be presented with additional *Details* about the task, and be able to validate that system was indeed patched by our automation job by clicking on the *Data* tab.
-
++
 image::module01-day-to-day/65-patch_details.png[title="Patch Details", link=self, window=blank, width=100%]
 
 [[vm_mgmt_hp]]
@@ -827,7 +827,7 @@ To determine whether a VM is created with an instance type or not, follow these 
 . In the *Details* section, look for the following:
    - *Instance Type*: If the VM uses an instance type, this field will display the name of the instance type applied to the VM (e.g., u1.small).
    - *Template*: If no instance type is used, this field will display either None or the name of the template used to create the VM.
-
++
 image::module01-day-to-day/66-vm_details.png[title="VM Details", link=self, window=blank, width=100%]
 
 The instance_type method is the recommended approach for hot-plugging resources into a VM. It ensures consistent and reusable resource configurations across multiple VMs while leveraging the powerful features of OpenShift Virtualization.
@@ -922,7 +922,7 @@ image::module01-day-to-day/68-create_hotadd_template.png[title="Create HotAdd Te
 image::module01-day-to-day/69-hotadd_template_success.png[title="HotAdd Template Success", link=self, window=blank, width=100%]
 +
 . When the job completes, return to the OpenShift console and view the details of the rhel9-vm1 Virtual Machine once again. You should see that the *InstanceType* field has changed and is now set to *u1.2xmedium*.
-
++
 image::module01-day-to-day/70-vm_modified_instancetype.png[title="VM InstanceType Modified ", link=self, window=blank, width=100%]
 
 == Summary
