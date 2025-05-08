@@ -4,6 +4,7 @@ This lab section is designed as a discussion exercise to allow us to consider ot
 
 Take 5 minutes to discuss with a nearby lab mate that has also completed the lab, when you are ready to discuss, call over a proctor, and pose your idea to them.
 
+[[ex_scenarios]]
 == Example Scenarios Created by the Lab Team
 
 The team that created this lab has taken the liberty of thinking up the few scenarios listed below.

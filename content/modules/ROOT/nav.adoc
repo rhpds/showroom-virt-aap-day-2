@@ -10,14 +10,14 @@
 ** xref:module-01-day-to-day.adoc#vm_mgmt_hp[Automated VM Management (Hot-Plugging CPU and Memory Resources)]
 
 * xref:module-02-real-world-scaling.adoc[Real World Scaling Scenario]
-* xref:module-02-real-world-scaling.adoc#vm_resource_util[Examining Resource Utilization on Virtual Machines]
-* xref:module-02-real-world-scaling.adoc#horz_scale_vm[Horizontally Scaling VM Resources]
-* xref:module-02-real-world-scaling.adoc#vert_scale_vm[Vertically Scaling VM Resources]
-* xref:module-02-real-world-scaling.adoc#swap_mem[Discussing Swap/Memory Overcommit]
-* xref:module-02-real-world-scaling.adoc#cluster_scale[Scaling a Cluster by Adding a Node]
-
+** xref:module-02-real-world-scaling.adoc#vm_resource_util[Examining Resource Utilization on Virtual Machines]
+** xref:module-02-real-world-scaling.adoc#horz_scale_vm[Horizontally Scaling VM Resources]
+** xref:module-02-real-world-scaling.adoc#vert_scale_vm[Vertically Scaling VM Resources]
+** xref:module-02-real-world-scaling.adoc#swap_mem[Discussing Swap/Memory Overcommit]
+** xref:module-02-real-world-scaling.adoc#cluster_scale[Scaling a Cluster by Adding a Node]
 
 * xref:module-03-to-the-moon.adoc[Scale to the Moon]
+** xref:module-03-to-the-moon.adoc#ex_scenarios[Example Scenarios Created by the Lab Team]
 
 * xref:conclusion.adoc[Conclusion]
 ** xref:conclusion.adoc#key_takeaways[Key Takeaways]
