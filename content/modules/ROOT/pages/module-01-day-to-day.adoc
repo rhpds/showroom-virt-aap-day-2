@@ -686,24 +686,21 @@ image::module-01-day-to-day/60-stopped_vms.png[title="Stopped VMs", link=self, w
 . Once you have created these Job templates select the *Launch template* button on the top right corner to run the job and notice the changes of these VMs within the OpenShift console. Each VM should start back up after executing the *Start VMs* template, and then each machine should reboot after executing the *Restrat VMs* template.
 
 [[vm_mgmt_patch]]
-== VM Management (Patching your VMs)
+== Automated VM Management (Patching your VMs)
 
 In this exercise, you’ll automate the patching of RHEL virtual machines by applying only security-related updates using Ansible Automation Platform.
 
-The virtual machines you'll target are already part of a dynamic inventory that was set up in a previous step — specifically, the *OpenShift Virtual Machines* inventory.
+The virtual machines you'll target are already part of the dynamic inventory that was set up in a previous step — specifically, the *OpenShift Virtual Machines* inventory.
 
 Rather than writing playbooks or tasks from scratch, you'll be working with provided automation content, which includes:
 
 * A task file that performs security updates using the dnf module.
-* A playbook that executes roles responsible for system registration and patching.
+* A playbook that executes roles that are responsible for system registration and patching.
 
 Your goal is to understand what this content does and then create a Job Template to execute the automation using Ansible Automation Platform’s web UI.
 
-[NOTE]
-====
-This lab uses Vault Credentials to securely handle sensitive authentication data and a subscription management role to register RHEL systems to Red Hat.
-This ensures VMs have access to the correct repositories for updates and demonstrates secure automation practices.
-====
+NOTE: This lab uses Vault Credentials to securely handle sensitive authentication data and a subscription management role to register RHEL systems to Red Hat. This ensures VMs have access to the correct repositories for updates and demonstrates secure automation practices.
+
 
 === Understanding the Provided Task File: update_security_packages.yml
 
@@ -744,11 +741,14 @@ The playbook ensures that every target host goes through both registration and p
 
 === Creating the Patch VMs Job Template in Ansible Automation Platform
 
-Now connect all the pieces through the AAP web interface and run the automation using a Job Template.
+Now lets connect all the pieces through the AAP web interface and run the automation using a Job Template.
 
-. Navigate to *Automation Execution → Templates*.
-. Click *Create template → Create job template*.
-. Fill out the following fields:
+. Using the left side navigation bar, click on *Automation Execution* and then *Templates*.
+. Click on the *Create template* button, and then select *Create job template* from the dropdown menu.
++
+image::module-01-day-to-day/61-create_job_template.png[title="Stop VMs Template", link=self, window=blank, width=100%]
++
+. On the *Create job template* page, fill out the following fields:
 +
 |===
 | Parameter               | Value
@@ -757,7 +757,7 @@ Now connect all the pieces through the AAP web interface and run the automation 
 | Job Type                | Run
 | Inventory               | OpenShift Virtual Machines
 | Project                 | Workshop Project
-| Playbook                | solutions/patch_vm_playbook.yml
+| Playbook                | solutions/patch_playbook.yml
 | Execution Environment   | Day2 EE
 | Credentials             | Workshop Credential, Vault Credential
 | Extra Variables         | `task_file: update_security_packages.yml`
@@ -765,13 +765,16 @@ Now connect all the pieces through the AAP web interface and run the automation 
 
 |===
 +
-WARNING: Notice there are two credentials attached and privilege escalation is enabled.
+IMPORTANT: Notice there are two credentials attached and privilege escalation is enabled.
 +
-. Click *Create job template*.
-. Once created, click *Launch Template* (top-right) to start the job.
-. Once the *Patch VMs* Job is complete, you should see output similar to:
+. Once the form is filled out, click the *Create job template* button.
 +
-image::patch_vm.png[title='Patch VM', link=self, window=blank, width=100%]
+image::module-01-day-to-day/62-create_patch_template.png[title="Create Patch Template", link=self, window=blank, width=100%]
++
+. Once created, click *Launch Template* button in the top-right corner to start the job.
+. When the *Patch VMs* job has completed successfully, you should see output similar to:
++
+image::module01-day-to-day/63-patch_vm.png[title="Patch VM", link=self, window=blank, width=100%]
 
 === Reviewing the Job Output
 
@@ -781,13 +784,16 @@ After the job runs, you’ll be able to see:
 * Output for the task titled *Update security-related packages on all hosts*.
 * Per-host details indicating which security updates were applied.
 
-These views help validate that the automation worked and that each VM received the expected patches.
+. Under the *TASK* for *Update security-related packages on all hosts*, click on *vms-aap-day2-rhel9-vm1*.
++
+image::module01-day-to-day/64-patch_complete.png[title="Patching Complete", link=self, window=blank, width=100%]
++
+. You will be presented with additional *Details* about the task, and be able to validate that system was indeed patched by our automation job by clicking on the *Data* tab.
++
+image::module01-day-to-day/65-patch_details.png[title="Patch Details", link=self, window=blank, width=100%]
 
-image::patch_vm_task.png[title='Detail Task View', link=self, window=blank, width=100%]
-
-image::patch_vm_host_details.png[title='Host Details', link=self, window=blank, width=100%]
-
-== VM Management (Hot-Plugging CPU and Memory Resources)
+[[vm_mgmt_hp]]
+== Automated VM Management (Hot-Plugging CPU and Memory Resources)
 
 In this section, you will learn how to hot-plug CPU and memory resources into a running Virtual Machine (VM) using Ansible Automation Platform and the redhat.openshift_virtualization collection.
 
