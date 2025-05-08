@@ -885,3 +885,5 @@ WARNING: Classic VMs are not part of this lab exercise and the Classic Method is
 . Launch the job by selecting *Launch Template* from the top-right corner.
 . When the job completes, head to the OpenShift UI dashboard and view the details of the rhel9-vm1 Virtual Machine.
 You should see that the new size u1.2xmedium is now being used.
+
+== Summary
