@@ -4,14 +4,14 @@ We hope you have enjoyed {lab_name} and learning more about *OpenShift Virtualiz
 
 We hope you have enjoyed this lab please come visit us at the OpenShift and Ansible booths if you have the time, we'd love to hear about your experience.
 
-[key_takeaways]
+[[key_takeaways]]
 == Key Takeaways
 
 * OpenShift Virtualization is solution oriented, providing you with a mature, stable, and scalable solution that's easy to get started with.
 
 * Ansible Automation Platform is an enterprise tool which provides you with the ability to automate and managed many functions of your virtual machine environment at scale.
 
-[additional_info]
+[[additional_info]]
 == Additional Information
 
 === Free Ebook: 15 Reasons to Adopt Red Hat OpenShift Virtualization

@@ -21,8 +21,10 @@ image::module-01-day-to-day/02-aap_login.png[title="AAP Login", link=self, windo
 Use this opportunity to open and log into both consoles to prepare for the lab.
 
 
-[dynamic_inventory]
+[[dynamic_inventory]]
 == Creating a Dynamic Inventory for OpenShift Virtual Machines
+
+OBJECTIVE: 
 
 Dynamic inventories allow Ansible Automation Platform (AAP) to automatically fetch and update the inventory of systems from external sources, eliminating the need for manual inventory management.
 
@@ -142,14 +144,12 @@ NOTE: You may also confirm the VMs are running in a manual manner by logging int
 +
 image::module-01-day-to-day/15-vm_inventory_openshift.png[title="Virtual Machines Running on OpenShift", link=self, window=blank, width=100%]
 
-[sec_and_comp]
+[[sec_and_comp]]
 == Security and Compliance Using the OpenShift Compliance Operator
 
 This section of our lab will focus on making use of the OpenShift Compliance Operator to configure security scans in your OpenShift cluster. The compliance operator can help ensure that the hosts in your OpenShift environment meet specific security standards, and are deployed to meet those standards.
 
 image::module-01-day-to-day/15a-compliance_overview.png[title="Compliance Overview", link=self, window=blank, width=100%]
-
-=== Getting Started
 
 . Select *Operators* and then *Installed Operators* from the left side navigation menu, confirm that you have selected *All Projects* and select the *Compliance Operator*.
 +
@@ -219,35 +219,31 @@ image::module-01-day-to-day/26-compliance_scan.png[title="Compliance Scan", link
 image::module-01-day-to-day/27-compliance_check_results.png[title="Compliance Check Results", link=self, window=blank, width=100%]
 +
 . Twelve high severity checks have a failed status:
-[%header, format=csv]
+
 |===
-*ComplianceCheckResult*, *Check-Severity*, *Check-Status*
-rhcos4-moderate-master-configure-crypto-policy, high, FAIL
-rhcos4-moderate-master-coreos-pti-kernel-argument, high, FAIL
-rhcos4-moderate-master-disable-ctrlaltdel-burstaction, high, FAIL
-rhcos4-moderate-master-disable-ctrlaltdel-reboot, high, FAIL
-rhcos4-moderate-master-enable-fips-mode, high, FAIL
-rhcos4-moderate-master-no-empty-passwords, high, FAIL
-rhcos4-moderate-worker-configure-crypto-policy, high, FAIL
-rhcos4-moderate-worker-coreos-pti-kernel-argument, high, FAIL
-rhcos4-moderate-worker-disable-ctrlaltdel-burstaction, high, FAIL
-rhcos4-moderate-worker-disable-ctrlaltdel-reboot, high, FAIL
-rhcos4-moderate-worker-enable-fips-mode, high, FAIL
-rhcos4-moderate-worker-no-empty-passwords, high, FAIL
+| *ComplianceCheckResult* | *Check-Severity* | *Check-Status*
+| rhcos4-moderate-master-configure-crypto-policy| high| FAIL
+| rhcos4-moderate-master-coreos-pti-kernel-argument| high| FAIL
+| rhcos4-moderate-master-disable-ctrlaltdel-burstaction| high| FAIL
+| rhcos4-moderate-master-disable-ctrlaltdel-reboot| high| FAIL
+| rhcos4-moderate-master-enable-fips-mode| high| FAIL
+| rhcos4-moderate-master-no-empty-passwords| high| FAIL
+| rhcos4-moderate-worker-configure-crypto-policy| high| FAIL
+| rhcos4-moderate-worker-coreos-pti-kernel-argument| high| FAIL
+| rhcos4-moderate-worker-disable-ctrlaltdel-burstaction| high| FAIL
+| rhcos4-moderate-worker-disable-ctrlaltdel-reboot| high| FAIL
+| rhcos4-moderate-worker-enable-fips-mode| high| FAIL
+| rhcos4-moderate-worker-no-empty-passwords| high| FAIL
 |===
 
 You have now completed this section on configuring and running compliance scans against your OpenShift cluster. 
 
-[net_policy]
+[[net_policy]]
 == Configure Network Policies to Manage VM Traffic
 
-=== Introduction
+In Red Hat OpenShift administrators can configure Network Policies to further secure their environments, and the virtual guests that run there. In this portion of the lab we are going to configure a virtual machine and then apply a network policy that prevents it's egress to the world.
 
-To demo network policy, we have a standard VM.
-The user logs in via console, can ping google or other public IP by default.
-Show how we can set a network policy to block egress of that vm, or limit egress to only other VMs in the same namespace.
-
-==== See that the VM can ping google
+=== Confirm Network Egress on Virtual Machines
 
 . Click VirtualMachines, click *rhel9-vm1* click Console.
 If you do not see any Virtual Machines make sure you are in vms-aap-day2 project.
