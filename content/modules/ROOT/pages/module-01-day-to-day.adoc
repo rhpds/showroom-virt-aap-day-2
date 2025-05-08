@@ -795,13 +795,13 @@ image::module01-day-to-day/65-patch_details.png[title="Patch Details", link=self
 [[vm_mgmt_hp]]
 == Automated VM Management (Hot-Plugging CPU and Memory Resources)
 
+One of the great benefits of having virtual workloads is the ability to adjust the resources used by those workloads on the fly to meet workload demands. Compared to the days of having to shut down the server to physically add RAM or upgrade the processor, the ability to scale VM resources dynamically by hot-plugging additional resources is a fantastic timesaver. Also, being able to automate the scaling up and down of these requests using Ansible Automation Platform based on metrics gathered from the guests ensures efficiency in both resource consumption and physical administrative time.
+
 In this section, you will learn how to hot-plug CPU and memory resources into a running Virtual Machine (VM) using Ansible Automation Platform and the redhat.openshift_virtualization collection.
 
-Hot-plugging is the ability to add or remove hardware resources, such as CPU or memory, to a running VM without requiring a reboot.
-This capability is critical for dynamic workloads, allowing you to scale resources based on demand while minimizing downtime.
+Hot-plugging is the ability to add or remove hardware resources, such as CPU or memory, to a running VM without requiring a reboot. This capability is critical for dynamic workloads, allowing you to scale resources based on demand while minimizing downtime.
 
-This exercise focuses on using *instance types*, which are reusable objects in OpenShift Virtualization that define the resources and characteristics for VMs.
-Instance types simplify resource management by enabling consistent configurations across VMs.
+This exercise focuses on using *instance types*, which are reusable objects in OpenShift Virtualization that define the resources and characteristics for VMs. Instance types simplify resource management by enabling consistent configurations across VMs.
 
 === What Are Instance Types?
 
@@ -811,9 +811,9 @@ OpenShift Virtualization provides two types of instance types:
 . *VirtualMachineInstancetype*: A namespaced object for instance types limited to a specific namespace.
 . *VirtualMachineClusterInstancetype*: A cluster-wide object for instance types available across all namespaces.
 
-Both types share the same VirtualMachineInstancetypeSpec, which allws you to define custom configurations or use the variety of instance types included by default when OpenShift Virtualization is installed.
+Both types share the same VirtualMachineInstancetypeSpec, which allows you to define custom configurations or use the variety of instance types included by default when OpenShift Virtualization is installed.
 
-By using instance types, you can simplify VM configuration management and ensure consistency, making them the *recommended approach* for hot-plugging resources.
+By using instance types, you can simplify VM configuration management and ensure consistency throughout all your deployments, making them the *recommended approach* for hot-plugging resources.
 
 In this lab, you will primarily focus on using the instance type method while also learning about the classic approach of directly modifying the VM specification for context.
 
@@ -823,28 +823,18 @@ NOTE: The classic method only works when creating VMs that do not use an instanc
 
 To determine whether a VM is created with an instance type or not, follow these steps:
 
-. Navigate to the *Overview* tab of the VM (e.g., rhel9-vm1) in the OpenShift Virtualization dashboard.
+. Navigate to the *Overview* tab of the *rhel9-vm1* in the OpenShift Virtualization console.
 . In the *Details* section, look for the following:
    - *Instance Type*: If the VM uses an instance type, this field will display the name of the instance type applied to the VM (e.g., u1.small).
    - *Template*: If no instance type is used, this field will display either None or the name of the template used to create the VM.
-
-You can use these visual cues to identify whether the VM relies on an instance type or a traditional template.
-
-Below is an example image illustrating both scenarios:
-
-* One VM shows an assigned instance type.
 +
-* Another VM indicates *rhel9-server-small* under the template field, indicating that the *rhel9-server-small* template was used.
-+
-image::example_instance_type_and_template.png[title="Instance Type vs. Template", link=self, window=blank, width=100%]
+image::module01-day-to-day/66-vm_details.png[title="VM Details", link=self, window=blank, width=100%]
 
-=== Using the pre-created hot_plug.yml to update resources
+The instance_type method is the recommended approach for hot-plugging resources into a VM. It ensures consistent and reusable resource configurations across multiple VMs while leveraging the powerful features of OpenShift Virtualization.
 
-The hot_plug.yml file consists of a task that updates a running VM by applying a new instance type.
-This approach lets you add CPU and memory resources dynamically without needing to recreate or power off the VM.
+=== Using the Pre-created hot_plug.yml File to Update Resources
 
-The instance_type method is the recommended approach for hot-plugging resources into a VM.
-It ensures consistent and reusable resource configurations across multiple VMs while leveraging the powerful features of OpenShift Virtualization.
+The hot_plug.yml file consists of a task that updates a running VM by applying a new instance type. This approach lets you add CPU and memory resources dynamically without needing to recreate or power off the VM.
 
 [source, yaml]
 ----
@@ -865,11 +855,9 @@ It ensures consistent and reusable resource configurations across multiple VMs w
 <5> *run_strategy*: Restarts the VM in case of errors, does not start machines stopped manually.
 <6> *instancetype*: Defines the instance type for the VM, allowing you to use pre-configured or custom resource settings.
 <7> *instancetype.name*: The name of the instance type to be applied.
-<8> *instancetype.revisionName*: Optionally specifies the exact revision of the instance type, ensuring compatibility with the VM.
-Typically auto-generated, thus left empty.
+<8> *instancetype.revisionName*: Optionally specifies the exact revision of the instance type, ensuring compatibility with the VM. It is typically auto-generated, thus left empty.
 
-WARNING: VMs must be created using Instance Types for this task method to work.
-Otherwise use the Classic method.
+NOTE: VMs must be created using Instance Types for this task method to work. Otherwise you must use the Classic method.
 
 === Classic Method: Modifying the Spec Directly (Informational Only)
 
@@ -899,13 +887,16 @@ While this approach is flexible, it lacks the reusability and consistency offere
 <6> *spec.domain.cpu*: Specifies the number of CPU sockets for the VM (e.g., 2).
 <6> *spec.domain.memory*: Defines the memory allocated to the VM, (e.g., 4Gi).
 
-WARNING: Classic VMs are not part of this lab exercise and the Classic Method is for informational purposes only.
+NOTE: Classic VMs are not a part of this lab exercise, and the Classic Method is for informational purposes only.
 
 === Create and Run the Hot-Plug Job Template
 
-. Within the AAP UI Dashboard, navigate to *Automation Execution → Templates*.
-. Click *Create Template* and select *Create job template*.
-. Fill in the following details:
+. Within the AAP UI Dashboard, use the left side menu to navigate to *Automation Execution* and then click on *Templates*.
+. Click *Create Template* and select *Create job template* from the dropdown menu that appears.
++
+image::module01-day-to-day/67-create_template.png[title="Create Job Template", link=self, window=blank, width=100%]
++
+. Fill in the following details to create a job template:
 +
 [cols="2,3",options="header"]
 |===
@@ -922,9 +913,18 @@ WARNING: Classic VMs are not part of this lab exercise and the Classic Method is
                       `instance_type: u1.2xmedium`
 |===
 +
-. Click *Create Job Template*.
-. Launch the job by selecting *Launch Template* from the top-right corner.
-. When the job completes, head to the OpenShift UI dashboard and view the details of the rhel9-vm1 Virtual Machine.
-You should see that the new size u1.2xmedium is now being used.
+. When the details are filled out, click *Create Job Template*.
++
+image::module01-day-to-day/68-create_hotadd_template.png[title="Create HotAdd Template", link=self, window=blank, width=100%]
++
+. Launch the job by selecting the *Launch Template* button from the top-right corner. When the job completes you should see output that shows it was able to modify the virtual machines instance type.
++
+image::module01-day-to-day/69-hotadd_template_success.png[title="HotAdd Template Success", link=self, window=blank, width=100%]
++
+. When the job completes, return to the OpenShift console and view the details of the rhel9-vm1 Virtual Machine once again. You should see that the *InstanceType* field has changed and is now set to *u1.2xmedium*.
++
+image::module01-day-to-day/70-vm_modified_instancetype.png[title="VM InstanceType Modified ", link=self, window=blank, width=100%]
 
 == Summary
+
+In this module you have spent a day in the life of an OpenShift Virtualization administrator exploring native performance assessment tools in Red Hat OpenShift, and making use of Ansible Automation Platform to automate a number of tasks that many VM's experience often on a day-to-day basis.
