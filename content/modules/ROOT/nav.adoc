@@ -5,7 +5,8 @@
 ** xref:module-01-day-to-day.adoc#sec_and_comp[Security and Compliance Using the OpenShift Compliance Operator]
 ** xref:module-01-day-to-day.adoc#net_policy[Configure Network Policies to Manage VM Traffic]
 ** xref:module-01-day-to-day.adoc#alerts_graphs_logs[Enable and Explore Alerts, Graphs, and Logs]
-** xref:module-01-day-to-day.adoc#vm_mgmt[Automated VM Management (Stop, Start, Restart Guest VMs)]
+** xref:module-01-day-to-day.adoc#vm_mgmt_power[Automated VM Management (Stop, Start, Restart Guest VMs)]
+** xref:module-01-day-to-day.adoc#vm_mgmt_patch[Automated VM Management (Patch Guest VMs)]
 
 * xref:module-02-real-world-scaling.adoc[Real World Scaling Scenario]
 

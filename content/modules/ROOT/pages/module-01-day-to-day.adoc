@@ -442,7 +442,7 @@ image::module-01-day-to-day/55-metrics_select.png[title="Select Metrics", link=s
 
 Now that we have completed this section determining how to locate and display alerts, performance metrics, and graphs about our nodes and workloads, we can leverage these skills in the future in order to troubleshoot our own OpenShift Virtualization environments.
 
-[[vm_mgmt]]
+[[vm_mgmt_power]]
 == Automated VM Management (Stop, Start, Restart Guest VMs)
 
 Now that we've spent some time working with the OpenShift console, lets see what types of activities we can automate to make our administration jobs easier.
@@ -452,24 +452,24 @@ Platform (AAP).
 
 While much of the groundwork, such as creating playbooks and VM task files, has already been completed for you, this section of the lab will focus on understanding how the pieces work together and how to run the automation via AAP.
 
-To start, you’ll perform common VM lifecycle actions such as stopping, starting, and restarting all VMs in a given namespace, and you’ll gain insight into how the automation behind these actions is structured.
+To being, we’ll perform some common VM lifecycle actions such as stopping, starting, and restarting all VMs in a given namespace. These tasks are designed to demonstrate how the automation behind these actions is structured.
 
-=== The existing setup
+=== The Existing Setup
 
-To assist with your experience, the following content has already been created and configured:
+To assist with your experience, the following content has already been created and configured for you:
 
 * The *tasks/main.yml* file has been pre-populated with dynamic task inclusion logic.
-* The Ansible playbook (*manage_vm_playbook.yml*) that calls the appropriate task based on input variables is in place.
-* Task files for stopping, starting, and restarting VMs (*stop_vm.yml*, *start_vm.yml*, and *restart_vm.yml*) have been pre-written.
+* The Ansible playbook (*manage_vm_playbook.yml*) that calls the appropriate task based on input variables is already in place.
+* Individual task files for stopping, starting, and restarting VMs (*stop_vm.yml*, *start_vm.yml*, and *restart_vm.yml*) have been pre-written.
 
-Although you don’t need to create or modify these files, it's important to understand how they work, as you’ll be referencing them when creating job templates in AAP.
+Although you don’t need to create or modify these files, it's important to understand how they work, as you’ll be referencing them when creating job templates in Ansible Automation Platform.
 
-=== Understanding the task files
+=== Understanding the Task Files
 
 Each of the task files works by retrieving all virtual machines within a specific namespace (in our case *vms-aap-day2*), and then performing an action (stop, start, restart) based on their current status.
 The *ansible.builtin.debug* task provides insights to understanding the structure of your VM resource *vm_info* to identify key fields required to create dynamic Ansible tasks.
 
-=== *stop_vm.yml*
+==== *stop_vm.yml*
 
 This task file stops any VMs that are currently running within a given namespace.
 
@@ -500,7 +500,7 @@ This task file stops any VMs that are currently running within a given namespace
   when: item.status.printableStatus != "Stopped"
 ----
 
-=== *start_vm.yml*
+==== *start_vm.yml*
 
 This task file starts any VMs that are currently stopped within a given namespace.
 
@@ -531,7 +531,7 @@ This task file starts any VMs that are currently stopped within a given namespac
   when: item.status.printableStatus != "Running"
 ----
 
-=== *restart_vm.yml*
+==== *restart_vm.yml*
 
 This task file restarts any VMs that are currently running within a given namespace.
 
@@ -562,18 +562,14 @@ This task file restarts any VMs that are currently running within a given namesp
   when: item.status.printableStatus != "Running"
 ----
 
-These task files use the OpenShift REST API directly using the *ansible.builtin.uri* module to invoke the appropriate lifecycle action of stopping, starting or restarting.
+These task files interact with the OpenShift REST API directly using the *ansible.builtin.uri* module to invoke the appropriate lifecycle action of stopping, starting, or restarting the virtual machine.
 
-The debug task helps you visualize the structure of VM data returned by the *kubevirt_vm_info* module and breaks down as follows:
+In addition, the debug task helps you to visualize the structure of VM data returned by the *kubevirt_vm_info* module and breaks down as follows:
 
 * The *kubevirt_vm_info* module retrieves all VMs in the namespace.
-
 * *metadata.name*: The name of the VirtualMachine.
-
 * *metadata.namespace*: The namespace the VM belongs to.
-
 * The *loop_control* option sets a label for each task iteration, showing the VM name (*item.metadata.name*) in the output. This makes the playbook output more readable and easier to debug.
-
 * *status.printableStatus*: The current status of the VM (e.g., Stop, Start,Restart).
 
 A snippet sample of the *ansible.builtin.debug* module is shown below.
@@ -602,13 +598,25 @@ result:
 === Creating and Running the VM Job Templates with Ansible Automation Platform
 
 Each VM lifecycle template that you will create takes advantage of the *manage_vm_playbook.yml*.
-In this section,  you will head to the Ansible Automation Platform (AAP) dashboard and create a VM Job Template for each scenario: Start VMs, Stop VMs, Restart VMs.
 
-The following instructions showcase how to create the Stop VMs Template within AAP.
+In this section, you will make use of the Ansible Automation Platform (AAP) dashboard and create a VM Job Template for each scenario: Start VMs, Stop VMs, and Restart VMs. You will be able to see the effects of your automation jobs by checking back with the OpenShift console.
 
-. Within the AAP UI dashboard, navigate to *Automation Execution → Templates*, click the *Create template* button, and chose *Create job template*.
+. In the OpenShift console, use the left side navigation menu and click on *Virtualization* and then *VirtualMachines*. In the center column, click on the *vms-aap-day2* project and verify that all three VMs are currently running.
 +
-. Fill out the following details within the job template
+image::module-01-day-to-day/55a-running_vms.png[title="Running AAP VMs", link=self, window=blank, width=100%]
++
+. Return to the tab where you have Ansible Automation Platform open. If your previous login has timed out, or you have accidentally closed the window, the information to login again is here:
++
+Your Ansible Automation Platform console is available {aap_controller_web_url}[here^].
+
+* *User:* `{aap_controller_admin_user}`
+* *Password* `{aap_controller_admin_password}`
++
+. Within the AAP UI dashboard, use the left side menu to navigate to *Automation Execution* then click on *Templates*. On the templates screen, click the *Create template* button, and chose *Create job template* from the dropdown menu.
++
+image::module-01-day-to-day/56-create_job_template.png[title="Create Job Template", link=self, window=blank, width=100%]
++
+. Fill out the following details on the *Create job template* page:
 +
 |===
 | Parameter         | Value
@@ -624,17 +632,27 @@ The following instructions showcase how to create the Stop VMs Template within A
                                `task_file: stop_vm.yml`
 |===
 +
-. Click *Create job template*.
+. Once filled out, click the *Create job template* button.
 +
+image::module-01-day-to-day/57-stop_vms_template.png[title="Stop VMs Template", link=self, window=blank, width=100%]
++
+
 . Once the *Stop VMs* Job Template is created, select the *Launch template* button on the top right corner to run the job.
 +
-. Head to the OpenShift UI dashboard, you can verify the VMs are running within the *Virtualization -> Virtual Machines* section.
+image::module-01-day-to-day/58-launch_stop_vms.png[title="Launch Stop VMs Template", link=self, window=blank, width=100%]
++
+. The job will start running, and once it is successful you will see changes displayed in yellow.
++
+image::module-01-day-to-day/59-successful_job.png[title="Successful Job", link=self, window=blank, width=100%]
++
+. Return to the OpenShift console to see that the virtual machines in the *vms-aap-day2* project have all now stopped.
++
+image::module-01-day-to-day/60-stopped_vms.png[title="Stopped VMs", link=self, window=blank, width=100%]
++
+. Return to the AAP Dashboard, and repeat this process to create the *Start VMs* and *Restart VMs* Ansible Job Templates. The details for each is provided below.
 
-Repeat this process to create the *Start VMs* and *Restart VMs* Ansible Job Templates.
-The details for each is provided below.
-
-For Starting VMs, use the following details to create the job template
-
+. For Starting VMs, use the following details to create the job template:
++
 |===
 | Parameter         | Value
 
@@ -648,9 +666,9 @@ For Starting VMs, use the following details to create the job template
 | Extra variables            | `vm_namespace: vms-aap-day2` +
                                `task_file: start_vm.yml`
 |===
-
-For Restarting VMs, use the following details to create the job template
-
++
+. For Restarting VMs, use the following details to create the job template:
++
 |===
 | Parameter         | Value
 
@@ -664,9 +682,10 @@ For Restarting VMs, use the following details to create the job template
 | Extra variables            | `vm_namespace: vms-aap-day2` +
                                `task_file: restart_vm.yml`
 |===
++
+. Once you have created these Job templates select the *Launch template* button on the top right corner to run the job and notice the changes of these VMs within the OpenShift console. Each VM should start back up after executing the *Start VMs* template, and then each machine should reboot after executing the *Restrat VMs* template.
 
-Once you have created these Job templates select the *Launch template* button on the top right corner to run the job and notice the changes of these VMs within the OpenShift console.
-
+[[vm_mgmt_patch]]
 == VM Management (Patching your VMs)
 
 In this exercise, you’ll automate the patching of RHEL virtual machines by applying only security-related updates using Ansible Automation Platform.
