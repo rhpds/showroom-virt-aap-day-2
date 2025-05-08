@@ -1,4 +1,4 @@
-image::2025_spring/conclusion/00_Thank_You.png[link=self, window=blank, width=100%]
+image::conclusion/00_Thank_You.png[link=self, window=blank, width=100%]
 
 We hope you have enjoyed {lab_name} and learning more about *OpenShift Virtualization* and *Ansible Automation Platform* and how these two tools from Red Hat can be used to manage your virtual machine estate on a day-to-day basis, as well as how to perform some required performance analysis and troubleshooting steps as a virtualization administrator. 
 
