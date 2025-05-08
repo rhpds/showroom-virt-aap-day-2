@@ -884,8 +884,8 @@ While this approach is flexible, it lacks the reusability and consistency offere
 <4> *state*: Ensures the VM is in the desired state, in this case, present.
 <5> *spec*: Directly modifies the VM's specification.
 <6> *spec.domain*: Contains settings related to the VM's virtualized environment.
-<6> *spec.domain.cpu*: Specifies the number of CPU sockets for the VM (e.g., 2).
-<6> *spec.domain.memory*: Defines the memory allocated to the VM, (e.g., 4Gi).
+<7> *spec.domain.cpu*: Specifies the number of CPU sockets for the VM (e.g., 2).
+<8> *spec.domain.memory*: Defines the memory allocated to the VM, (e.g., 4Gi).
 
 NOTE: Classic VMs are not a part of this lab exercise, and the Classic Method is for informational purposes only.
 
