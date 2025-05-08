@@ -6,15 +6,15 @@ Your OpenShift cluster console is available {openshift_cluster_console_url}[here
 
 Your login is available with:
 
-* *User:* {openshift_cluster_admin_username}
-* *Password:* {openshift_cluster_admin_password}
+* *User:* `{openshift_cluster_admin_username}`
+* *Password:* `{openshift_cluster_admin_password}`
 
 image::module-01-day-to-day/01-openshift_login.png[title="OpenShift Login", link=self, window=blank, width=100%]
 
 Your Ansible Automation Platform console is available {aap_controller_web_url}[here^].
 
-* *User:* {aap_controller_admin_user}
-* *Password* {aap_controller_admin_password}
+* *User:* `{aap_controller_admin_user}`
+* *Password* `{aap_controller_admin_password}`
 
 image::module-01-day-to-day/02-aap_login.png[title="AAP Login", link=self, window=blank, width=100%]
 
@@ -24,7 +24,7 @@ Use this opportunity to open and log into both consoles to prepare for the lab.
 [[dynamic_inventory]]
 == Creating a Dynamic Inventory for OpenShift Virtual Machines
 
-OBJECTIVE: 
+OBJECTIVE:
 
 Dynamic inventories allow Ansible Automation Platform (AAP) to automatically fetch and update the inventory of systems from external sources, eliminating the need for manual inventory management.
 
@@ -41,7 +41,7 @@ image::module-01-day-to-day/03-auto_infra_inv.png[title="Automation Execution, I
 image::module-01-day-to-day/04-create_inventory_dropdown.png[title="Create Inventory Dropdown", link=self, window=blank, width=100%]
 +
 . Fill out or select the appropriate value from the drop down menus available for the following fields in the *Create Inventory* form:
-   * *Name:* OpenShift Virtual Machines
+   * *Name:* `OpenShift Virtual Machines`
    * *Organization:* Default
 +
 . Click the *Create inventory* button at the bottom.
@@ -163,7 +163,8 @@ image::module-01-day-to-day/17-compliance_details.png[title="Compliance Details"
 +
 image::module-01-day-to-day/18-scansetting_button.png[title="Create ScanSetting Button", link=self, window=blank, width=100%]
 +
-. On the *Create ScanSetting* page, set the name of the scan to *scan01*. Then click the *YAML view* radio button.
+. On the *Create ScanSetting* page, set the name of the scan to `scan01`.
+Then click the *YAML view* radio button.
 +
 image::module-01-day-to-day/19-create_scansetting.png[title="Create Scansetting", link=self, window=blank, width=100%]
 +
@@ -176,32 +177,36 @@ image::module-01-day-to-day/19-create_scansetting.png[title="Create Scansetting"
 image::module-01-day-to-day/20-scansetting_details.png[title="ScanSetting Details", link=self, window=blank, width=100%]
 +
 . Now click on the *Profile* tab where there are a number of pre-defined scanning profiles.
-. In the search box, type *rhcos4* and locate the FedRamp moderate profile *rhcos4-moderate* in the list. 
+. In the search box, type `rhcos4` and locate the FedRamp moderate profile *rhcos4-moderate* in the list.
 +
 image::module-01-day-to-day/21-profiles_detail.png[title="Profiles Detail", link=self, window=blank, width=100%]
 +
-. Click on *rhcos4-moderate* and then on the *YAML*. Scroll down the output to browse the rules that are enforced as a part of this scan. A quick glimpse at the side panel shows that there are quite a few of them.
+. Click on *rhcos4-moderate* and then on the *YAML*.
+Scroll down the output to browse the rules that are enforced as a part of this scan.
+A quick glimpse at the side panel shows that there are quite a few of them.
 +
 image::module-01-day-to-day/22-rhcos4_mod_rules.png[title="RHCOS4-Moderate Rules", link=self, window=blank, width=100%]
 +
-. When you are done reviewing the rules, click return to the *Operator details* page by clicking your browser's _back button_ twice.
+. When you are done reviewing the rules, return to the *Operator details* page by clicking your browser's _back button_ twice.
 +
 NOTE: Additional details on the profiles available can be found https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/security_and_compliance/compliance-operator#compliance-operator-supported-profiles[here^].
 +
-. Next we want to create a *ScanSettingBinding*, pairing a *Profile* with our *ScanSetting* definition we created. We do this by navigating to the *Scan Setting Binding* tab, and clicking the *Create ScanSettingBinding* button.
+. Next we want to create a *ScanSettingBinding*, pairing a *Profile* with our *ScanSetting* definition we created.
+We do this by navigating to the *Scan Setting Binding* tab, and clicking the *Create ScanSettingBinding* button.
 +
 image::module-01-day-to-day/23-create_scansettingbinding.png[title="Create ScanSettingBinding", link=self, window=blank, width=100%]
 +
 . In the ScanSettingBinding YAML details, let us make a few changes:
-  * The *metadata/name* value should be set to *fedramp01*
-  * The *settingsRef/name* field is set to *scan01* which we created earlier.
+  * The *metadata/name* value should be set to `fedramp01`
+  * The *settingsRef/name* field is set to `scan01` which we created earlier.
 . Click the *Create* button.
 +
 NOTE: The profile is set to rhcos4-moderate (the fedramp moderate profile) by default.
 +
 image::module-01-day-to-day/24-scansettingbinding_details.png[title="ScanSettingBinding Details", link=self, window=blank, width=100%]
 +
-. After the *ScanSettingBinding* is created, the fedramp01 scan will be run automatically. You can view this on the *Compliance Suite* tab.
+. After the *ScanSettingBinding* is created, the fedramp01 scan will be run automatically.
+You can view this on the *Compliance Suite* tab.
 +
 image::module-01-day-to-day/25-compliance_suite.png[title="Compliance Suite", link=self, window=blank, width=100%]
 +
@@ -213,8 +218,8 @@ image::module-01-day-to-day/26-compliance_scan.png[title="Compliance Scan", link
 . Once the scan completes (3-4 minutes on average) you can check your results by clicking on the *ComplianceCheckResult* tab.
 +
 . Change the search bar to *Label* and apply the following labels:
-  * compliance.openshift.io/check-status=FAIL
-  * compliance.openshift.io/check-severity=high
+  * `compliance.openshift.io/check-status=FAIL`
+  * `compliance.openshift.io/check-severity=high`
 +
 image::module-01-day-to-day/27-compliance_check_results.png[title="Compliance Check Results", link=self, window=blank, width=100%]
 +
@@ -236,12 +241,13 @@ image::module-01-day-to-day/27-compliance_check_results.png[title="Compliance Ch
 | rhcos4-moderate-worker-no-empty-passwords| high| FAIL
 |===
 
-You have now completed this section on configuring and running compliance scans against your OpenShift cluster. 
+You have now completed this section on configuring and running compliance scans against your OpenShift cluster.
 
 [[net_policy]]
 == Configure Network Policies to Manage VM Traffic
 
-In Red Hat OpenShift administrators can configure Network Policies to further secure their environments, and the virtual guests that run there. In this portion of the lab we are going to configure a virtual machine and then apply a network policy that prevents it's egress to the world.
+In Red Hat OpenShift administrators can configure Network Policies to further secure their environments, and the virtual guests that run there.
+In this portion of the lab we are going to configure a virtual machine and then apply a network policy that prevents its egress to the world.
 
 === Confirm Network Egress on Virtual Machines
 
@@ -257,7 +263,7 @@ NOTE: You may see a popup that asks you to enable the copy/paste functionality. 
 +
 . Once you are logged in, execute the following command to start an outward bound ping to Google:
 +
-[source,sh,role=execute] 
+[source,sh,role=execute]
 ----
 ping www.google.com
 ----
@@ -272,11 +278,11 @@ image::module-01-day-to-day/31-select_pod.png[title="Select Pod", link=self, win
 +
 NOTE: Pod names are randomly generated, so yours will most likely not match the screenshot above.
 +
-. On the *Pod details* page, click the *Edit* option on the *Labels* section. 
+. On the *Pod details* page, click the *Edit* option on the *Labels* section.
 +
 image::module-01-day-to-day/32-pod_details.png[title="Edit Pod Details", link=self, window=blank, width=100%]
 +
-. An *Edit labels* window will appear, you can click into the center box and add a label for *app=network-policy-deny*, press the *Enter* key to commit it, and then click the *Save* button.
+. An *Edit labels* window will appear, you can click into the center box and add a label for `app=network-policy-deny`, press the *Enter* key to commit it, and then click the *Save* button.
 +
 image::module-01-day-to-day/33-pod_labels.png[title="Edit Pod Labels", link=self, window=blank, width=100%]
 +
@@ -289,27 +295,28 @@ image::module-01-day-to-day/33-pod_labels.png[title="Edit Pod Labels", link=self
 image::module-01-day-to-day/34-network_policy.png[title="Network Policy", link=self, window=blank, width=100%]
 +
 . In *NetworkPolicies* fill out the following fields:
-  * *Policy name*: ping-egress-deny
-  * *Key*: app
-  * *Value*: network-policy-deny
+  * *Policy name*: `ping-egress-deny`
+  * *Key*: `app`
+  * *Value*: `network-policy-deny`
   * *Deny all egress traffic checkbox*: checked
 +
 image::module-01-day-to-day/35-network_policy_configure.png[title="Configure Network Policy", link=self, window=blank, width=100%]
 +
-. With the values filled out, you can click the *affected pods* link under the *Pod selector* section to show which pods are affected by this policy. Once you are satisfied with your settings you can click the *Create* button.
+. With the values filled out, you can click the *affected pods* link under the *Pod selector* section to show which pods are affected by this policy.
+Once you are satisfied with your settings you can click the *Create* button.
 +
 image::module-01-day-to-day/36-affected_pods.png[title="Affected Pods", link=self, window=blank, width=100%]
 +
-. With the policy created, lets go test it out.
+. With the policy created, go test it out.
 
 === Confirm the Effects of the Network Policy on the VM.
 
-. Let's return to the console of the *rhel9-vm1* virtual machine to test our policy. 
+. Return to the console of the *rhel9-vm1* virtual machine to test our policy.
 . Using the left side navigation menu, click on *Virtualization*, then *VirtualMachines*, and select *rhel9-vm1* from the center column.
 . Click the *Console* tab of the VM, you should still be logged in from before.
-. Copy and paste the following syntax to test out our new Network Policy:
+. Copy and paste the following syntax to test out the new Network Policy:
 +
-[source,sh,role=execute] 
+[source,sh,role=execute]
 ----
 ping www.google.com
 ----
@@ -321,7 +328,9 @@ image::module-01-day-to-day/37-ping_site_deny.png[title="Egress Blocked", link=s
 +
 image::module-01-day-to-day/38-delete_policy.png[title="Delete Policy", link=self, window=blank, width=100%]
 
-In this section we learned how to apply a simple network policy to block egress traffic from a virtual machine to a public website. While this is a very simple example and application of this function, network policies are quite feature rich and very tuneable. In an advanced example, they can allow you to implement microsegmentation policies helping to shape the traffic flow both inside and outside of your cluster, between virtual guests in different or even the same OpenShift project.
+In this section we learned how to apply a simple network policy to block egress traffic from a virtual machine to a public website.
+While this is a very simple example and application of this function, network policies are quite feature rich and very tuneable.
+In an advanced example, they can allow you to implement microsegmentation policies helping to shape the traffic flow both inside and outside of your cluster, between virtual guests in different or even the same OpenShift project.
 
 [[alerts_graphs_logs]]
 == Enable and Explore Alerts, Graphs, and Logs
@@ -330,19 +339,22 @@ In this section we learned how to apply a simple network policy to block egress 
 
 Now lets look at the metrics for the Nodes.
 
-. Under *Compute* Click on *Nodes*. From This view you can see the Node status and role.
+. Under *Compute* Click on *Nodes*.
+From This view you can see the Node status and role.
 +
 image::module-01-day-to-day/node_list.png[link=self, window=blank, width=100%]
 +
-. Click on one of the nodes.
+. Click on any one of the nodes.
 +
 image::module-01-day-to-day/node_example.png[link=self, window=blank, width=100%]
 +
-. You will see the Utilization. You can select if you want to see 1, 6 or 24 hours.
+. You will see the Utilization.
+You can select if you want to see 1, 6 or 24 hours.
 
 ==== Virtal Machine Graphs
 
-. Click on *Workloads* > *Deployments* > *loadmaker*. Ensure you are in Project: *windows-vms*.
+. Click on *Workloads* > *Deployments* > *loadmaker*.
+Make sure to ensure you are in Project: *windows-vms*.
 +
 image::module-01-day-to-day/select_loadmaker.png[link=self, window=blank, width=100%]
 +
@@ -354,7 +366,9 @@ image::module-01-day-to-day/show_num_pod.png[link=self, window=blank, width=100%
 +
 image::module-01-day-to-day/lm_pod_config.png[link=self, window=blank, width=100%]
 +
-. In *Virtualization* > *VirtualMachine* Select *windows-vms* project to show *winweb01*, *winweb02* and *database*. You should only see *database* and *winweb01* powered on. Power on them if needed.
+. In *Virtualization* > *VirtualMachine* Select *windows-vms* project to show *winweb01*, *winweb02* and *database*.
+You should only see *database* and *winweb01* powered on.
+Power on them if needed.
 
 . Click on *winweb01*
 +
@@ -364,7 +378,7 @@ image::module-01-day-to-day/ob_select_vm.png[link=self, window=blank, width=100%
 - Each of the line graphs are clickable.
 - Note: CPU overcommute in the environment is 10:1 overcommitment which is the default setting.
 
-. You can adjust the time range going from 5 min to 1 week.
+. You can adjust the time range from 5 min to 1 week.
 +
 image::module-01-day-to-day/ob_select_vm.png[link=self, window=blank, width=100%]
 +
@@ -392,7 +406,8 @@ image::module-01-day-to-day/change_refresh.png[link=self, window=blank, width=10
 +
 image::module-01-day-to-day/select_qurey.png[link=self, window=blank, width=100%]
 +
-. Lets add a query "sum(rate(kubevirt_vmi_vcpu_wait_seconds_total{name='winweb01',namespace='windows-vms'}[5m])) BY (name, namespace)" without the "". This query will show the amouont of time spent by each vcpu while waiting on I/O.
+. Lets add a query `sum(rate(kubevirt_vmi_vcpu_wait_seconds_total{name='winweb01',namespace='windows-vms'}[5m])) BY (name, namespace)`
+This query will show the amouont of time spent by each vcpu while waiting on I/O.
 +
 image::module-01-day-to-day/example_query.png[link=self, window=blank, width=100%]
 
@@ -406,53 +421,44 @@ image::module-01-day-to-day/dashboard.png[link=self, window=blank, width=100%]
 +
 image::module-01-day-to-day/kubevirt_dashboard.png[link=self, window=blank, width=100%]
 +
-. This dashboard you will see the top consumer for your virtual machines. Let dive in and look at the Top Consumers of CPU by virt-launcher Pods and Click *Inspect*
+. This dashboard you will see the top consumer for your virtual machines.
+Look at the Top Consumers of CPU by virt-launcher Pods and Click *Inspect*
 +
 image::module-01-day-to-day/cpu_inspect.png.png[link=self, window=blank, width=100%]
 +
 . You can can select the VMs you want to see in the graph.
 +
 image::module-01-day-to-day/metrics_select.png[link=self, window=blank, width=100%]
-+
 
 == VM Management (Stop, Start, Restart Guest VMs)
 
-In this section, you'll learn how to manage the lifecycle of your guest VMs
-running in Red Hat OpenShift Virtualization using Ansible Automation
-Platform (AAP). While much of the groundwork such as creating playbooks and
-VM task files has already been completed for you, this lab focuses on
-understanding how the pieces work together and how to run the automation via
-AAP.
+In this section, you'll learn how to manage the lifecycle of your guest VMs running in Red Hat OpenShift Virtualization using Ansible Automation
+Platform (AAP).
+While much of the groundwork such as creating playbooks and VM task files has already been completed for you, this lab focuses on understanding how the pieces work together and how to run the automation via AAP.
 
-To start, you’ll perform common VM lifecycle actions such as stopping, starting, and
-restarting all VMs in a given namespace, and you’ll gain insight into how the
-automation behind these actions is structured.
+To start, you’ll perform common VM lifecycle actions such as stopping, starting, and restarting all VMs in a given namespace, and you’ll gain insight into how the automation behind these actions is structured.
 
 === The existing setup
 
 To assist with your experience, the following content has already been created and configured:
 
-* The `tasks/main.yml` file has been pre-populated with dynamic task inclusion logic.
-* The Ansible playbook (`manage_vm_playbook.yml`) that calls the appropriate task based on input variables is in place.
-* Task files for stopping, starting, and restarting VMs (`stop_vm.yml`, `start_vm.yml`, and `restart_vm.yml`) have been pre-written.
+* The *tasks/main.yml* file has been pre-populated with dynamic task inclusion logic.
+* The Ansible playbook (*manage_vm_playbook.yml*) that calls the appropriate task based on input variables is in place.
+* Task files for stopping, starting, and restarting VMs (*stop_vm.yml*, *start_vm.yml*, and *restart_vm.yml*) have been pre-written.
 
 Although you don’t need to create or modify these files, it's important to understand how they work, as you’ll be referencing them when creating job templates in AAP.
 
-
 === Understanding the task files
 
-Each of the task files works by retrieving all virtual machines within a
-specific namespace (in our case `vms-aap-day2`)  and then performing an action
-(stop, start, restart) based on their current status. The
-`ansibel.builtin.debug` task provides insights to understanding the structure of
-your VM resource `vm_info` to identify key fields required to create dynamic
-Ansible tasks.
+Each of the task files works by retrieving all virtual machines within a specific namespace (in our case *vms-aap-day2*), and then performing an action (stop, start, restart) based on their current status.
+The *ansible.builtin.debug* task provides insights to understanding the structure of your VM resource *vm_info* to identify key fields required to create dynamic Ansible tasks.
 
-=== `stop_vm.yml`
+=== *stop_vm.yml*
 
 This task file stops any VMs that are currently running within a given namespace.
 
-```
+[source,yaml]
+----
 ---
 - name: Get all VirtualMachines in the namespace
   redhat.openshift_virtualization.kubevirt_vm_info:
@@ -476,15 +482,14 @@ This task file stops any VMs that are currently running within a given namespace
   loop_control:
     label: "{{ item.metadata.name }}"
   when: item.status.printableStatus != "Stopped"
+----
 
-```
+=== *start_vm.yml*
 
-=== `start_vm.yml`
+This task file starts any VMs that are currently stopped within a given namespace.
 
-This task file starts any VMs that are currently stopped within a given
-namespace.
-
-```
+[source,yaml]
+----
 ---
 - name: Get all VirtualMachines in the namespace
   redhat.openshift_virtualization.kubevirt_vm_info:
@@ -508,14 +513,14 @@ namespace.
   loop_control:
     label: "{{ item.metadata.name }}"
   when: item.status.printableStatus != "Running"
-```
+----
 
-=== `restart_vm.yml`
+=== *restart_vm.yml*
 
-This task file restarts  any VMs that are currently running within a given
-namespace.
+This task file restarts any VMs that are currently running within a given namespace.
 
-```
+[source,yaml]
+----
 ---
 - name: Get all VirtualMachines in the namespace
   redhat.openshift_virtualization.kubevirt_vm_info:
@@ -539,30 +544,26 @@ namespace.
   loop_control:
     label: "{{ item.metadata.name }}"
   when: item.status.printableStatus != "Running"
-```
+----
 
-These task files use the OpenShift REST API directly using the
-`ansible.builtin.uri` module to invoke the appropriate lifecycle action of
-stopping, starting or restarting.
+These task files use the OpenShift REST API directly using the *ansible.builtin.uri* module to invoke the appropriate lifecycle action of stopping, starting or restarting.
 
-The debug task helps you visualize the
-structure of VM data returned by the `kubevirt_vm_info` module and breaks down
-as follows:
+The debug task helps you visualize the structure of VM data returned by the *kubevirt_vm_info* module and breaks down as follows:
 
+* The *kubevirt_vm_info* module retrieves all VMs in the namespace.
 
-* The `kubevirt_vm_info` module retrieves all VMs in the namespace.
+* *metadata.name*: The name of the VirtualMachine.
 
-* `metadata.name`: The name of the VirtualMachine.
+* *metadata.namespace*: The namespace the VM belongs to.
 
-* `metadata.namespace`: The namespace the VM belongs to.
+* The *loop_control* option sets a label for each task iteration, showing the VM name (*item.metadata.name*) in the output. This makes the playbook output more readable and easier to debug.
 
-* The `loop_control` option sets a label for each task iteration, showing the VM name (`item.metadata.name`) in the output. This makes the playbook output more readable and easier to debug.
+* *status.printableStatus*: The current status of the VM (e.g., Stop, Start,Restart).
 
-* `status.printableStatus`: The current status of the VM (e.g., Stop, Start,Restart).
+A snippet sample of the *ansible.builtin.debug* module is shown below.
 
-A snippet sample of the `ansible.builtin.debug module is shown below.
-
-```
+[source,yaml]
+----
 changed: true
 result:
   apiVersion: kubevirt.io/v1
@@ -580,17 +581,14 @@ result:
     ...
     printableStatus: Stopped
   ...
-```
+----
 
-=== Creating & Running the VM Job Templates with Ansible Automation Platform
+=== Creating and Running the VM Job Templates with Ansible Automation Platform
 
-Each VM lifecycle template that you will create takes advantage of the
-`manage_vm_playbook.yml`. In this section,  you will head to the Ansible
-Automation Platform (AAP) dashboard and create a VM Job Template for each
-scenario: Start VMs, Stop VMs, Restart VMs.
+Each VM lifecycle template that you will create takes advantage of the *manage_vm_playbook.yml*.
+In this section,  you will head to the Ansible Automation Platform (AAP) dashboard and create a VM Job Template for each scenario: Start VMs, Stop VMs, Restart VMs.
 
-The following instructions showcase how to create the Stop VMs Template within
-AAP.
+The following instructions showcase how to create the Stop VMs Template within AAP.
 
 . Within the AAP UI dashboard, navigate to *Automation Execution → Templates*, click the *Create template* button, and chose *Create job template*.
 +
@@ -599,11 +597,11 @@ AAP.
 |===
 | Parameter         | Value
 
-| Name          | Stop VMs
+| Name          | `Stop VMs`
 | Job Type      | Run
 | Inventory     | OpenShift Virtual Machines
 | Project       | Workshop Project
-| Playbook      | `solutions/manage_vm_playbook.yml`
+| Playbook      | solutions/manage_vm_playbook.yml
 | Execution Environment | Day2 EE
 | Credentials   | OpenShift Credential
 | Extra variables            | `vm_namespace: vms-aap-day2` +
@@ -612,23 +610,23 @@ AAP.
 +
 . Click *Create job template*.
 +
-. Once the `Stop VMs` Job Template is created, select the *Launch template* button on the top right corner to run the job.
+. Once the *Stop VMs* Job Template is created, select the *Launch template* button on the top right corner to run the job.
 +
 . Head to the OpenShift UI dashboard, you can verify the VMs are running within the *Virtualization -> Virtual Machines* section.
 
-Repeat this process to create the *Start VMs* and *Restart VMs* Ansible Job
-Templates. The details for each is provided below.
+Repeat this process to create the *Start VMs* and *Restart VMs* Ansible Job Templates.
+The details for each is provided below.
 
 For Starting VMs, use the following details to create the job template
 
 |===
 | Parameter         | Value
 
-| Name          | Start VMs
+| Name          | `Start VMs`
 | Job Type      | Run
 | Inventory     | OpenShift Virtual Machines
 | Project       | Workshop Project
-| Playbook      | `solutions/manage_vm_playbook.yml`
+| Playbook      | solutions/manage_vm_playbook.yml
 | Execution Environment | Day2 EE
 | Credentials   | OpenShift Credential
 | Extra variables            | `vm_namespace: vms-aap-day2` +
@@ -640,99 +638,78 @@ For Restarting VMs, use the following details to create the job template
 |===
 | Parameter         | Value
 
-| *Name*          | Restart VMs
+| *Name*          | `Restart VMs`
 | *Job Type*      | Run
 | *Inventory*     | OpenShift Virtual Machines
 | *Project*       | Workshop Project
-| *Playbook*      | `solutions/manage_vm_playbook.yml`
+| *Playbook*      | solutions/manage_vm_playbook.yml
 | *Execution Environment* | Day2 EE
 | *Credentials*   | OpenShift Credential
 | Extra variables            | `vm_namespace: vms-aap-day2` +
                                `task_file: restart_vm.yml`
 |===
 
-Once you have created these Job templates select the *Launch template* button
-on the top right corner to run the job and notice the changes of these VMs
-within the OpenShift console.
+Once you have created these Job templates select the *Launch template* button on the top right corner to run the job and notice the changes of these VMs within the OpenShift console.
 
 == VM Management (Patching your VMs)
 
-In this exercise, you’ll automate the patching of RHEL virtual machines by applying
-only security-related updates using Ansible Automation Platform.
+In this exercise, you’ll automate the patching of RHEL virtual machines by applying only security-related updates using Ansible Automation Platform.
 
-The virtual machines you'll target are already part of a dynamic inventory that
-was set up in a previous step — specifically, the *OpenShift Virtual Machines*
-inventory.
+The virtual machines you'll target are already part of a dynamic inventory that was set up in a previous step — specifically, the *OpenShift Virtual Machines* inventory.
 
-Rather than writing playbooks or tasks from scratch, you'll be working with
-provided automation content, which includes:
+Rather than writing playbooks or tasks from scratch, you'll be working with provided automation content, which includes:
 
-* A task file that performs security updates using the `dnf` module.
+* A task file that performs security updates using the dnf module.
 * A playbook that executes roles responsible for system registration and patching.
 
-Your goal is to understand what this content does and then create a Job Template
-to execute the automation using Ansible Automation Platform’s web UI.
+Your goal is to understand what this content does and then create a Job Template to execute the automation using Ansible Automation Platform’s web UI.
 
 [NOTE]
 ====
-This lab uses Vault Credentials to securely handle sensitive
-authentication data and a subscription management role to register RHEL systems
-to Red Hat.  This ensures VMs have access to the correct repositories for
-updates and demonstrates secure automation practices.
+This lab uses Vault Credentials to securely handle sensitive authentication data and a subscription management role to register RHEL systems to Red Hat.
+This ensures VMs have access to the correct repositories for updates and demonstrates secure automation practices.
 ====
 
-=== Understanding the Provided Task File: `update_security_packages.yml`
+=== Understanding the Provided Task File: update_security_packages.yml
 
-This task file lives inside the `tasks/` directory of the
-`redhatone.vm_management.vm_management` role. It uses the `ansible.builtin.dnf`
-module to scan for and install the latest security-related updates on all hosts
-in the inventory.
+This task file lives inside the tasks/ directory of the redhatone.vm_management.vm_management role. It uses the ansible.builtin.dnf module to scan for and install the latest security-related updates on all hosts in the inventory.
 
 [source,yaml]
 ----
 - name: Update security-related packages on all hosts
   ansible.builtin.dnf:
-    name: "*"
-    security: true
-    state: latest
+    name: "*" <1>
+    security: true <2>
+    state: latest <3>
 ----
+<1> name: "*" — Targets all available packages.
+<2> security: true — Filters for only security-related updates.
+<3> state: latest — Ensures the latest available security updates are installed.
 
-Breakdown:
+This task is designed to be modular.
+It is included in your role and can be triggered from any playbook using a variable like *task_file*, which will be used shortly.
 
-* `name: "*"` — Targets all available packages.
-* `security: true` — Filters for only security-related updates.
-* `state: latest` — Ensures the latest available security updates are installed.
+== Understanding the Provided Playbook: patch_vm_playbook.yml
 
-This task is designed to be modular. It’s included in your role and can be
-triggered from any playbook using a variable like `task_file`, which you’ll see
-used shortly.
-
-== Understanding the Provided Playbook: `patch_vm_playbook.yml`
-
-This playbook is responsible for executing the logic that handles both system
-registration and patching. It is already present in your project directory.
+This playbook is responsible for executing the logic that handles both system registration and patching.
+It is already present in your project directory.
 
 [source,yaml]
 ----
 - name: Patch Virtual Machines
   hosts: all
   roles:
-    - redhatone.vm_management.rhsm_subscription
-    - redhatone.vm_management.vm_management
+    - redhatone.vm_management.rhsm_subscription <1>
+    - redhatone.vm_management.vm_management <2>
 ----
+<1> redhatone.vm_management.rhsm_subscription: Registers the RHEL VMs to Red Hat using credentials provided via Vault. This step ensures the systems have access to the necessary repositories for receiving updates.
+<2> redhatone.vm_management.vm_management: Calls the role that includes the security update task (update_security_packages.yml), referenced via the task_file variable.
 
-Breakdown:
-
-* `redhatone.vm_management.rhsm_subscription`: Registers the RHEL VMs to Red Hat using credentials provided via Vault. This step ensures the systems have access to the necessary repositories for receiving updates.
-* `redhatone.vm_management.vm_management`: Calls the role that includes the security update task (`update_security_packages.yml`), referenced via the `task_file` variable.
-
-The playbook ensures that every target host goes through both registration and
-patching in the correct order.
+The playbook ensures that every target host goes through both registration and patching in the correct order.
 
 === Creating the Patch VMs Job Template in Ansible Automation Platform
 
-You’ll now connect all the pieces through the AAP web interface and run the
-automation using a Job Template.
+Now connect all the pieces through the AAP web interface and run the automation using a Job Template.
 
 . Navigate to *Automation Execution → Templates*.
 . Click *Create template → Create job template*.
@@ -741,11 +718,11 @@ automation using a Job Template.
 |===
 | Parameter               | Value
 
-| Name                    | Patch VMs
+| Name                    | `Patch VMs`
 | Job Type                | Run
 | Inventory               | OpenShift Virtual Machines
 | Project                 | Workshop Project
-| Playbook                | `solutions/patch_vm_playbook.yml`
+| Playbook                | solutions/patch_vm_playbook.yml
 | Execution Environment   | Day2 EE
 | Credentials             | Workshop Credential, Vault Credential
 | Extra Variables         | `task_file: update_security_packages.yml`
@@ -766,11 +743,10 @@ image::patch_vm.png[title='Patch VM', link=self, window=blank, width=100%]
 After the job runs, you’ll be able to see:
 
 * A task-by-task breakdown showing which operations were performed.
-* Output for the task titled `Update security-related packages on all hosts`.
+* Output for the task titled *Update security-related packages on all hosts*.
 * Per-host details indicating which security updates were applied.
 
-These views help validate that the automation worked and that each VM received
-the expected patches.
+These views help validate that the automation worked and that each VM received the expected patches.
 
 image::patch_vm_task.png[title='Detail Task View', link=self, window=blank, width=100%]
 
@@ -778,39 +754,27 @@ image::patch_vm_host_details.png[title='Host Details', link=self, window=blank, 
 
 == VM Management (Hot-Plugging CPU and Memory Resources)
 
-In this section, you will learn how to hot-plug CPU and memory resources into a
-running Virtual Machine (VM) using Ansible Automation Platform and the
-`redhat.openshift_virtualization` collection.
+In this section, you will learn how to hot-plug CPU and memory resources into a running Virtual Machine (VM) using Ansible Automation Platform and the redhat.openshift_virtualization collection.
 
-Hot-plugging is the ability to add or remove hardware resources, such as CPU or
-memory, to a running VM without requiring a reboot. This capability is critical
-for dynamic workloads, allowing you to scale resources based on demand while
-minimizing downtime.
+Hot-plugging is the ability to add or remove hardware resources, such as CPU or memory, to a running VM without requiring a reboot.
+This capability is critical for dynamic workloads, allowing you to scale resources based on demand while minimizing downtime.
 
-This exercise focuses on using *instance types*, which are reusable objects in
-OpenShift Virtualization that define the resources and characteristics for VMs.
-Instance types simplify resource management by enabling consistent
-configurations across VMs.
+This exercise focuses on using *instance types*, which are reusable objects in OpenShift Virtualization that define the resources and characteristics for VMs.
+Instance types simplify resource management by enabling consistent configurations across VMs.
 
 === What Are Instance Types?
 
-An instance type is a reusable configuration object where you define resources
-(like CPU and memory) and characteristics for new VMs. OpenShift Virtualization
-provides two types of instance types:
+An instance type is a reusable configuration object where you define resources (like CPU and memory) and characteristics for new VMs.
+OpenShift Virtualization provides two types of instance types:
 
 . *VirtualMachineInstancetype*: A namespaced object for instance types limited to a specific namespace.
 . *VirtualMachineClusterInstancetype*: A cluster-wide object for instance types available across all namespaces.
 
-Both types share the same `VirtualMachineInstancetypeSpec`, allowing you to
-define custom configurations or use the variety of instance types included by
-default when OpenShift Virtualization is installed.
+Both types share the same VirtualMachineInstancetypeSpec, which allws you to define custom configurations or use the variety of instance types included by default when OpenShift Virtualization is installed.
 
-By using instance types, you can simplify VM configuration management and ensure
-consistency, making them the *recommended approach* for hot-plugging resources.
+By using instance types, you can simplify VM configuration management and ensure consistency, making them the *recommended approach* for hot-plugging resources.
 
-In this lab, you will primarily focus on using the instance type method while
-also learning about the classic approach of directly modifying the VM
-specification for context.
+In this lab, you will primarily focus on using the instance type method while also learning about the classic approach of directly modifying the VM specification for context.
 
 NOTE: The classic method only works when creating VMs that do not use an instance type.
 
@@ -818,91 +782,81 @@ NOTE: The classic method only works when creating VMs that do not use an instanc
 
 To determine whether a VM is created with an instance type or not, follow these steps:
 
-. Navigate to the *Overview* tab of the VM (e.g., `rhel9-vm1`) in the OpenShift Virtualization dashboard.
+. Navigate to the *Overview* tab of the VM (e.g., rhel9-vm1) in the OpenShift Virtualization dashboard.
 . In the *Details* section, look for the following:
-   - *Instance Type*: If the VM uses an instance type, this field will display the name of the instance type applied to the VM (e.g., `u1.small`).
-   - *Template*: If no instance type is used, this field will display either `None` or the name of the template used to create the VM.
+   - *Instance Type*: If the VM uses an instance type, this field will display the name of the instance type applied to the VM (e.g., u1.small).
+   - *Template*: If no instance type is used, this field will display either None or the name of the template used to create the VM.
 
-You can use these visual cues to identify whether the VM relies on an instance
-type or a traditional template.
+You can use these visual cues to identify whether the VM relies on an instance type or a traditional template.
 
 Below is an example image illustrating both scenarios:
 
 * One VM shows an assigned instance type.
 +
-* Another VM indicates `rhel9-server-small` under the template field, indicating that the `rhel9-server-small` template was used.
+* Another VM indicates *rhel9-server-small* under the template field, indicating that the *rhel9-server-small* template was used.
 +
 image::example_instance_type_and_template.png[title="Instance Type vs. Template", link=self, window=blank, width=100%]
 
+=== Using the pre-created hot_plug.yml to update resources
 
-=== Using the pre-created `hot_plug.yml` to update resources
+The hot_plug.yml file consists of a task that updates a running VM by applying a new instance type.
+This approach lets you add CPU and memory resources dynamically without needing to recreate or power off the VM.
 
-The `hot_plug.yml` file consists of a task that updates a running VM by applying a
-new instance type. This approach lets you add CPU and memory resources
-dynamically without needing to recreate or power off the VM.
+The instance_type method is the recommended approach for hot-plugging resources into a VM.
+It ensures consistent and reusable resource configurations across multiple VMs while leveraging the powerful features of OpenShift Virtualization.
 
-The `instance_type` method is the recommended approach for hot-plugging
-resources into a VM. It ensures consistent and reusable resource configurations
-across multiple VMs while leveraging the powerful features of OpenShift
-Virtualization.
-
+[source, yaml]
 ----
 - name: Swap Instance Type to add more Resources
-  redhat.openshift_virtualization.kubevirt_vm:
-    name: "rhel9-vm1"
-    namespace: "{{ vm_namespace }}"
-    state: present
-    run_strategy: Always
-    instancetype:
-      name: "{{ instance_type }}"
-      revisionName: ""
+  redhat.openshift_virtualization.kubevirt_vm: <1>
+    name: "rhel9-vm1" <2>
+    namespace: "{{ vm_namespace }}" <3>
+    state: present <4>
+    run_strategy: RestartOnError <5>
+    instancetype: <6>
+      name: "{{ instance_type }}" <7>
+      revisionName: "" <8>
 ----
+<1> *redhat.openshift_virtualization.kubevirt_vm*: Specifies the module used to manage VMs in OpenShift Virtualization.
+<2> *name*: The name of the VM to which the new resources will be applied.
+<3> *namespace*: The namespace in which the VM resides.
+<4> *state*: Ensures the VM is present and available.
+<5> *run_strategy*: Restarts the VM in case of errors, does not start machines stopped manually.
+<6> *instancetype*: Defines the instance type for the VM, allowing you to use pre-configured or custom resource settings.
+<7> *instancetype.name*: The name of the instance type to be applied.
+<8> *instancetype.revisionName*: Optionally specifies the exact revision of the instance type, ensuring compatibility with the VM.
+Typically auto-generated, thus left empty.
 
-*Explanation of the Task:*
-
-- *redhat.openshift_virtualization.kubevirt_vm*: Specifies the module used to manage VMs in OpenShift Virtualization.
-- *name*: The name of the VM to which the new resources will be applied.
-- *namespace*: The namespace in which the VM resides.
-- *state*: Ensures the VM is present and available.
-- *instancetype*: Defines the instance type for the VM, allowing you to use pre-configured or custom resource settings.
-  - *name*: The name of the instance type to be applied.
-  - *revisionName*: Optionally specifies the exact revision of the instance type, ensuring compatibility with the VM. Typically auto-generated, thus left empty.
-
-WARNING: VMs must be created using Instance Types for this task method to work. Otherwise use the Classic method.
+WARNING: VMs must be created using Instance Types for this task method to work.
+Otherwise use the Classic method.
 
 === Classic Method: Modifying the Spec Directly (Informational Only)
 
-The classic method involves directly modifying the VM's `spec` file to update
-CPU and memory resources. While this approach is flexible, it lacks the
-reusability and consistency offered by instance types, making it less ideal for
-managing resources across multiple VMs.
-
+The classic method involves directly modifying the VM's spec file to update CPU and memory resources.
+While this approach is flexible, it lacks the reusability and consistency offered by instance types, making it less ideal for managing resources across multiple VMs.
 
 [source, yaml]
 ----
 - name: Modify CPU & Memory Resources
-  redhat.openshift_virtualization.kubevirt_vm:
-    name: "rhel9-vm2"
-    namespace: "{{ vm_namespace }}"
-    state: present
-    spec:
-      domain:
-        cpu:
+  redhat.openshift_virtualization.kubevirt_vm: <1>
+    name: "rhel9-vm2" <2>
+    namespace: "{{ vm_namespace }}" <3>
+    state: present <4>
+    spec: <5>
+      domain: <6>
+        cpu: <7>
           sockets: 2
-        memory:
+        memory: <8>
           guest: 4Gi
 ----
-
-*Explanation of the Task:*
-
-- *redhat.openshift_virtualization.kubevirt_vm*: Specifies the module used to manage VMs in OpenShift Virtualization.
-- *name*: The name of the VM being modified.
-- *namespace*: The namespace in which the VM resides.
-- *state*: Ensures the VM is in the desired state, in this case, `present`.
-- *spec*: Directly modifies the VM's specification.
-  - *domain*: Contains settings related to the VM's virtualized environment.
-    - *cpu*: Specifies the number of CPU sockets for the VM (e.g., `2`).
-    - *memory*: Defines the memory allocated to the VM, (e.g., `4Gi`).
+<1> *redhat.openshift_virtualization.kubevirt_vm*: Specifies the module used to manage VMs in OpenShift Virtualization.
+<2> *name*: The name of the VM being modified.
+<3> *namespace*: The namespace in which the VM resides.
+<4> *state*: Ensures the VM is in the desired state, in this case, present.
+<5> *spec*: Directly modifies the VM's specification.
+<6> *spec.domain*: Contains settings related to the VM's virtualized environment.
+<6> *spec.domain.cpu*: Specifies the number of CPU sockets for the VM (e.g., 2).
+<6> *spec.domain.memory*: Defines the memory allocated to the VM, (e.g., 4Gi).
 
 WARNING: Classic VMs are not part of this lab exercise and the Classic Method is for informational purposes only.
 
@@ -915,11 +869,11 @@ WARNING: Classic VMs are not part of this lab exercise and the Classic Method is
 [cols="2,3",options="header"]
 |===
 | Parameter | Value
-| *Name* | Hot Plug VMs
+| *Name* | `Hot Plug VMs`
 | *Job Type* | Run
 | *Inventory* | OpenShift Virtual Machines
 | *Project* | Workshop Project
-| *Playbook* | `solutions/manage_vm_playbook.yml`
+| *Playbook* | solutions/manage_vm_playbook.yml
 | *Execution Environment* | Day 2 EE
 | *Credentials* | OpenShift Credential
 | *Extra variables* | `vm_namespace: vms-aap-day2` +
@@ -929,4 +883,5 @@ WARNING: Classic VMs are not part of this lab exercise and the Classic Method is
 +
 . Click *Create Job Template*.
 . Launch the job by selecting *Launch Template* from the top-right corner.
-. When the job completes, head to the OpenShift UI dashboard and view the details of the `rhel9-vm1` Virtual Machine. You should see that the new size `u1.2xmedium` is now being used.
+. When the job completes, head to the OpenShift UI dashboard and view the details of the rhel9-vm1 Virtual Machine.
+You should see that the new size u1.2xmedium is now being used.
