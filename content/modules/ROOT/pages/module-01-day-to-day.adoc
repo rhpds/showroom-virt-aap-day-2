@@ -4,14 +4,22 @@
 
 Your OpenShift cluster console is available {openshift_cluster_console_url}[here^].
 
-Your login is available with:
+Your local admin login is available with the following credentials:
 
 * *User:* `{openshift_cluster_admin_username}`
 * *Password:* `{openshift_cluster_admin_password}`
 
+You will first see a page that asks you to choose an authenication provider, click on *htpasswd_provider*.
+
+image::module-01-day-to-day/00-htpasswd_login.png[title="OpenShift Authentication", link=self, window=blank, width=100%]
+
+You will then be presented with a login screen where you can copy/paste your credentials.
+
 image::module-01-day-to-day/01-openshift_login.png[title="OpenShift Login", link=self, window=blank, width=100%]
 
 Your Ansible Automation Platform console is available {aap_controller_web_url}[here^].
+
+Your admin login is available with the following credentials:
 
 * *User:* `{aap_controller_admin_user}`
 * *Password* `{aap_controller_admin_password}`
@@ -431,7 +439,7 @@ image::module-01-day-to-day/52-dashboards.png[title="Dashboards", link=self, win
 +
 image::module-01-day-to-day/53-kubevirt_dashboard.png[title="KubeVirt Dashboard", link=self, window=blank, width=100%]
 +
-. This dashboard will display the top consumers for all of the virtual machines running on your cluster.Look at the *Top Consumers of CPU by virt-launcher Pods* panel and click the *Inspect* link in the upper right corner.
+. This dashboard will display the top consumers for all of the virtual machines running on your cluster. Look at the *Top Consumers of CPU by virt-launcher Pods* panel and click the *Inspect* link in the upper right corner.
 +
 image::module-01-day-to-day/54-cpu_inspect.png[title="CPU Inspect", link=self, window=blank, width=100%]
 +
@@ -454,9 +462,9 @@ Platform (AAP).
 
 While much of the groundwork, such as creating playbooks and VM task files, has already been completed for you, this section of the lab will focus on understanding how the pieces work together and how to run the automation via AAP.
 
-To being, we’ll perform some common VM lifecycle actions such as stopping, starting, and restarting all VMs in a given namespace. These tasks are designed to demonstrate how the automation behind these actions is structured.
+To begin, we’ll perform some common VM lifecycle actions such as stopping, starting, and restarting all VMs in a given namespace. These tasks are designed to demonstrate how the automation behind these actions is structured.
 
-==== The Existing Setup
+=== The Existing Setup
 
 To assist with your experience, the following content has already been created and configured for you:
 
@@ -466,12 +474,12 @@ To assist with your experience, the following content has already been created a
 
 Although you don’t need to create or modify these files, it's important to understand how they work, as you’ll be referencing them when creating job templates in Ansible Automation Platform.
 
-==== Understanding the Task Files
+=== Understanding the Task Files
 
 Each of the task files works by retrieving all virtual machines within a specific namespace (in our case *vms-aap-day2*), and then performing an action (stop, start, restart) based on their current status.
 The *ansible.builtin.debug* task provides insights to understanding the structure of your VM resource *vm_info* to identify key fields required to create dynamic Ansible tasks.
 
-===== *stop_vm.yml*
+=== stop_vm.yml
 
 This task file stops any VMs that are currently running within a given namespace.
 
@@ -502,7 +510,7 @@ This task file stops any VMs that are currently running within a given namespace
   when: item.status.printableStatus != "Stopped"
 ----
 
-===== *start_vm.yml*
+=== start_vm.yml
 
 This task file starts any VMs that are currently stopped within a given namespace.
 
@@ -533,7 +541,7 @@ This task file starts any VMs that are currently stopped within a given namespac
   when: item.status.printableStatus != "Running"
 ----
 
-===== *restart_vm.yml*
+=== restart_vm.yml
 
 This task file restarts any VMs that are currently running within a given namespace.
 
@@ -597,7 +605,7 @@ result:
   ...
 ----
 
-==== Creating and Running the VM Job Templates with Ansible Automation Platform
+=== Creating and Running the VM Job Templates with Ansible Automation Platform
 
 Each VM lifecycle template that you will create takes advantage of the *manage_vm_playbook.yml*.
 
@@ -610,6 +618,8 @@ image::module-01-day-to-day/55a-running_vms.png[title="Running AAP VMs", link=se
 . Return to the tab where you have Ansible Automation Platform open. If your previous login has timed out, or you have accidentally closed the window, the information to login again is here:
 +
 Your Ansible Automation Platform console is available {aap_controller_web_url}[here^].
+
+Your admin login is available with the following credentials:
 
 * *User:* `{aap_controller_admin_user}`
 * *Password* `{aap_controller_admin_password}`
