@@ -507,7 +507,7 @@ This task file stops any VMs that are currently running within a given namespace
   loop: "{{ vm_info.resources }}"
   loop_control:
     label: "{{ item.metadata.name }}"
-  when: item.status.printableStatus != "Stopped"
+  changed_when: item.status.printableStatus != "Stopped"
 ----
 
 === start_vm.yml
@@ -538,7 +538,7 @@ This task file starts any VMs that are currently stopped within a given namespac
   loop: "{{ vm_info.resources }}"
   loop_control:
     label: "{{ item.metadata.name }}"
-  when: item.status.printableStatus != "Running"
+  changed_when: item.status.printableStatus != "Running"
 ----
 
 === restart_vm.yml
@@ -569,7 +569,7 @@ This task file restarts any VMs that are currently running within a given namesp
   loop: "{{ vm_info.resources }}"
   loop_control:
     label: "{{ item.metadata.name }}"
-  when: item.status.printableStatus != "Running"
+  changed_when: item.status.printableStatus != "Running"
 ----
 
 These task files interact with the OpenShift REST API directly using the *ansible.builtin.uri* module to invoke the appropriate lifecycle action of stopping, starting, or restarting the virtual machine.
