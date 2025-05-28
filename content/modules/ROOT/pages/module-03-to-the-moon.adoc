@@ -23,4 +23,4 @@ Enabling the cluster descheduler in OpenShift to allow workloads to automaticall
 
 == Summary
 
-Discuss scenarios among your lab mates, and the lab staff. Come by the OpenShift Virtualization or Ansible Automation Booths if you want to discuss these ideas further. Together we can scale Day 2 operations to the moon!
+Discuss scenarios among your lab mates, and the lab proctors. The strength of Red Hat is in open source, and the open source of community. Together we can scale Day 2 operations to the moon!
