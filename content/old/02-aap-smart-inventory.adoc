@@ -1,0 +1,119 @@
+= Creating a Dynamic Inventory for OpenShift Virtual Machines
+
+
+== Lab Overview
+Dynamic inventories allow Ansible Automation Platform (AAP) to automatically
+fetch and update the inventory of systems from external sources, eliminating
+the need for manual inventory management.
+
+In this lab, we will configure a dynamic inventory to pull data from OpenShift
+Virtualization. This will enable AAP to manage OpenShift VMs residing in the
+`vms-app-day2` namespace of an OCP cluster.
+
+== Create an Inventory
+
+. Navigate to **Automation Execution → Infrastructure → Inventories**.
++
+. Select the **Create inventory** button.
++
+. In the **Create Inventory** form:
+   * Provide a name: `OpenShift Virtual Machines`.
+   * Select `Default` as the Organization.
++
+. Click the **Create inventory** button.
++
+image::create_inventory.png[title="Create Inventory", link=self, window=blank]
+
+== Add a Source to the Inventory
+
+. After creating the inventory, switch to the **Sources** tab.
++
+image::sources.png[title="Sources", link=self, window=blank]
++
+. Select the **Create source** button.
++
+. In the **Create Source** form:
+   * Provide a name: `OpenShift Virtual Machines Source`.
+   * Select `OpenShift Virtualization` as the **Source** type.
+   * Choose `Default Execution Environment` as the execution environment.
+   * Add the `OpenShift Credential` (Bearer Token was pre-created)
+   * Select `Update on Launch` checkbox within Options.
+   * Set `Cache timeout` to `0` seconds
++
+. Click the **Create source** button to save the configuration.
++
+image::create_inventory_source.png[title="Create Inventory Source", link=self, window=blank]
+
+==  Update the Inventory
+. Launch the inventory update:
+   * Click the **Launch Inventory Update** button in the top-right corner.
++
+image::update_inventory.png[title="Update Inventory", link=self, window=blank]
++
+. Wait for the **Last Job Status** to show `Success`.
+
+== Verify the Inventory
+. Once the update completes successfully:
+   * Click the **Back to Inventory Sources** button.
+   * Switch to the **Hosts** tab.
++
+. Confirm that the Virtual Machines from the `vms-app-day2` namespace of your OpenShift cluster are listed as inventory hosts.
++
+image::verify_hosts.png[title="Verify Hosts", link=self, window=blank]
+
+== Test Connectivity of the Virtual Machines
+
+In this lab, there will be three virtual machines running within your
+OpenShift environment.
+
+Ensure that you can ping those VMs
+within the **AAP** dashboard {aap_controller_web_url} as follows:
+
+. Login to the AAP Dashboard using the credentials provided in the `Setup` step.
++
+. Navigate to Automation Execution -> Infrastructure -> Inventories
+   * Select the `OpenShift Virtual Machines` Inventory
+   * Within the Details page of the `OpenShift Virtual Machines` Inventory, select the *Hosts* tab.
++
+. Select the 3 VMs and click the *Run command* button
+   * Within the Run command Details, select the `ping` module and click *Next*.
+   * Within the Run command Execution Environment, Select the *Day2 EE* execution environment and click *Next*.
+   * Within the Run command Credential, select the pre-created *Workshop Credential* and click *Next*.
+   * Within the Run command Review, select *Finish*.
++
+. Verify Results: You should see a list of VMs along with their statuses similar to:
++
+----
+vms-aap-day2-rhel9-vm1 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+vms-aap-day2-rhel9-vm2 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+vms-aap-day2-rhel9-vm3 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+----
+
+You may also confirm the VMs are running using the **OpenShift UI** dashboard {openshift_cluster_console_url}:
+
+**Virtualization -> VirtualMachines** within the `vms-aap-day2` project.
+
+image::vms-ocp-dashboard.png[title='Virtual Machines Running on OpenShift', link=self, window=blank]
+
+== Conclusion
+You have successfully created a dynamic inventory in Ansible Automation Platform
+that reflects your OpenShift Virtual Machines. This inventory is now ready for
+use in automation tasks.

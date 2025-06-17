@@ -1,7 +1,6 @@
 ---
 site:
-  title: Showroom Template Demo
-  url: https://redhat-scholars.github.io/course-template
+  title: Day 2 Operations and Automation with OpenShift Virtualization"
   start_page: modules::index.adoc
 
 content:
@@ -28,7 +27,7 @@ runtime:
 antora:
   extensions:
     - require: ./content/lib/dev-mode.js
-      enabled: true
+      enabled: false
 
 output:
   dir: ./www

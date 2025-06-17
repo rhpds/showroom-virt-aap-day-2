@@ -1,0 +1,188 @@
+= Hot-Plugging CPU and Memory Resources Using Ansible Automation Platform
+
+
+== Lab Overview
+
+In this lab, you will learn how to hot-plug CPU and memory resources into a
+running Virtual Machine (VM) using Ansible Automation Platform and the
+`redhat.openshift_virtualization` collection.
+
+Hot-plugging is the ability to add or remove hardware resources, such as CPU or
+memory, to a running VM without requiring a reboot. This capability is critical
+for dynamic workloads, allowing you to scale resources based on demand while
+minimizing downtime.
+
+This lab focuses on using *instance types*, which are reusable objects in
+OpenShift Virtualization that define the resources and characteristics for VMs.
+Instance types simplify resource management by enabling consistent
+configurations across VMs.
+
+== What Are Instance Types?
+
+An instance type is a reusable configuration object where you define resources
+(like CPU and memory) and characteristics for new VMs. OpenShift Virtualization
+provides two types of instance types:
+
+. *VirtualMachineInstancetype*: A namespaced object for instance types limited to a specific namespace.
+. *VirtualMachineClusterInstancetype*: A cluster-wide object for instance types available across all namespaces.
+
+Both types share the same `VirtualMachineInstancetypeSpec`, allowing you to
+define custom configurations or use the variety of instance types included by
+default when OpenShift Virtualization is installed.
+
+By using instance types, you can simplify VM configuration management and
+ensure consistency, making them the *recommended approach* for hot-plugging
+resources.
+
+In this lab, you will primarily focus on using the instance type method while
+also learning about the legacy approach of directly modifying the VM
+specification for context.
+
+NOTE: Legacy method only works when creating VMs that do not use an Instance Type.
+
+== How to Identify if a VM Uses Instance Types or Not?
+
+To determine whether a VM is created with an instance type or not, follow these
+steps:
+
+. Navigate to the *Overview* tab of the VM (e.g. `rhel9-vm1`) in the OpenShift Virtualization dashboard.
+. In the *Details* section, look for the following:
+   - *Instance Type*: If the VM uses an instance type, this field will display the name of the instance type applied to the VM (e.g. `u1.small`).
+   - *Template*: If no instance type is used, this field will display either `None` or the name of the template used to create the VM.
+
+You can use these visual cues to identify whether the VM relies on an instance
+type or a traditional template.
+
+Below is an example image illustrating both scenarios:
+
+* One VM shows an assigned instance type.
++
+* Another VM indicates `rhel9-server-small` under the template field, indicating that the `rhel9-server-small` template was used.
++
+image::example_instance_type_and_template.png[title="Instance Type vs. Template", link=self, window=blank]
+
+
+== Create the `hot_plug.yml` File
+
+. Within your VSCode editor, right click `tasks` of the `vm_management` collection and create a New File labeled `hot_plug.yml`
++
+image::new_file.png[title='New File Creation', link=self, window=blank]
++
+. Add the following content to the `hot_plug.yml` relating to the `instance_type` section below.
+
+=== Using the `instance_type` (Recommended)
+
+The `instance_type` method is the recommended approach for hot-plugging
+resources into a VM. It ensures consistent and reusable resource configurations
+across multiple VMs while leveraging the powerful features of OpenShift
+Virtualization.
+
+----
+- name: Swap Instance Type to add more Resources
+  redhat.openshift_virtualization.kubevirt_vm:
+    name: "rhel9-vm1"
+    namespace: "{{ vm_namespace }}"
+    state: present
+    run_strategy: Always
+    instancetype:
+      name: "{{ instance_type }}"
+      revisionName: ""
+----
+
+**Explanation of the Task:**
+
+- *redhat.openshift_virtualization.kubevirt_vm*: Specifies the module used to manage VMs in OpenShift Virtualization.
+- *name*: The name of the VM to which the new resources will be applied.
+- *namespace*: The namespace in which the VM resides.
+- *state*: Ensures the VM is present and available.
+- *instancetype*: Defines the instance type for the VM, allowing you to use pre-configured or custom resource settings.
+  - *name*: The name of the instance type to be applied.
+  - *revisionName*: Optionally specifies the exact revision of the instance type, ensuring compatibility with the VM. Typically auto-generated, thus left empty.
+
+WARNING: VMs must be created using Instance Types for this task method to work. Otherwise use Legacy method.
+
+After making and saving the changes, ensure you commit and push them to your Gitea repository. For detailed instructions, refer to xref:appendix-vscode-commit-push.adoc[].
+
+=== Legacy Method: Modifying the Resources via Spec
+
+The legacy method involves directly modifying the VM's `spec` file to update
+CPU and memory resources. While this approach is flexible, it lacks the
+reusability and consistency offered by instance types, making it less ideal for
+managing resources across multiple VMs.
+
+
+[source, yaml]
+----
+- name: Modify CPU & Memory Resources
+  redhat.openshift_virtualization.kubevirt_vm:
+    name: "rhel9-vm2"
+    namespace: "{{ vm_namespace }}"
+    state: present
+    spec:
+      domain:
+        cpu:
+          sockets: 2
+        memory:
+          guest: 4Gi
+----
+
+**Explanation of the Task:**
+
+- *redhat.openshift_virtualization.kubevirt_vm*: Specifies the module used to manage VMs in OpenShift Virtualization.
+- *name*: The name of the VM being modified.
+- *namespace*: The namespace in which the VM resides.
+- *state*: Ensures the VM is in the desired state, in this case, `present`.
+- *spec*: Directly modifies the VM's specification.
+  - *domain*: Contains settings related to the VM's virtualized environment.
+    - *cpu*: Specifies the number of CPU sockets for the VM (e.g., `2`).
+    - *memory*: Defines the memory allocated to the VM, (e.g., `4Gi`).
+
+WARNING: Legacy VMs are not part of this lab exercise and the Legacy Method is for informational purposes only.
+
+== Create and Run the Hot-Plug Job Template
+. Within the AAP UI Dashboard, navigate to *Automation Execution → Templates*.
+. Click *Create Template* and select *Create job template*.
+. Fill in the following details:
+
+[cols="2,3",options="header"]
+|===
+| Parameter | Value
+| *Name* | Hot Plug VMs
+| *Job Type* | Run
+| *Inventory* | OpenShift Virtual Machines
+| *Project* | Workshop Project
+| *Playbook* | manage_vm_playbook.yml
+| *Execution Environment* | Day 2 EE
+| *Credentials* | OpenShift Credential
+| *Extra variables* | `vm_namespace: vms-aap-day2` +
+                      `task_file: hot_plug.yml` +
+                      `instance_type: u1.2xmedium`
+|===
+
+. Click *Create Job Template*.
+. Launch the job by selecting *Launch Template* from the top-right corner.
+. When the job completes, head to the OpenShift UI dashboard and view the details of the `rhel9-vm1` Virtual Machine. You should see that the new size `u1.2xmedium` is now being used.
+
+== Conclusion
+
+This lab has demonstrated how to effectively hot-plug CPU and memory resources
+into a running Virtual Machine (VM) using Ansible Automation Platform and the
+`redhat.openshift_virtualization` collection. By leveraging the recommended
+*instance type* method, you can ensure consistent, reusable, and scalable
+configurations across multiple VMs, simplifying resource management and aligning
+with best practices.
+
+We also explored the legacy approach of directly modifying the VM specification,
+which, while flexible, is less ideal for modern environments due to its lack of
+reusability and standardization. Understanding both methods equips you with the
+knowledge to handle scenarios where instance types may not be available.
+
+Through this lab, you have learned how to:
+
+- Identify whether a VM uses an instance type or a template.
+- Use the *instance type* method to dynamically add resources to VMs.
+- Understand the limitations and applications of the legacy method.
+
+By applying these skills, you can efficiently manage resources in OpenShift
+Virtualization, adapting to the demands of dynamic workloads while minimizing
+downtime.

@@ -1,43 +1,59 @@
-= {lab_name}
+= Welcome to {lab_name}!
 
-The `lab_name` var, known as an asciidoc attribute, above was set in `./content/antora.yml` and can be used to set the lab_name or title of your content.
-You are both free to change its value and if you prefer to use a different var name, you can change the value of `lab_name`, for example to `title` in `./content/antora.yml` and then reference it in your content as `\{title}`. +
+[%hardbreaks]
 
-image::rhel-logo-black.jpg[rhel-logo-black,55%,55%]
+== Introduction
 
-== Variables
+*OpenShift Virtualization* enables you to bring virtual machines onto a modern, Kubernetes-based infrastructure. It enables the development and delivery of new applications as well as the modernization of existing ones and can create applications that consist of virtual machines, containers, and serverless functions - all managed together using Kubernetes-native tools and paradigms.
 
-Other vars can also be set there, such as `ssh_user` and `ssh_password`, and referenced inline in the lab content by using the `\{foo}` syntax.
+*Ansible Automation Platform* allows platform engineering and DevOps teams to create, manage, and scale automation across physical, cloud, virtual, and edge environments. With Ansible Automation Platform, you can drive consistency and manage compliance with automated workflows that span infrastructure, network components, applications, storage, security, ITSM, and more.
 
-This is another var, or asciidoc attribute, from `./content/antora.yml` {my_var}
+Together these tools can be leveraged to provide an excellent solution to host, and to ease management of all of the workloads in your data center, whether they be physical or virtual.
 
-== Writing your lab
+In this lab, which is a follow-up to our very popular https://www.redhat.com/en/events/na-red-hat-openshift-virtualization[Experience OpenShift Virtualization Roadshow^], we intend to equip you with the knowledge and tools to manage your environment and perform critical operational tasks often required of virtual machine administrators from day-2 onward. This ensures that your virtualized workloads are efficiently managed and maintained long after the initial deployment.
 
-Whatever type of content you are writing we'll refer to your *content* as "your lab" in this document.
+== Who Will Benefit Most from attending this Lab?
 
-=== Lab structure
+*Virtual Machine Administrators* -- Those responsible for day to day management of virtual guests in OpenShift Virtualization. These users will often find themselves responsible for provisioning virtual guests, and day to day management of the guests, and the applications running within.
 
-Wether you are writing a lab
+*Virtual Infrastructure Administrators* -- Those responsible for the physical infrastructure hosting the OpenShift Virtualization solution. These users will be responsible for physical hardware, storage, and networking changes to the environment, that will affect the day to day operations of the running virtual machines.
 
-* First, we will build a monolithic application already compiled as RPM packages and put it into a container. This will allow us to deploy the application, copy it between machines, and update it separately from the operating system. This process affords us a portable and easily maintained component instead of tightly coupling the application with your operating system maintenance.
+== What Content is Covered in this Lab?
 
-* In closing we will build a second container on a different operating system version that makes an application not packaged into RPMs. This will be similar to a web application deployment, positioning the correct files at the right locations. To do this, we will pull a project from GitHub and position the component files within our container image. The purpose of this is to achieve a portable application container that can deploy on several different versions of Red Hat Enterprise Linux. This also provides the benefit of decoupling your application maintenance, which would all happen by building new containers versus operating system maintenance. The container is no longer reliant on the operating system installed on the machine where the application is deployed.
+This lab consists of *three* main sections:
 
-. Now let's examine this cluster a bit more by describing the cluster (the `$GUID` environment variable is already set for you so you can immediately describe your individual cluster):
-+
-[source,sh,role=execute]
-----
-podman ps
-----
-+
-.Sample Output
-[source,texinfo,subs="attributes"]
-----
-CONTAINER ID  IMAGE                        COMMAND           CREATED      STATUS      PORTS                 NAMES
-2dcfee9e50c4  docker.io/library/httpd:2.4  httpd-foreground  3 hours ago  Up 3 hours  0.0.0.0:8080->80/tcp  showroom-httpd
-----
+* _Enabling Basic Day to Day Operations_: In this section we cover a variety of daily managment tasks that an administrator would be expected to perform in their environment, and demonstrate how many of these tasks can be automated easily with Ansible Automation Platform.
 
-=== Lab Access
+* _Real World Scaling Scenario_: In this section we create a scenario that we must triage and resolve by making use of the tools and resources at our disposal within Red Hat OpenShift and OpenShift Virtualization.
 
-The terminal window to your right is *already* logged into the lab environment as the `{ssh_user}` user via `ssh`. 
-All steps of this lab are to be completed as the `{ssh_user}` user.
+* _Scale to the Moon_: In this section we will wrap up by introducing some additional thought exercises and other scenarios about what types of activities we can perform with OpenShift Virtualization and Ansible Automation Platform.
+
+== Requirements for the Lab Environment
+
+* Participant needs to have their own computer with a web browser and internet access.
+* Chromium based browsers are recommended as some copy/paste functions don't work in Firefox for the time being.
+* Remote access console uses the US keyboard layout by default, so it's good to know where special characters reside for other country's layouts, or to use the copy/paste function in a supported browser.
+
+=== Credentials for the OpenShift Console and Ansible Automation Platform
+
+Your OpenShift cluster console is available {openshift_cluster_console_url}[here^].
+
+Your login is available with:
+
+* *User:* {openshift_cluster_admin_username}
+* *Password:* {openshift_cluster_admin_password}
+
+Your Ansible Automation Platform console is available {aap_controller_web_url}[here^].
+
+* *User:* {aap_controller_admin_user}
+* *Password* {aap_controller_admin_password}
+
+=== Version Information
+
+This edition of the lab has been developed using the following software versions:
+
+* Red Hat OpenShift 4.18.8
+* Red Hat OpenShift Virtualization 4.18.2
+* Red Hat Ansible Automation Platform 2.5
+
+(Accurate as of May 28, 2025)
