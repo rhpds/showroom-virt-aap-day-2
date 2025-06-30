@@ -1,0 +1,132 @@
+= Appendix: Using VS Code or Terminal to Commit and Push Changes
+:id: appendix-vscode-commit-push
+
+This section provides instructions for committing and pushing changes to your
+Gitea repository. You can follow the steps using either **Visual Studio Code**
+or the **terminal**, depending on your preference.
+
+== Steps for Committing and Pushing Changes
+
+Follow the steps below to commit and push changes to your Gitea repository.
+Choose the method that suits you best.
+
+=== Using Visual Studio Code
+
+. **Right click to create the file** under the tasks directory of your `vm_management` collection
++
+image::new_file.png[title='New File Creation', link=self, window=blank]
++
+. Make the appropriate changes to your file and VSCode Editor will auto-save.
++
+. **Open the Source Control Panel**:
++
+** Click the **Source Control** icon in the Activity Bar.
++
+image::source_control.png[title='Source Control', link=self, window=blank]
++
+. **Stage Your Changes**:
+** Locate the files listed under **Changes**.
+** Click the `{plus}` icon next to each file to stage them, or click the `{plus}`  icon next to **Changes** to stage all files.
++   
+image::source_changes.png[title='File Changes', link=self, window=blank]
++
+. **Enter a Commit Message**:
+** In the input box at the top of the Source Control panel, type a descriptive commit message, e.g.:
++
+----
+Add changes to main.yml
+----
++
+. **Commit the Changes**:
+** Click the **✔ Commit** button to commit the staged files.
++
+image::source_commit.png[title='File Commit', link=self, window=blank]
++
+. **Push the Changes**:
+** Click the **Sync Changes** button to push the changes to your Gitea repository.
++
+. **Verify in Gitea**:
+** Open your Gitea repository {gitea_console_url}/{gitea_user}/virt-aap-day2/src/branch/{virt_aap_day2_workspace_revision} in a web browser and confirm that the changes appear.
+
+=== Using the Terminal
+
+. ** Git clone the gitea repository**:
++
+[subs="+attributes"]
+----
+git clone -b {virt_aap_day2_workspace_revision} {gitea_console_url}/{gitea_user}/virt-aap-day2
+----
++
+. **Switch to the directory**:
++
+----
+cd /path/to/virt-app-day2
+----
++
+. **Make changes to file and save it**:
++
+----
+vi /path/to/tasks/main.yml
+----
++
+. **Stage Your Changes**:
+** Run the following command to stage all modified files:
++
+----
+git add -u
+----
++
+. **Set your Git identity**:
+** Run the following command only once:
++
+----
+git config --global user.email "user1@redhatworkshops.io"
+git config --global user.name "User1"
+----
++
+. **Commit Your Changes**:
+** Commit the staged files with a descriptive message:
++     
+----
+git commit -m "Add changes to main.yml"
+----
++
+. **Push Your Changes**:
+** Push the committed changes to the remote repository
+** You will be asked for user **{gitea_user}** and password **{gitea_password}**.
++     
+----
+git push
+----
++
+. **Verify in Gitea**:
+** Open your Gitea repository {gitea_console_url}/{gitea_user}/virt-aap-day2/src/branch/{virt_aap_day2_workspace_revision} in a web browser and confirm that the changes appear.
+
+////
+
+== Tips for Working with Git
+
+. **View Git Output in VS Code**:
+** Open the output log for Git by selecting **View → Output**, then choose "Git" in the dropdown to debug issues.
++
+. **Resolve Merge Conflicts in VS Code**:
+** If there are conflicts during a pull or push, VS Code will highlight them in the editor. Use the conflict resolution options (e.g., **Accept Current Change**, **Accept Incoming Change**) to resolve them.
++
+. **Use the Terminal for Advanced Git Commands**:
+** You can perform advanced Git operations like rebasing, stash management, or inspecting the commit history:
++
+----
+git log --oneline
+git rebase origin/main
+git stash
+----
+
+////
+
+== Conclusion
+
+This appendix provides step-by-step instructions for using Visual Studio Code
+or the terminal to commit and push changes to your Gitea repository. Use these
+steps to ensure your work is safely stored in the remote repository, and refer
+to this section as needed during the labs.
+

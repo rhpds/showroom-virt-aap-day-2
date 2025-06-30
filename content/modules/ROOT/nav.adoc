@@ -9,6 +9,7 @@
 *** xref:module-01-day-to-day.adoc#vm_mgmt_power[Stop, Start, Restart Guest VMs]
 *** xref:module-01-day-to-day.adoc#vm_mgmt_patch[Patch Guest VMs]
 *** xref:module-01-day-to-day.adoc#vm_mgmt_hp[Hot-Plugging CPU and Memory Resources]
+*** xref:module-01-day-to-day.adoc#vm_mgmt_backup[Backup and Restore Virtual Machines]
 
 * xref:module-02-real-world-scaling.adoc[Real World Scaling Scenario]
 ** xref:module-02-real-world-scaling.adoc#vm_resource_util[Examining Resource Utilization on Virtual Machines]
