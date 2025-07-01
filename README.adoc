@@ -1,4 +1,4 @@
-Day 2 Operations and Automation with OpenShift Virtualization
+= Day 2 Operations and Automation with OpenShift Virtualization
 
 == Introduction
 
