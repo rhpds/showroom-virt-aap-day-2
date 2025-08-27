@@ -38,6 +38,8 @@ This lab consists of *three* main sections:
 
 Your OpenShift cluster console is available {openshift_cluster_console_url}[here^].
 
+CAUTION: Be sure to select *htpasswd* authentication.
+
 Your login is available with:
 
 * *User:* {openshift_cluster_admin_username}

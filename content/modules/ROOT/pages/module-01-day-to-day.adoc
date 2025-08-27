@@ -6,6 +6,8 @@ Your OpenShift cluster console is available {openshift_cluster_console_url}[here
 
 Your local admin login is available with the following credentials:
 
+CAUTION: Be sure to select *htpasswd* authentication.
+
 * *User:* `{openshift_cluster_admin_username}`
 * *Password:* `{openshift_cluster_admin_password}`
 
