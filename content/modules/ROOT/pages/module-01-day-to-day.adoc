@@ -367,6 +367,9 @@ Outside of the physical cluster resources, it's also very important to be able t
 
 NOTE: For this part of the lab, we are going to use an application to generate additional load on some of our virtual machines so that we can see how graphs are generated.
 
+CAUTION: These Windows virtual machines will autommatically shut down after one hour of runtime, as a limitation of our Windows license.
+Start them up again if need be.
+
 . Using the left side navigation menu click on *Workloads* followed by *Deployments*.
 . Make sure to ensure you are in Project: *windows-vms*.
 . You should see one pod deployed here called *loadmaker*.
@@ -962,7 +965,7 @@ Although you don't need to create or modify these files, it's important to under
 
 === Understanding the Provided Snapshot Task Files
 
-The snapshot automation uses a two tiered approach where one task file handles multiple snapshots using loops, and an include task file takes the individual VM snapshots. 
+The snapshot automation uses a two tiered approach where one task file handles multiple snapshots using loops, and an include task file takes the individual VM snapshots.
 
 === snapshot_vms.yml
 
